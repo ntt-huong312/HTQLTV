@@ -1,0 +1,78 @@
+﻿﻿@using X.PagedList.Mvc.Core
+@model X.PagedList.IPagedList<Book>
+
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<style>
+    .fixed-card {
+        display: flex;
+        flex-direction: column;
+        height: 100%; /* Đảm bảo chiều cao thẻ card bọc bên ngoài là 100% */
+    }
+
+    .fixed-size-container {
+        width: 250px;
+        height: 250px; /* Chiều cao cố định cho ảnh */
+        overflow: hidden; 
+    }
+
+    .fixed-size {
+        width: 100%;
+        height: 100%;
+        object-fit: contain; 
+    }
+
+    .card-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end; /* Đảm bảo nội dung bên trong card được căn đều phía dưới */
+    }
+    a{
+        text-decoration: none;
+    }
+
+    .pagination-container {
+        display: flex;
+        justify-content: center;
+    }
+</style>
+
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+            <div class="col-lg-3 col-md-6 col-sm-12 mb-3 d-flex align-items-stretch">
+                <div class="card fixed-card">
+                    <div class="fixed-size-container">
+                        <img src="@Url.Content("~/img/books/" + item.BookImage)" class="card-img-top fixed-size" alt="@item.Title" >
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                        <h6 class="card-title">
+                            <a asp-controller="Home" asp-action="BookDetail" asp-route-bookId="@item.BookId">@item.Title</a>
+                        </h6>
+                    </div>
+                </div>
+            </div>
+    }
+</div>
+
+<div>
+    <ul class="pagination pagination-sm">
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, searchQuery = ViewBag.CurrentFilter, searchType = ViewBag.CurrentSearchType }), new PagedListRenderOptions
+   {
+       LiElementClasses = new[] { "page-item" },
+       PageClasses = new[] { "page-link" },
+       UlElementClasses = new[] { "pagination", "pagination-sm" },
+       ContainerDivClasses = new[] { "pagination-container" },
+       DisplayLinkToNextPage = PagedListDisplayMode.IfNeeded,
+       DisplayLinkToPreviousPage = PagedListDisplayMode.IfNeeded,
+       DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+       DisplayLinkToLastPage = PagedListDisplayMode.Always,
+   })
+    </ul>
+</div>
