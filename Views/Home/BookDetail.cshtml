@@ -1,0 +1,91 @@
+﻿@model HTQLTV.Models.Book
+
+@{
+    ViewData["Title"] = "BookDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Chi tiết sách</h1>
+
+<div>
+    <h4>Book</h4>
+    <hr />
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <img src="@Url.Content("~/img/books/" + Model.BookImage)" class="img-fluid" alt="@Model.Title" style="width: 300px; height: 300px; object-fit:contain">
+            </div>
+            <div class="col-md-8">
+
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        @Html.DisplayNameFor(model => model.Title)
+                        <span class="badge bg-primary rounded-pill">
+                            @Html.DisplayFor(model => model.Title)
+                        </span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        @Html.DisplayNameFor(model => model.Author)
+                        <span class="badge bg-primary rounded-pill">@Html.DisplayFor(model => model.Author)</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        @Html.DisplayNameFor(model => model.Publisher)
+                        <span class="badge bg-primary rounded-pill">
+                            @Html.DisplayFor(model => model.Publisher)
+                        </span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        @Html.DisplayNameFor(model => model.YearPublished)
+                        <span class="badge bg-primary rounded-pill">
+                            @Html.DisplayFor(model => model.YearPublished)
+                        </span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        @Html.DisplayNameFor(model => model.Category)
+                        <span class="badge bg-primary rounded-pill">
+                            @Html.DisplayFor(model => model.Category)
+                        </span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        @Html.DisplayNameFor(model => model.Quantity)
+                        <span class="badge bg-primary rounded-pill">
+                            @Html.DisplayFor(model => model.Quantity)
+                        </span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        @Html.DisplayNameFor(model => model.Available)
+                        <span class="badge bg-primary rounded-pill">
+                            @Html.DisplayFor(model => model.Available)
+                        </span>
+                    </li>
+                </ul>
+                @*  <table class="table table-hover">
+                <thead>
+                <tr>
+                <th scope="col">@Html.DisplayNameFor(model => model.Title)</th>
+                <th scope="col">@Html.DisplayNameFor(model => model.Author)</th>
+                <th scope="col">@Html.DisplayNameFor(model => model.Publisher)</th>
+                <th scope="col">@Html.DisplayNameFor(model => model.YearPublished)</th>
+                <th scope="col">@Html.DisplayNameFor(model => model.Category)</th>
+                <th scope="col">@Html.DisplayNameFor(model => model.Quantity)</th>
+                <th scope="col">@Html.DisplayNameFor(model => model.Available)</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="table-info">
+                <td>@Html.DisplayFor(model => model.Title)</td>
+                <td>@Html.DisplayFor(model => model.Author)</td>
+                <td>@Html.DisplayFor(model => model.Publisher)</td>
+                <td>@Html.DisplayFor(model => model.YearPublished)</td>
+                <td>@Html.DisplayFor(model => model.Category)</td>
+                <td>@Html.DisplayFor(model => model.Quantity)</td>
+                <td>@Html.DisplayFor(model => model.Available)</td>
+                </tr>
+                </tbody>
+                </table> *@
+                <div>
+                    <a asp-action="Index">Quay lại</a>
+                </div>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,36 @@
+﻿@model IEnumerable<HTQLTV.Models.Category>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "ListCategory";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1>Danh sách thể loại</h1>
+
+<p>
+    <a asp-action="CreateCategory">Thêm mới</a>
+</p>
+<p>@TempData["Message"]</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CategoryName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoryName)
+            </td>
+            <td>
+                    <a asp-action="EditCategory" asp-route-categoryId="@item.CategoryId" class="btn btn-success mx-1" title="Edit"><i class="fas fa-check"></i></a>
+                    <a asp-action="DeleteCategory" asp-route-categoryId="@item.CategoryId" class="btn btn-danger mx-1" title="Delete"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
