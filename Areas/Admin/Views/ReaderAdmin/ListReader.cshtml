@@ -1,0 +1,90 @@
+﻿@using HTQLTV.Models;
+@using X.PagedList.Mvc.Core
+@model X.PagedList.IPagedList<Reader>
+@{
+    ViewData["Title"] = "ListReader";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+    @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<h1>Danh mục độc giả</h1>
+
+
+<form id="searchForm" asp-action="ListReader" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" method="get">
+    <div class="input-group">
+
+        <input type="text" name="searchString" class="form-control bg-light border-2 small" placeholder="Search for..."
+               aria-label="Search" aria-describedby="basic-addon2">
+        <div class="input-group-append">
+            <button class="btn btn-primary" type="submit">
+                <i class="fas fa-search fa-sm"></i>
+            </button>
+        </div>
+    </div>
+    <input type="hidden" name="page" value="1" />
+</form>
+
+<p>
+    <a asp-action="CreateReader" class="btn btn-primary btn-icon-split">Create New</a>
+</p>
+
+<p>@TempData["Message"]</p>
+<div class="card-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                <thead>
+                    @*  <tr>
+                    <th>@Html.DisplayNameFor(model => model.FullName)</th>
+                    <th>@Html.DisplayNameFor(model => model.ReaderAddress)</th>
+                    <th>@Html.DisplayNameFor(model => model.PhoneNumber)</th>
+                    <th>@Html.DisplayNameFor(model => model.Email)</th>
+                    <th>@Html.DisplayNameFor(model => model.DateOfBirth)</th>
+                    <th>Actions</th> <!-- Added this to properly align the actions -->
+                    </tr> *@
+                <th>Họ và tên</th>
+                <th>Địa chỉ</th>
+                <th>Số điện thoại</th>
+                <th>Email</th>
+                <th>Ngày sinh</th>
+                <th>Hành động</th>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr class="even">
+                            <td>@Html.DisplayFor(modelItem => item.FullName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.ReaderAddress)</td>
+                            <td>@Html.DisplayFor(modelItem => item.PhoneNumber)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                            <td>@Html.DisplayFor(modelItem => item.DateOfBirth)</td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <a asp-action="EditReader" asp-route-maDocGia="@item.ReaderId" class="btn btn-success mx-1" FullName="Edit"><i class="fas fa-check"></i></a>
+                                    <a asp-action="DetailsReader" asp-route-maDocGia="@item.ReaderId" class="btn btn-info mx-1" FullName="Details"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                                    <a asp-action="DeleteReader" asp-route-maDocGia="@item.ReaderId" class="btn btn-danger mx-1" FullName="Delete"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div>
+    <ul class="pagination pagination-sm">
+        @Html.PagedListPager(Model, page => Url.Action("ListReader", new { page }), new PagedListRenderOptions
+   {
+       LiElementClasses = new[] { "page-item" },
+       PageClasses = new[] { "page-link" },
+       UlElementClasses = new[] { "pagination", "pagination-sm" },
+       ContainerDivClasses = new[] { "pagination-container" },
+       DisplayLinkToNextPage = PagedListDisplayMode.IfNeeded,
+       DisplayLinkToPreviousPage = PagedListDisplayMode.IfNeeded,
+       DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+       DisplayLinkToLastPage = PagedListDisplayMode.Always,
+   })
+    </ul>
+</div>
