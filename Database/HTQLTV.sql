@@ -25,7 +25,7 @@ CREATE TABLE Books (
     Quantity INT NOT NULL,
     Available INT NOT NULL,
     BookImage VARCHAR(255) NOT NULL,
-    FOREIGN KEY (CategoryID) REFERENCES Categories(CategoryID)
+    FOREIGN KEY (CategoryID) REFERENCES Categories(CategoryID) ON DELETE CASCADE
 );
 
 -- Insert Books
@@ -49,6 +49,7 @@ VALUES
 (N'Khói trời lộng lẫy', N'Nguyễn Ngọc Tư', N'Nhà Xuất Bản Trẻ', 2021, 4, 10, 10, N'book16.jpg'),
 (N'Ngồi khóc trên cây', N'Nguyễn Nhật Ánh', N'Nhà Xuất Bản Trẻ', 2021, 4, 10, 10, N'book17.jpg');
 
+select * from Categories
 -- Create Readers Table
 CREATE TABLE Readers (
     ReaderID INT IDENTITY(1,1) PRIMARY KEY,
@@ -183,3 +184,11 @@ GO
 EXEC InsertStatistic @BookID = 1, @TotalBorrowed = 10, @TotalReturned = 5, @CurrentBorrowed = 5;
 
 SELECT * FROM Statistic
+
+DROP TABLE Users
+DROP TABLE Categories
+DROP TABLE Readers
+DROP TABLE Staff
+DROP TABLE Statistic
+DROP TABLE Books
+DROP TABLE Borrow_Return
