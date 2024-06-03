@@ -1,0 +1,117 @@
+﻿@using HTQLTV.Models;
+@using X.PagedList.Mvc.Core;
+@model X.PagedList.IPagedList<Staff>
+@{
+    ViewData["Title"] = "ListStaff";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<h1>Danh mục nhân viên</h1>
+
+<form id="searchForm" asp-action="ListStaff" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" method="get">
+    <div class="input-group">
+
+        <input type="text" name="searchString" class="form-control bg-light border-2 small" placeholder="Search for..."
+               aria-label="Search" aria-describedby="basic-addon2">
+        <div class="input-group-append">
+            <button class="btn btn-primary" type="submit">
+                <i class="fas fa-search fa-sm"></i>
+            </button>
+        </div>
+    </div>
+    <input type="hidden" name="page" value="1" />
+</form>
+
+<p>
+    <a asp-action="CreateStaff" class="btn btn-primary">Create New</a>
+</p>
+
+@*  <form asp-action="ListStaff">
+    <p>
+        Search by name: <input type="text" name="searchString" />
+        <input type="submit" value="Search" />
+    </p>
+</form>   *@
+<p>@TempData["Message"]</p>
+<table class="table">
+    <thead>
+        <tr class="table-warning">
+            @*  <th>
+            @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            <th>
+            @Html.DisplayNameFor(model => model.Position)
+            </th>
+            <th>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+            </th>
+            <th>
+            @Html.DisplayNameFor(model => model.Email)
+            </th> *@
+            <th>Họ và tên</th>
+            <th>Vị trí</th>
+            <th>Số điện thoại</th>
+            <th>Email</th>
+            <th>Hành động</th>
+            @* <th></th> *@
+        </tr>
+    </thead>
+    <tbody>
+        @*     @{
+        int i = 0;
+        string @cls = "table-success";
+        } *@
+        @foreach (var item in Model)
+        {
+            @*  i = i + 1;
+        cls = "table-success";
+        if(i%2 == 0)
+        {
+        cls= "table-primary";
+        }
+
+        <tr class="@cls"> *@
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Position)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+
+                <td>
+                    <div class="btn-group" role="group">
+                        <a asp-action="EditStaff" asp-route-maNhanVien="@item.StaffId" class="btn btn-success mx-1" title="Edit"><i class="fas fa-check"></i></a>
+                        <a asp-action="DetailsStaff" asp-route-maNhanVien="@item.StaffId" class="btn btn-info mx-1" title="Details"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                        <a asp-action="DeleteStaff" asp-route-maNhanVien="@item.StaffId" class="btn btn-danger mx-1" title="Delete"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<div>
+    <ul class="pagination pagination-sm">
+        @Html.PagedListPager(Model, page => Url.Action("ListStaff", new { page }), new PagedListRenderOptions
+   {
+       LiElementClasses = new[] { "page-item" },
+       PageClasses = new[] { "page-link" },
+       UlElementClasses = new[] { "pagination", "pagination-sm" },
+       ContainerDivClasses = new[] { "pagination-container" },
+       DisplayLinkToNextPage = PagedListDisplayMode.IfNeeded,
+       DisplayLinkToPreviousPage = PagedListDisplayMode.IfNeeded,
+       DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+       DisplayLinkToLastPage = PagedListDisplayMode.Always,
+   })
+    </ul>
+</div>
