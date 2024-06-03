@@ -81,7 +81,7 @@ namespace HTQLTV.Areas.Admin.Controllers
             if (book)
             {
                 TempData["Message"] = "Không thể xóa thể loại này vì có sách đang sử dụng nó";
-                return RedirectToAction("ListCategory", "admin");
+                return RedirectToAction("ListCategory", "CategoryAdmin");
             }
 
             var category = db.Categories.Find(categoryId);
@@ -92,7 +92,7 @@ namespace HTQLTV.Areas.Admin.Controllers
                 TempData["Message"] = "Xóa thành công";
             }
 
-            return RedirectToAction("CategoryAdmin", "admin");
+            return RedirectToAction("ListCategory", "admin");
         }
 
     }
