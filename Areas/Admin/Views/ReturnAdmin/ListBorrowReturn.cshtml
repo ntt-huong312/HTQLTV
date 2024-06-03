@@ -1,0 +1,112 @@
+﻿@using HTQLTV.Models;
+@using X.PagedList.Mvc.Core;
+@model X.PagedList.IPagedList<BorrowReturn>
+
+@{
+    ViewData["Title"] = "ListBorrowReturn";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+<h1>ListBorrowReturn</h1>
+
+<p>
+    <a asp-action="CreateReturn">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            @*     <th>
+            @Html.DisplayNameFor(model => model.BookNumber)
+            </th>
+            <th>
+            @Html.DisplayNameFor(model => model.BorrowDate)
+            </th>
+            <th>
+            @Html.DisplayNameFor(model => model.DueDate)
+            </th>
+            <th>
+            @Html.DisplayNameFor(model => model.ReturnDate)
+            </th>
+            <th>
+            @Html.DisplayNameFor(model => model.Book)
+            </th>
+            <th>
+            @Html.DisplayNameFor(model => model.Reader)
+            </th>
+            <th>
+            @Html.DisplayNameFor(model => model.Staff)
+            </th>
+            <th>
+            @Html.DisplayNameFor(model => model.Stat)
+            </th>
+            <th></th> *@
+            <th>ID sách</th>
+            <th>ID Staff</th>
+            <th>ID Reader</th>
+            <th>Tên sách</th>
+            <th>Số sách mượn</th>
+            <th>Ngày mượn</th>
+            <th>Hạn trả</th>
+            <th>Ngày trả</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Book.BookId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Staff.StaffId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Reader.ReaderId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Book.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BorrowDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DueDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReturnDate)
+                </td>
+
+
+
+                @*     <td>
+            @Html.DisplayFor(modelItem => item.Stat.StatId)
+            </td> *@
+                <td>
+                    <a asp-action="Return" asp-route-id="@item.BorrowReturnId">Return</a> |
+                    <a asp-action="Details" asp-route-id="@item.BorrowReturnId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.BorrowReturnId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    <ul class="pagination pagination-sm">
+        @Html.PagedListPager(Model, page => Url.Action("ListBorrowReturn", new { page }), new PagedListRenderOptions
+   {
+       LiElementClasses = new[] { "page-item" },
+       PageClasses = new[] { "page-link" },
+       UlElementClasses = new[] { "pagination", "pagination-sm" },
+       ContainerDivClasses = new[] { "pagination-container" },
+       DisplayLinkToNextPage = PagedListDisplayMode.IfNeeded,
+       DisplayLinkToPreviousPage = PagedListDisplayMode.IfNeeded,
+       DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+       DisplayLinkToLastPage = PagedListDisplayMode.Always,
+   })
+    </ul>
+</div>

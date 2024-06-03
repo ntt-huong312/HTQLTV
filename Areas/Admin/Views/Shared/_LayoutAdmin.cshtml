@@ -90,6 +90,26 @@
                 </a>
             </li>
 
+            <!-- Nav Item - Management Borrow -->
+            <li class="nav-item">
+                <a class="nav-link" asp-area="admin"
+                   asp-controller="BorrowAdmin" asp-action="ListBorrowReturn" data-toggle="collapse" data-target="#collapseUtilities"
+                   aria-expanded="true" aria-controls="collapseUtilities">
+                    @* <i class="fas fa-fw fa-wrench"></i> *@
+                    <span>Quản lý mượn sách</span>
+                </a>
+            </li>
+
+            <!-- Nav Item - Management Return -->
+            <li class="nav-item">
+                <a class="nav-link" asp-area="admin"
+                   asp-controller="ReturnAdmin" asp-action="ListBorrowReturn" data-toggle="collapse" data-target="#collapseUtilities"
+                   aria-expanded="true" aria-controls="collapseUtilities">
+                    @* <i class="fas fa-fw fa-wrench"></i> *@
+                    <span>Quản lý mượn sách</span>
+                </a>
+            </li>
+
             <!-- Divider -->
             <hr class="sidebar-divider">
 
