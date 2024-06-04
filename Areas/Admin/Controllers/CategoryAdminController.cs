@@ -1,4 +1,5 @@
 ﻿using HTQLTV.Models;
+using HTQLTV.Models.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using X.PagedList;
@@ -13,6 +14,7 @@ namespace HTQLTV.Areas.Admin.Controllers
         HtqltvContext db = new HtqltvContext();
 
         [Route("ListCategory")]
+        [Authentication]
         public IActionResult ListCategory(int? page, string searchString)
         {
             int pageSize = 6;
@@ -27,6 +29,7 @@ namespace HTQLTV.Areas.Admin.Controllers
         }
         [Route("CreateCategory")]
         [HttpGet]
+        [Authentication]
         public IActionResult CreateCategory()
         {
             
@@ -37,6 +40,7 @@ namespace HTQLTV.Areas.Admin.Controllers
         [Route("CreateCategory")]
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authentication]
         public IActionResult CreateCategory(Category category)
         {
             if (ModelState.IsValid)
@@ -51,6 +55,7 @@ namespace HTQLTV.Areas.Admin.Controllers
 
         [Route("EditCategory")]
         [HttpGet]
+        [Authentication]
         public IActionResult EditCategory(int categoryId)
         {
             var category = db.Categories.Find(categoryId);
@@ -60,6 +65,7 @@ namespace HTQLTV.Areas.Admin.Controllers
         [Route("EditCategory")]
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authentication]
         public IActionResult EditCategory(Category category)
         {
             if (ModelState.IsValid)
@@ -73,6 +79,7 @@ namespace HTQLTV.Areas.Admin.Controllers
         }
         [Route("DeleteCategory")]
         [HttpGet]
+        [Authentication]
         public IActionResult DeleteCategory(int categoryId)
         {
             TempData["Message"] = "";

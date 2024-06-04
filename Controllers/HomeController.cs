@@ -1,4 +1,5 @@
 using HTQLTV.Models;
+using HTQLTV.Models.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
@@ -18,7 +19,7 @@ namespace HTQLTV.Controllers
         }
 
 
-
+        
         public IActionResult Index(int? page, string searchQuery, string searchType)
         {
             int pageSize = 8;
@@ -35,7 +36,7 @@ namespace HTQLTV.Controllers
                 {
                     lstBook = lstBook.Where(s => s.Title.Contains(searchQuery)).OrderBy(x => x.Title);
                 }
-                ViewBag.CurrentFilter = searchQuery; // L?u giá tr? tìm ki?m trong ViewBag
+                ViewBag.CurrentFilter = searchQuery; //L?u giá tr? tìm ki?m trong ViewBag
             }
 
             PagedList<Book> lst = new PagedList<Book>(lstBook, pageNumber, pageSize);

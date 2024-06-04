@@ -1,4 +1,5 @@
 ﻿using HTQLTV.Models;
+using HTQLTV.Models.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,6 +12,7 @@ namespace HTQLTV.Areas.Admin.Controllers
     {
         [Route("")]
         [Route("index")]
+        [Authentication]
         public IActionResult Index(string searchString)
         {
             return View();

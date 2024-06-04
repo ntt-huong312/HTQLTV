@@ -1,5 +1,6 @@
 ﻿using Azure;
 using HTQLTV.Models;
+using HTQLTV.Models.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using X.PagedList;
@@ -13,8 +14,8 @@ namespace HTQLTV.Areas.Admin.Controllers
         HtqltvContext db = new HtqltvContext();
         [Route("")]
         [Route("index")]
-
         [Route("ListReader")]
+        [Authentication]
         public IActionResult ListReader(int? page, string searchString)
         {
             int pageSize = 4;
@@ -32,6 +33,7 @@ namespace HTQLTV.Areas.Admin.Controllers
 
         [Route("CreateReader")]
         [HttpGet]
+        [Authentication]
         public IActionResult CreateReader()
         {
             return View();
@@ -39,6 +41,7 @@ namespace HTQLTV.Areas.Admin.Controllers
         [Route("CreateReader")]
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authentication]
         public IActionResult CreateReader(Reader docgia)
         {
             if (ModelState.IsValid)
@@ -52,6 +55,7 @@ namespace HTQLTV.Areas.Admin.Controllers
 
         [Route("EditReader")]
         [HttpGet]
+        [Authentication]
         public IActionResult EditReader(int maDocGia)
         {
             var docgia = db.Readers.Find(maDocGia);
@@ -60,6 +64,7 @@ namespace HTQLTV.Areas.Admin.Controllers
         [Route("EditReader")]
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authentication]
         public IActionResult EditReader(Reader docgia)
         {
             if (ModelState.IsValid)
@@ -74,6 +79,7 @@ namespace HTQLTV.Areas.Admin.Controllers
 
         [Route("DetailsReader")]
         [HttpGet]
+        [Authentication]
         public IActionResult DetailsReader(int maDocGia)
         {
             var docgia = db.Readers.FirstOrDefault(m => m.ReaderId == maDocGia);

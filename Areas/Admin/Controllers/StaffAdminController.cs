@@ -1,4 +1,5 @@
 ﻿using HTQLTV.Models;
+using HTQLTV.Models.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using X.PagedList;
@@ -14,7 +15,7 @@ namespace HTQLTV.Areas.Admin.Controllers
 
         [Route("")]
         [Route("ListStaff")]
-
+        [Authentication]
         public IActionResult ListStaff(int? page, string searchString)
         {
             int pageSize = 4;
@@ -33,6 +34,7 @@ namespace HTQLTV.Areas.Admin.Controllers
 
         [Route("CreateStaff")]
         [HttpGet]
+        [Authentication]
         public IActionResult CreateStaff()
         {
             return View();
@@ -40,6 +42,7 @@ namespace HTQLTV.Areas.Admin.Controllers
         [Route("CreateStaff")]
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authentication]
         public IActionResult CreateStaff(Staff nhanvien)
         {
             if (ModelState.IsValid)
@@ -54,6 +57,7 @@ namespace HTQLTV.Areas.Admin.Controllers
 
         [Route("EditStaff")]
         [HttpGet]
+        [Authentication]
         public IActionResult EditStaff(int maNhanVien)
         {
             var nhanvien = db.Staff.Find(maNhanVien);
@@ -62,6 +66,7 @@ namespace HTQLTV.Areas.Admin.Controllers
         [Route("EditStaff")]
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authentication]
         public IActionResult EditStaff(Staff nhanvien)
         {
             if (ModelState.IsValid)
@@ -78,6 +83,7 @@ namespace HTQLTV.Areas.Admin.Controllers
 
         [Route("DeleteStaff")]
         [HttpGet]
+        [Authentication]
         public IActionResult DeleteStaff(int maNhanVien)
 
         {
@@ -112,6 +118,7 @@ namespace HTQLTV.Areas.Admin.Controllers
 
         [Route("DetailsStaff")]
         [HttpGet]
+        [Authentication]
         public IActionResult DetailsStaff(int maNhanVien)
         {
             var nhanvien = db.Staff.FirstOrDefault(m => m.StaffId == maNhanVien);
@@ -122,7 +129,6 @@ namespace HTQLTV.Areas.Admin.Controllers
             return View(nhanvien);
 
         }
-
 
     }
 
