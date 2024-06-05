@@ -1,4 +1,4 @@
-using HTQLTV.Models;
+Ôªøusing HTQLTV.Models;
 using HTQLTV.Models.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -36,7 +36,7 @@ namespace HTQLTV.Controllers
                 {
                     lstBook = lstBook.Where(s => s.Title.Contains(searchQuery)).OrderBy(x => x.Title);
                 }
-                ViewBag.CurrentFilter = searchQuery; //L?u gi· tr? tÏm ki?m trong ViewBag
+                ViewBag.CurrentFilter = searchQuery; //L?u gi√° tr? t√¨m ki?m trong ViewBag
             }
 
             PagedList<Book> lst = new PagedList<Book>(lstBook, pageNumber, pageSize);
@@ -50,6 +50,14 @@ namespace HTQLTV.Controllers
             {
                 return NotFound();
             }
+            var category = db.Categories.FirstOrDefault(c => c.CategoryId == book.CategoryId);
+
+            if (category == null)
+            {
+                return NotFound();
+            }
+
+            ViewBag.CategoryName = category.CategoryName;
 
             var bookImg = db.Books.Where(x => x.BookId == bookId).ToList();
             ViewBag.bookImg = bookImg;
