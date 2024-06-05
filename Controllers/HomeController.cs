@@ -43,9 +43,6 @@ namespace HTQLTV.Controllers
             return View(lst);
         }
 
-
-
-
         public IActionResult BookDetail(int bookId)
         {
             var book = db.Books.SingleOrDefault(x => x.BookId == bookId);
