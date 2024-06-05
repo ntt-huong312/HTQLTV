@@ -15,41 +15,41 @@
         <form method="post" asp-action="CreateBorrow">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="ReaderId" class="control-label">ReaderId</label>
+                <label asp-for="ReaderId" class="control-label"></label>
                 <select asp-for="ReaderId" class ="form-control" asp-items="ViewBag.ReaderId"></select>
             </div>
             <div class="form-group">
-                <label asp-for="BookId" class="control-label">BookId</label>
+                <label asp-for="BookId" class="control-label"></label>
                 <select asp-for="BookId" class ="form-control" asp-items="ViewBag.BookId"></select>
             </div>
             <div class="form-group">
-                <label asp-for="BookNumber" class="control-label">BookNumber</label>
+                <label asp-for="BookNumber" class="control-label"></label>
                 <input asp-for="BookNumber" class="form-control" />
                 <span asp-validation-for="BookNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="BorrowDate" class="control-label">BorrowDate</label>
+                <label asp-for="BorrowDate" class="control-label"></label>
                 <input asp-for="BorrowDate" class="form-control" />
                 <span asp-validation-for="BorrowDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DueDate" class="control-label">DueDate</label>
+                <label asp-for="DueDate" class="control-label"></label>
                 <input asp-for="DueDate" class="form-control" />
                 <span asp-validation-for="DueDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ReturnDate" class="control-label">ReturnDate</label>
+                <label asp-for="ReturnDate" class="control-label"></label>
                 <input asp-for="ReturnDate" class="form-control" />
                 <span asp-validation-for="ReturnDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="StaffId" class="control-label">StaffId</label>
+                <label asp-for="StaffId" class="control-label"></label>
                 <select asp-for="StaffId" class ="form-control" asp-items="ViewBag.StaffId"></select>
             </div>
-            <div class="form-group">
-                <label asp-for="StatId" class="control-label">StatId</label>
+          @*   <div class="form-group">
+                <label asp-for="StatId" class="control-label"></label>
                 <select asp-for="StatId" class ="form-control" asp-items="ViewBag.StatId"></select>
-            </div>
+            </div> *@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -58,6 +58,6 @@
 </div>
 
 <div>
-    <a asp-action="ListBorrowReturn">Back to List</a>
+    <a asp-action="ListBorrow">Back to List</a>
 </div>
 
