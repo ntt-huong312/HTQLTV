@@ -9,6 +9,8 @@ using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Hosting;
 using System.Reflection;
 using HTQLTV.Models.Authentication;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.Globalization;
 
 namespace HTQLTV.Areas.Admin.Controllers
 {
@@ -52,9 +54,16 @@ namespace HTQLTV.Areas.Admin.Controllers
         [Route("CreateBook")]
         public IActionResult CreateBook()
         {
-            ViewBag.CategoryId = new SelectList(db.Categories.ToList(), "CategoryId", "CategoryName");
+            //ModelState["CategoryId"].Value = new ValueProviderResult("", "CategoryId", CultureInfo.InvariantCulture);
+            //ModelState["CategoryId"].AttemptedValue = "CategoryId";
+            //ModelState["CategoryId"].RawValue = "CategoryId";
+
+            ViewBag.CategoryId = new SelectList(db.Readers.ToList(), "ReaderId", "FullName");
+
             return View();
         }
+
+
         [Route("CreateNewBook")]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -66,7 +75,7 @@ namespace HTQLTV.Areas.Admin.Controllers
                 db.SaveChanges();
                 return RedirectToAction("ListBook");
             }
-            ViewBag.CategoryId = new SelectList(db.Categories.ToList(), "CategoryId", "CategoryName");
+            //ViewBag.CategoryId = new SelectList(db.Categories.ToList(), "CategoryId", "CategoryId");
             return View(book);
         }
 
@@ -135,63 +144,71 @@ namespace HTQLTV.Areas.Admin.Controllers
         //    return RedirectToAction("BookAdmin", "admin");
         //}
 
-        //[Route("BookDetail")]
-        //[HttpGet]
-        //public IActionResult BookDetail(int bookId)
-        //{
-        //    var book = db.Books.FirstOrDefault(m => m.BookId == bookId);
-        //    if (book == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return View(book);
+        [Route("BookDetail")]
+        [HttpGet]
+        public IActionResult BookDetail(int bookId)
+        {
+            var book = db.Books.FirstOrDefault(m => m.BookId == bookId);
+            if (book == null)
+            {
+                return NotFound();
+            }
+            var category = db.Categories.FirstOrDefault(c => c.CategoryId == book.CategoryId);
 
-        //}
-       
-       
+            if (category == null)
+            {
+                return NotFound();
+            }
 
-        //[HttpPost]
-        //[Route("CreateBook")]
-        //public async Task<IActionResult> CreateBook(Book book, IFormFile imageFile)
-        //{
-        //    //    if (book.file.Length > 0)
-        //    //{
-        //    //    var BookImage = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\img\books", book.file.FileName);
-        //    //    using (var stream = new FileStream(BookImage, FileMode.Create))
-        //    //    {
-        //    //        await book.file.CopyToAsync(stream);
-        //    //    }
-        //    //}
-        //    //if (ModelState.IsValid)
-        //    //{
-        //    //    db.Books.Add(book);
-        //    //    db.SaveChanges();
-        //    //    return RedirectToAction("ListBook");
-        //    //}
-        //    //return View(book);
-        //    //return RedirectToAction("ImageUpload", new { path = "/img/books/" + book.file.FileName });
-        //    if (ModelState.IsValid)
-        //    {
-        //        if (imageFile != null && imageFile.Length > 0)
-        //        {
-        //            var fileName = Path.GetFileName(imageFile.FileName);
-        //            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", fileName);
+            ViewBag.CategoryName = category.CategoryName;
+            return View(book);
 
-        //            using (var stream = new FileStream(filePath, FileMode.Create))
-        //            {
-        //                imageFile.CopyTo(stream);
-        //            }
+            }
 
-        //            book.BookImage = "/images/" + fileName; // Lưu đường dẫn hình ảnh vào đối tượng Book
-        //        }
 
-        //        db.Books.Add(book);
-        //        db.SaveChanges();
-        //        return RedirectToAction("ListBook");
-        //    }
 
-        //    return View(book);
-        //}
+            //[HttpPost]
+            //[Route("CreateBook")]
+            //public async Task<IActionResult> CreateBook(Book book, IFormFile imageFile)
+            //{
+            //    //    if (book.file.Length > 0)
+            //    //{
+            //    //    var BookImage = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\img\books", book.file.FileName);
+            //    //    using (var stream = new FileStream(BookImage, FileMode.Create))
+            //    //    {
+            //    //        await book.file.CopyToAsync(stream);
+            //    //    }
+            //    //}
+            //    //if (ModelState.IsValid)
+            //    //{
+            //    //    db.Books.Add(book);
+            //    //    db.SaveChanges();
+            //    //    return RedirectToAction("ListBook");
+            //    //}
+            //    //return View(book);
+            //    //return RedirectToAction("ImageUpload", new { path = "/img/books/" + book.file.FileName });
+            //    if (ModelState.IsValid)
+            //    {
+            //        if (imageFile != null && imageFile.Length > 0)
+            //        {
+            //            var fileName = Path.GetFileName(imageFile.FileName);
+            //            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", fileName);
 
-    }
+            //            using (var stream = new FileStream(filePath, FileMode.Create))
+            //            {
+            //                imageFile.CopyTo(stream);
+            //            }
+
+            //            book.BookImage = "/images/" + fileName; // Lưu đường dẫn hình ảnh vào đối tượng Book
+            //        }
+
+            //        db.Books.Add(book);
+            //        db.SaveChanges();
+            //        return RedirectToAction("ListBook");
+            //    }
+
+            //    return View(book);
+            //}
+
+        }
 }
