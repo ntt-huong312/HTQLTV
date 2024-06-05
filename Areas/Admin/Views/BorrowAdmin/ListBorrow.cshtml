@@ -1,23 +1,35 @@
 ﻿@using HTQLTV.Models;
-@using X.PagedList.Mvc.Core;
+@using X.PagedList.Mvc.Core
 @model X.PagedList.IPagedList<BorrowReturn>
 
+
+
 @{
-    ViewData["Title"] = "ListBorrowReturn";
+    ViewData["Title"] = "ListBorrow";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
-
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+<h1>ListBorrow</h1>
+<form id="searchForm" asp-action="ListBorrow" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" method="get">
+    <div class="input-group">
 
-<h1>ListBorrowReturn</h1>
-
+        <input type="number" name="readerId" class="form-control bg-light border-2 small" placeholder="Search for..."
+               aria-label="Search" aria-describedby="basic-addon2">
+        <div class="input-group-append">
+            <button class="btn btn-primary" type="submit">
+                <i class="fas fa-search fa-sm"></i>
+            </button>
+        </div>
+    </div>
+    <input type="hidden" name="page" value="1" />
+</form>
 <p>
-    <a asp-action="CreateBorrow">Create New Borrow</a>
+    <a asp-action="CreateBorrow">Create New</a>
 </p>
 <table class="table">
     <thead>
         <tr>
-        @*     <th>
+          @*   <th>
                 @Html.DisplayNameFor(model => model.BookNumber)
             </th>
             <th>
@@ -40,52 +52,45 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Stat)
-            </th>
-            <th></th> *@            
-            <th>ID sách</th>
-            <th>ID Staff</th>
-            <th>ID Reader</th>
-            <th>Tên sách</th>
+            </th> *@
             <th>Số sách mượn</th>
             <th>Ngày mượn</th>
             <th>Hạn trả</th>
             <th>Ngày trả</th>
-            <th>Hành động</th>
+            <th>ID sách</th>
+            <th>ID Reader</th>
+            <th>ID Staff</th>
+            <th>ID Stat</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Book.BookId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Staff.StaffId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Reader.ReaderId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Book.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.BookNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.BorrowDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DueDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ReturnDate)
-                </td>
-            
-            
-            
-            @*     <td>
-                    @Html.DisplayFor(modelItem => item.Stat.StatId)
-                </td> *@
+            <td>
+                @Html.DisplayFor(modelItem => item.BookNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BorrowDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DueDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReturnDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Book.BookId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Reader.ReaderId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Staff.StaffId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Stat.StatId)
+            </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.BorrowReturnId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.BorrowReturnId">Details</a> |
@@ -98,7 +103,7 @@
 
 <div>
     <ul class="pagination pagination-sm">
-        @Html.PagedListPager(Model, page => Url.Action("ListBorrowReturn", new { page }), new PagedListRenderOptions
+        @Html.PagedListPager(Model, page => Url.Action("ListBorrow", new { page }), new PagedListRenderOptions
    {
        LiElementClasses = new[] { "page-item" },
        PageClasses = new[] { "page-link" },

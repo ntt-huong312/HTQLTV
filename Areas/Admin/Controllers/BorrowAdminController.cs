@@ -1,8 +1,11 @@
-﻿using HTQLTV.Models;
+﻿
+
+using HTQLTV.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using X.PagedList;
-using Azure;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace HTQLTV.Areas.Admin.Controllers
 {
@@ -10,20 +13,33 @@ namespace HTQLTV.Areas.Admin.Controllers
     [Route("admin/BorrowAdmin")]
     public class BorrowAdminController : Controller
     {
-        HtqltvContext db = new HtqltvContext();
+       HtqltvContext db = new HtqltvContext();
 
         // GET: Borrow
         [HttpGet]
-        [Route("ListBorrowReturn")]
-        public IActionResult ListBorrowReturn(int? page)
+        [Route("ListBorrow")]
+        public IActionResult ListBorrow(int ?page, int?readerId)
         {
-            int pageNumber = page ?? 1;
-            int pageSize = 10;
+
+            int pageSize = 4;
+            int pageNumber = page == null || page < 0 ? 1 : page.Value;
+
             var borrowReturns = db.BorrowReturns.Include(br => br.Book)
-                                                 .Include(br => br.Reader)
-                                                 .Include(br => br.Staff)
-                                                 .ToPagedList(pageNumber, pageSize);
-            return View(borrowReturns);
+                                                      .Include(br => br.Reader)
+                                                      .Include(br => br.Staff)
+                                                      .Include(br=>br.Stat)
+                                                      .AsQueryable();
+
+
+
+            if (readerId.HasValue)
+            {
+                borrowReturns = borrowReturns.Where(br => br.ReaderId == readerId.Value);
+            }
+
+            var pagedList = borrowReturns.ToPagedList(pageNumber, pageSize);
+
+            return View(pagedList);
         }
 
         // GET: Borrow/Create
@@ -31,36 +47,44 @@ namespace HTQLTV.Areas.Admin.Controllers
         [Route("CreateBorrow")]
         public IActionResult CreateBorrow()
         {
+            ViewBag.ReaderId = new SelectList(db.Readers.ToList(), "ReaderId","ReaderId");
+            ViewBag.BookId = new SelectList(db.Books.ToList(), "BookId", "BookId");
+            ViewBag.StaffId = new SelectList(db.Staff.ToList(), "StaffId", "StaffId");
+          //  ViewBag.StatId = new SelectList(db.Statistics.ToList(), "StatId", "StatId");
             return View();
         }
 
         // POST: Borrow/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult CreateBorrow(BorrowReturn borrowReturn)
-        {
-            if (ModelState.IsValid)
-            {
-                // Giả sử User.Identity.Name là tên đăng nhập của nhân viên hiện tại
-                var username = User.Identity.Name;
-                var currentStaff = db.Staff.FirstOrDefault(s => s.Email == username);
 
-                if (currentStaff != null)
-                {
-                    borrowReturn.StaffId = currentStaff.StaffId;
-                    // Tạo StatId mới hoặc thiết lập giá trị phù hợp
-                    borrowReturn.StatId = Guid.NewGuid().ToString();
-                    db.BorrowReturns.Add(borrowReturn);
-                    db.SaveChanges();
-                    return RedirectToAction("ListBorrowReturn");
-                }
-                else
-                {
-                    ModelState.AddModelError("", "Không thể xác định nhân viên hiện tại.");
-                }
-            }
+        //  [ValidateAntiForgeryToken]
+        [HttpPost]
+        [Route("CreateBorrow")]
+       
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateBorrow(BorrowReturn borrowReturn)
+        {
+            
+          //  if (ModelState.IsValid)
+           // {
+                db.BorrowReturns.Add(borrowReturn);
+                db.SaveChanges();
+                return RedirectToAction("ListBorrow");
+          //  }
+            // Ghi lại các lỗi trong ModelState
+            //var errors = ModelState.Values.SelectMany(v => v.Errors);
+            //foreach (var error in errors)
+            //{
+            //    Console.WriteLine(error.ErrorMessage);
+            //}
+
+            ViewBag.ReaderId = new SelectList(db.Readers.ToList(), "ReaderId", "ReaderId");
+            ViewBag.BookId = new SelectList(db.Books.ToList(), "BookId", "BookId");
+            ViewBag.StaffId = new SelectList(db.Staff.ToList(), "StaffId", "StaffId");
+         //   ViewBag.StatId = new SelectList(db.Statistics.ToList(), "StatId", "StatId");
 
             return View(borrowReturn);
         }
+
     }
 }
+

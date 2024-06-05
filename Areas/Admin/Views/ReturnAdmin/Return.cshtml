@@ -1,4 +1,4 @@
-﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+﻿ @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @model HTQLTV.Models.BorrowReturn
 
 @{
@@ -12,7 +12,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Return">
+        <form asp-controller="ReturnAdmin" asp-action="Return" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="BorrowReturnId" />
             <div class="form-group">
@@ -63,6 +63,8 @@
 </div>
 
 <div>
-    <a asp-action="ListBorrowReturn">Back to List</a>
+    <a asp-action="ListReturn">Back to List</a>
 </div>
+
+
 
