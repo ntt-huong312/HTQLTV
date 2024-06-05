@@ -10,30 +10,24 @@
 
 <h1>Danh mục nhân viên</h1>
 
-<form id="searchForm" asp-action="ListStaff" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" method="get">
-    <div class="input-group">
+<div class="d-flex justify-content-between mb-3">
+    <a asp-action="CreateStaff" class="btn btn-primary">Thêm mới</a>
+    <form id="searchForm" asp-action="ListStaff" method="get" class="d-flex">
+        <div class="input-group">
 
-        <input type="text" name="searchString" class="form-control bg-light border-2 small" placeholder="Search for..."
-               aria-label="Search" aria-describedby="basic-addon2">
-        <div class="input-group-append">
-            <button class="btn btn-primary" type="submit">
-                <i class="fas fa-search fa-sm"></i>
-            </button>
+            <input type="text" name="searchString" class="form-control bg-light border-2 small" placeholder="Search for..."
+                   aria-label="Search" aria-describedby="basic-addon2">
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="submit">
+                    <i class="fas fa-search fa-sm"></i>
+                </button>
+            </div>
         </div>
-    </div>
-    <input type="hidden" name="page" value="1" />
-</form>
+        <input type="hidden" name="page" value="1" />
+    </form>
+</div>
 
-<p>
-    <a asp-action="CreateStaff" class="btn btn-primary">Create New</a>
-</p>
 
-@*  <form asp-action="ListStaff">
-    <p>
-        Search by name: <input type="text" name="searchString" />
-        <input type="submit" value="Search" />
-    </p>
-</form>   *@
 <p>@TempData["Message"]</p>
 <table class="table">
     <thead>

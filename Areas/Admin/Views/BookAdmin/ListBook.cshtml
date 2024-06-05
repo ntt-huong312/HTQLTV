@@ -1,0 +1,89 @@
+﻿﻿@using HTQLTV.Models
+@using X.PagedList.Mvc.Core;
+@model X.PagedList.IPagedList<Book>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "ListBook";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1>Danh mục sách</h1>
+<div class="d-flex justify-content-between mb-3">
+    <a asp-action="CreateBook" class="btn btn-primary">Thêm mới</a>
+
+    <form id="searchForm" asp-action="ListBook" class="d-flex" method="get" >
+        <div class="input-group">
+            <input type="text" name="searchString" class="form-control bg-light border-2 small" placeholder="Search for..."
+                   aria-label="Search" aria-describedby="basic-addon2">
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="submit">
+                    <i class="fas fa-search fa-sm"></i>
+                </button>
+            </div>
+        </div>
+        <input type="hidden" name="page" value="1" />
+    </form>
+</div>
+
+<p>@TempData["Message"]</p>
+<div class="card-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                <thead>
+                    <tr>
+                        @* <th>@Html.DisplayNameFor(model => model[0].Title)</th>
+                        <th>@Html.DisplayNameFor(model => model[0].Author)</th>
+                        <th>@Html.DisplayNameFor(model => model[0].Publisher)</th>
+                        <th>@Html.DisplayNameFor(model => model[0].YearPublished)</th>
+                        <th>@Html.DisplayNameFor(model => model[0].CategoryId)</th>
+                        <th>@Html.DisplayNameFor(model => model[0].Quantity)</th>
+                        <th>@Html.DisplayNameFor(model => model[0].BookImage)</th>
+                        <th>Actions</th> *@ <!-- Added this to properly align the actions -->
+                        <th>Tên sách</th>
+                        <th>Tên tác giả</th>
+                        <th>Nhà xuất bản</th>
+                        <th>Thể loại</th>
+                        <th>Số lượng</th>
+                        <th>Hình ảnh</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr class="even">
+                            <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Author)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Publisher)</td>
+                            <td>@Html.DisplayFor(modelItem => item.YearPublished)</td>
+                           @*  <td>@Html.DisplayFor(modelItem => item.CategoryId)</td> *@
+                            <td>@Html.DisplayFor(modelItem => item.Quantity)</td>
+                            <td>@Html.DisplayFor(modelItem => item.BookImage)</td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <a asp-action="EditBook" asp-route-bookId="@item.BookId" class="btn btn-success mx-1" title="Edit"><i class="fas fa-check"></i></a>
+                                    <a asp-action="BookDetail" asp-route-bookId="@item.BookId" class="btn btn-info mx-1" title="Details"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                                    <a asp-action="DeleteBook" asp-route-bookId="@item.BookId" class="btn btn-danger mx-1" title="Delete"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="pagination pagination-sm">
+                @Html.PagedListPager(Model, page => Url.Action("ListBook", new { page }), new PagedListRenderOptions
+           {
+               LiElementClasses = new[] { "page-item" },
+               PageClasses = new[] { "page-link" },
+               UlElementClasses = new[] { "pagination", "pagination-sm" },
+               ContainerDivClasses = new[] { "pagination-container" },
+               DisplayLinkToNextPage = PagedListDisplayMode.IfNeeded,
+               DisplayLinkToPreviousPage = PagedListDisplayMode.IfNeeded,
+               DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+               DisplayLinkToLastPage = PagedListDisplayMode.Always,
+           })
+            </div>
+        </div>
+    </div>
+</div>
