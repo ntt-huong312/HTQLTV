@@ -27,7 +27,7 @@ namespace HTQLTV.Areas.Admin.Controllers
             var borrowReturns = db.BorrowReturns.Include(br => br.Book)
                                                       .Include(br => br.Reader)
                                                       .Include(br => br.Staff)
-                                                      .Include(br=>br.Stat)
+                                                      
                                                       .AsQueryable();
 
 

@@ -62,16 +62,28 @@ namespace HTQLTV.Areas.Admin.Controllers
         [Route("CreateBook")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult CreateBook(Book book)
+        public async Task<IActionResult> CreateBook(Book book)
         {
             if (ModelState.IsValid)
             {
+                if (book.file != null && book.file.Length > 0)
+                {
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/books", book.file.FileName);
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await book.file.CopyToAsync(stream);
+                    }
+                    book.BookImage = "/img/books" + book.file.FileName;
+                }
                 db.Books.Add(book);
-                db.SaveChanges();
+                await db.SaveChangesAsync();
                 return RedirectToAction("ListBook");
-            } 
+            }
             return View(book);
+
         }
+    
+        
 
         //[Route("EditBook")]
         //[HttpGet]

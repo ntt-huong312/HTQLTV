@@ -54,7 +54,7 @@ namespace HTQLTV.Areas.Admin.Controllers
             ViewBag.ReaderId = new SelectList(db.Readers, "ReaderId", "ReaderId", borrowReturn.ReaderId);
             ViewBag.BookId = new SelectList(db.Books, "BookId", "BookId", borrowReturn.BookId);
             ViewBag.StaffId = new SelectList(db.Staff, "StaffId", "StaffId", borrowReturn.StaffId);
-            ViewBag.StatId = new SelectList(db.Statistics, "StatId", "StatId", borrowReturn.StatId);
+            //ViewBag.StatId = new SelectList(db.Statistics, "StatId", "StatId", borrowReturn.StatId);
 
             return View(borrowReturn);
         }
@@ -83,7 +83,7 @@ namespace HTQLTV.Areas.Admin.Controllers
             ViewBag.ReaderId = new SelectList(db.Readers, "ReaderId", "ReaderId", borrowReturn.ReaderId);
             ViewBag.BookId = new SelectList(db.Books, "BookId", "BookId", borrowReturn.BookId);
             ViewBag.StaffId = new SelectList(db.Staff, "StaffId", "StaffId", borrowReturn.StaffId);
-            ViewBag.StatId = new SelectList(db.Statistics, "StatId", "StatId", borrowReturn.StatId);
+          
 
             return View(borrowReturn);
         }

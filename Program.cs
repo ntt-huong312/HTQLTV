@@ -10,7 +10,18 @@ var connectionString = builder.Configuration.GetConnectionString("HtqltvContext"
 builder.Services.AddDbContext<HtqltvContext>(x=>x.UseSqlServer(connectionString));
 
 builder.Services.AddSession();
+
+builder.Services.AddSession(options =>
+{
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+});
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+}); 
+
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

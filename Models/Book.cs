@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HTQLTV.Models;
 
@@ -29,8 +30,10 @@ public partial class Book
     [Display(Name = "Có sẵn")]
     public int Available { get; set; }
 
-    public string BookImage { get; set; } = null!;
+    public string ?BookImage { get; set; }
 
+    [NotMapped]
+    public IFormFile file { get; set; }
     public virtual ICollection<BorrowReturn> BorrowReturns { get; set; } = new List<BorrowReturn>();
 
     public virtual Category Category { get; set; } = null!;
