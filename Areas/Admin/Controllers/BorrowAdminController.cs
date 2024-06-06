@@ -29,9 +29,6 @@ namespace HTQLTV.Areas.Admin.Controllers
 
                                                       .Include(br => br.Staff)
 
-
-                                                      .Include(br => br.Staff)
-
                                                       .AsQueryable();
 
 

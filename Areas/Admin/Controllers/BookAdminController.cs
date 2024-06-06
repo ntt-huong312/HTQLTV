@@ -26,7 +26,7 @@ namespace HTQLTV.Areas.Admin.Controllers
     public class BookAdminController : Controller
     {
         HtqltvContext db = new HtqltvContext();
-
+        
         [Route("admin/BookAdmin")]
         [Route("")]
         [Route("index")]
