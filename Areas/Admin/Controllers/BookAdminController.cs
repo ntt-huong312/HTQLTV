@@ -11,6 +11,11 @@ using System.Reflection;
 using HTQLTV.Models.Authentication;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Globalization;
+using Microsoft.AspNetCore.Hosting;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using System;
+
 
 namespace HTQLTV.Areas.Admin.Controllers
 {
@@ -21,7 +26,7 @@ namespace HTQLTV.Areas.Admin.Controllers
     public class BookAdminController : Controller
     {
         HtqltvContext db = new HtqltvContext();
-
+        
         [Route("admin/BookAdmin")]
         [Route("")]
         [Route("index")]
@@ -59,8 +64,23 @@ namespace HTQLTV.Areas.Admin.Controllers
         }
 
 
-        [Route("CreateBook")]
+        //[Route("CreateBook")]
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public IActionResult CreateBook(Book book)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        db.Books.Add(book);
+        //        db.SaveChanges();
+        //        return RedirectToAction("ListBook");
+        //    } 
+        //    return View(book);
+        //}
+
+
         [HttpPost]
+        [Route("CreateBook")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateBook(Book book)
         {
