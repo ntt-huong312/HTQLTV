@@ -11,6 +11,11 @@ using System.Reflection;
 using HTQLTV.Models.Authentication;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Globalization;
+using Microsoft.AspNetCore.Hosting;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using System;
+
 
 namespace HTQLTV.Areas.Admin.Controllers
 {
@@ -59,8 +64,23 @@ namespace HTQLTV.Areas.Admin.Controllers
         }
 
 
-        [Route("CreateBook")]
+        //[Route("CreateBook")]
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public IActionResult CreateBook(Book book)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        db.Books.Add(book);
+        //        db.SaveChanges();
+        //        return RedirectToAction("ListBook");
+        //    } 
+        //    return View(book);
+        //}
+
+
         [HttpPost]
+        [Route("CreateBook")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateBook(Book book)
         {
@@ -82,8 +102,8 @@ namespace HTQLTV.Areas.Admin.Controllers
             return View(book);
 
         }
-    
-        
+
+
 
         //[Route("EditBook")]
         //[HttpGet]
@@ -131,7 +151,7 @@ namespace HTQLTV.Areas.Admin.Controllers
             }
 
             return RedirectToAction("ListCategory", "admin");
-            }
+        }
 
 
         [Route("BookDetail")]
@@ -151,61 +171,61 @@ namespace HTQLTV.Areas.Admin.Controllers
             }
 
             ViewBag.CategoryName = category.CategoryName;
-            
+
             return View(book);
 
-            }
-
-
-
-            //[HttpPost]
-            //[Route("CreateBook")]
-            //public async Task<IActionResult> CreateBook(Book book, IFormFile imageFile)
-            //{
-            //    //    if (book.file.Length > 0)
-            //    //{
-            //    //    var BookImage = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\img\books", book.file.FileName);
-            //    //    using (var stream = new FileStream(BookImage, FileMode.Create))
-            //    //    {
-            //    //        await book.file.CopyToAsync(stream);
-            //    //    }
-            //    //}
-            //    //if (ModelState.IsValid)
-            //    //{
-            //    //    db.Books.Add(book);
-            //    //    db.SaveChanges();
-            //    //    return RedirectToAction("ListBook");
-            //    //}
-            //    //return View(book);
-            //    //return RedirectToAction("ImageUpload", new { path = "/img/books/" + book.file.FileName });
-            //    if (ModelState.IsValid)
-            //    {
-            //        if (imageFile != null && imageFile.Length > 0)
-            //        {
-            //            var fileName = Path.GetFileName(imageFile.FileName);
-            //            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", fileName);
-
-            //            using (var stream = new FileStream(filePath, FileMode.Create))
-            //            {
-            //                imageFile.CopyTo(stream);
-            //            }
-
-            //            book.BookImage = "/images/" + fileName; // Lưu đường dẫn hình ảnh vào đối tượng Book
-            //        }
-
-            //        db.Books.Add(book);
-            //        db.SaveChanges();
-            //        return RedirectToAction("ListBook");
-            //    }
-
-            //    return View(book);
-            //}
-
-
-        
-
-        
-
-
         }
+
+
+
+        //[HttpPost]
+        //[Route("CreateBook")]
+        //public async Task<IActionResult> CreateBook(Book book, IFormFile imageFile)
+        //{
+        //    //    if (book.file.Length > 0)
+        //    //{
+        //    //    var BookImage = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\img\books", book.file.FileName);
+        //    //    using (var stream = new FileStream(BookImage, FileMode.Create))
+        //    //    {
+        //    //        await book.file.CopyToAsync(stream);
+        //    //    }
+        //    //}
+        //    //if (ModelState.IsValid)
+        //    //{
+        //    //    db.Books.Add(book);
+        //    //    db.SaveChanges();
+        //    //    return RedirectToAction("ListBook");
+        //    //}
+        //    //return View(book);
+        //    //return RedirectToAction("ImageUpload", new { path = "/img/books/" + book.file.FileName });
+        //    if (ModelState.IsValid)
+        //    {
+        //        if (imageFile != null && imageFile.Length > 0)
+        //        {
+        //            var fileName = Path.GetFileName(imageFile.FileName);
+        //            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", fileName);
+
+        //            using (var stream = new FileStream(filePath, FileMode.Create))
+        //            {
+        //                imageFile.CopyTo(stream);
+        //            }
+
+        //            book.BookImage = "/images/" + fileName; // Lưu đường dẫn hình ảnh vào đối tượng Book
+        //        }
+
+        //        db.Books.Add(book);
+        //        db.SaveChanges();
+        //        return RedirectToAction("ListBook");
+        //    }
+
+        //    return View(book);
+        //}
+
+
+
+
+
+
+
+    }
 }

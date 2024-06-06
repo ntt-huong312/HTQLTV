@@ -13,12 +13,12 @@ namespace HTQLTV.Areas.Admin.Controllers
     [Route("admin/BorrowAdmin")]
     public class BorrowAdminController : Controller
     {
-       HtqltvContext db = new HtqltvContext();
+        HtqltvContext db = new HtqltvContext();
 
         // GET: Borrow w
         [HttpGet]
         [Route("ListBorrow")]
-        public IActionResult ListBorrow(int ?page, int?readerId)
+        public IActionResult ListBorrow(int? page, int? readerId)
         {
 
             int pageSize = 4;
@@ -26,12 +26,12 @@ namespace HTQLTV.Areas.Admin.Controllers
 
             var borrowReturns = db.BorrowReturns.Include(br => br.Book)
                                                       .Include(br => br.Reader)
-<<<<<<< HEAD
+
                                                       .Include(br => br.Staff)
-                                                      
-=======
-                                                      .Include(br => br.Staff)                                                   
->>>>>>> 5bf9fb6d924565767146e3a17c5f36fb3e94481e
+
+
+                                                      .Include(br => br.Staff)
+
                                                       .AsQueryable();
 
 
@@ -51,10 +51,10 @@ namespace HTQLTV.Areas.Admin.Controllers
         [Route("CreateBorrow")]
         public IActionResult CreateBorrow()
         {
-            ViewBag.ReaderId = new SelectList(db.Readers.ToList(), "ReaderId","ReaderId");
+            ViewBag.ReaderId = new SelectList(db.Readers.ToList(), "ReaderId", "ReaderId");
             ViewBag.BookId = new SelectList(db.Books.ToList(), "BookId", "BookId");
             ViewBag.StaffId = new SelectList(db.Staff.ToList(), "StaffId", "StaffId");
-        
+
             return View();
         }
 
@@ -70,15 +70,15 @@ namespace HTQLTV.Areas.Admin.Controllers
 
             //if (ModelState.IsValid)
             //{
-                db.BorrowReturns.Add(borrowReturn);
+            db.BorrowReturns.Add(borrowReturn);
             db.SaveChanges();
             return RedirectToAction("ListBorrow");
-           //   }
+            //   }
 
             ViewBag.ReaderId = new SelectList(db.Readers.ToList(), "ReaderId", "ReaderId");
             ViewBag.BookId = new SelectList(db.Books.ToList(), "BookId", "BookId");
             ViewBag.StaffId = new SelectList(db.Staff.ToList(), "StaffId", "StaffId");
-          
+
 
             return View(borrowReturn);
 
@@ -110,15 +110,15 @@ namespace HTQLTV.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("EditBorrow/{id}")]
-        public IActionResult EditBorrow( BorrowReturn borrowReturn)
+        public IActionResult EditBorrow(BorrowReturn borrowReturn)
         {
-           
 
-            
-                db.Entry(borrowReturn).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("ListBorrow");
-           
+
+
+            db.Entry(borrowReturn).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("ListBorrow");
+
 
             ViewBag.ReaderId = new SelectList(db.Readers, "ReaderId", "ReaderId", borrowReturn.ReaderId);
             ViewBag.BookId = new SelectList(db.Books, "BookId", "BookId", borrowReturn.BookId);
@@ -149,7 +149,7 @@ namespace HTQLTV.Areas.Admin.Controllers
 
         }
 
-       
+
         [HttpGet]
         [Route("DeleteBorrow/{id}")]
         public IActionResult DeleteBorrow(int id)
@@ -184,5 +184,3 @@ namespace HTQLTV.Areas.Admin.Controllers
         }
     }
 }
-
-
