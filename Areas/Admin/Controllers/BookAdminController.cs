@@ -54,8 +54,7 @@ namespace HTQLTV.Areas.Admin.Controllers
         [Route("CreateBook")]
         public IActionResult CreateBook()
         {
-          //  ViewBag.CategoryId = new SelectList(db.Categories.ToList(), "CategoryId", "CategoryName");
-            ViewBag.CategoryId = new SelectList(db.Categories.ToList(), "CategoryId", "CategoryId");
+            ViewBag.CategoryId = new SelectList(db.Categories.ToList(), "CategoryId", "CategoryName");
             return View();
         }
 
