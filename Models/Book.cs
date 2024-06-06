@@ -26,7 +26,6 @@ public partial class Book
     [Display(Name = "Số lượng")]
     public int Quantity { get; set; }
 
-    [Display(Name = "Có sẵn")]
     public int Available { get; set; }
 
     public string BookImage { get; set; } = null!;

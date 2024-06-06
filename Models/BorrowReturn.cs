@@ -1,38 +1,52 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HTQLTV.Models;
 
 public partial class BorrowReturn
 {
-    [Key]
+    [Display(Name = "Mã mượn trả")]
     public int BorrowReturnId { get; set; }
-
+    [Required]    
+    
+    [Display(Name = "Mã độc giả")]
     public int ReaderId { get; set; }
 
+    [Required]
+    [Display(Name = "Mã sách")]
     public int BookId { get; set; }
 
+   [Required]
+    [Display(Name = "Số sách mượn")]
     public int BookNumber { get; set; }
 
+    [Required]
+    [Display(Name = "Ngày mượn")]
     public DateOnly BorrowDate { get; set; }
 
+    [Required]
+    [Display(Name = "Hạn trả")]
     public DateOnly DueDate { get; set; }
 
+    [Display(Name = "Ngày trả")]
     public DateOnly? ReturnDate { get; set; }
 
+    [Required]
+    [Display(Name = "Mã nhân viên")]
     public int StaffId { get; set; }
 
-    public string StatId { get; set; } = null!;
+  
+    [Display(Name = "Số sách mượn")]
+    public int? TotalBorrowed { get; set; }
 
-    [ForeignKey("BookId")]
+   
+    [Display(Name = "Số sách trả")]
+    public int? TotalReturned { get; set; }
+
     public virtual Book Book { get; set; } = null!;
-    [ForeignKey("ReaderId")]
-    public virtual Reader Reader { get; set; } = null!;
-    [ForeignKey("StaffId")]
-    public virtual Staff Staff { get; set; } = null!;
 
-    [ForeignKey("StatId")]
-    public virtual Statistic Stat { get; set; } = null!;
+    public virtual Reader Reader { get; set; } = null!;
+
+    public virtual Staff Staff { get; set; } = null!;
 }

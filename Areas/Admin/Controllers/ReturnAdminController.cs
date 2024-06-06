@@ -54,7 +54,7 @@ namespace HTQLTV.Areas.Admin.Controllers
             ViewBag.ReaderId = new SelectList(db.Readers, "ReaderId", "ReaderId", borrowReturn.ReaderId);
             ViewBag.BookId = new SelectList(db.Books, "BookId", "BookId", borrowReturn.BookId);
             ViewBag.StaffId = new SelectList(db.Staff, "StaffId", "StaffId", borrowReturn.StaffId);
-            ViewBag.StatId = new SelectList(db.Statistics, "StatId", "StatId", borrowReturn.StatId);
+          
 
             return View(borrowReturn);
         }
@@ -65,8 +65,7 @@ namespace HTQLTV.Areas.Admin.Controllers
         [Route("return/{id}")]
         public IActionResult Return(int id, BorrowReturn borrowReturn)
         {
-            if (ModelState.IsValid)
-            {
+          
                 var existingBorrowReturn = db.BorrowReturns.Find(id);
                 if (existingBorrowReturn != null)
                 {
@@ -78,12 +77,12 @@ namespace HTQLTV.Areas.Admin.Controllers
                 {
                     ModelState.AddModelError("", "Không tìm thấy bản ghi mượn trả.");
                 }
-            }
+           
 
             ViewBag.ReaderId = new SelectList(db.Readers, "ReaderId", "ReaderId", borrowReturn.ReaderId);
             ViewBag.BookId = new SelectList(db.Books, "BookId", "BookId", borrowReturn.BookId);
             ViewBag.StaffId = new SelectList(db.Staff, "StaffId", "StaffId", borrowReturn.StaffId);
-            ViewBag.StatId = new SelectList(db.Statistics, "StatId", "StatId", borrowReturn.StatId);
+         
 
             return View(borrowReturn);
         }

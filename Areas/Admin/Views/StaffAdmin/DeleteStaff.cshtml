@@ -1,15 +1,16 @@
-﻿@model HTQLTV.Models.Staff
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model HTQLTV.Models.Staff
 
 @{
     ViewData["Title"] = "DeleteStaff";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h1>Delete Staff</h1>
+<h1>Xóa thông tin nhân viên</h1>
 
 <h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>Staff</h4>
+    <h4>Thông tin nhân viên</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -38,9 +39,11 @@
         </dd>
     </dl>
 
-    <form asp-action="DeleteStaff">
+
+    <form asp-action="DeleteStaffConfirmed" asp-route-maNhanVien="@Model.StaffId" method="post">
         <input type="hidden" asp-for="StaffId" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="ListStaff">Back to List</a>
+        <a asp-action="ListBorrow">Quay lại</a>
     </form>
+   
 </div>

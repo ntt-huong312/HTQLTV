@@ -9,11 +9,12 @@
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-<h1>ListBorrow</h1>
+
+<h1>Danh mục mượn trả sách</h1>
 <form id="searchForm" asp-action="ListBorrow" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" method="get">
     <div class="input-group">
 
-        <input type="number" name="readerId" class="form-control bg-light border-2 small" placeholder="Search for..."
+        <input type="number" name="readerId" class="form-control bg-light border-2 small" placeholder="Search for ReaderId..."
                aria-label="Search" aria-describedby="basic-addon2">
         <div class="input-group-append">
             <button class="btn btn-primary" type="submit">
@@ -24,9 +25,10 @@
     <input type="hidden" name="page" value="1" />
 </form>
 <p>
-    <a asp-action="CreateBorrow">Create New</a>
+    <a asp-action="CreateBorrow" class="btn btn-primary" >Thêm mượn sách</a>
 </p>
-<table class="table">
+<p>@TempData["Message"]</p>
+<table class ="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
     <thead>
         <tr>
           @*   <th>
@@ -53,48 +55,50 @@
             <th>
                 @Html.DisplayNameFor(model => model.Stat)
             </th> *@
+            <th>ID sách</th>
+            <th>ID Staff</th>
+            <th>ID Reader</th>
+            <th>Tên sách</th>
             <th>Số sách mượn</th>
             <th>Ngày mượn</th>
             <th>Hạn trả</th>
             <th>Ngày trả</th>
-            <th>ID sách</th>
-            <th>ID Reader</th>
-            <th>ID Staff</th>
-            <th>ID Stat</th>
-            <th></th>
+            <th>Hành động</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Book.BookId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Staff.StaffId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Reader.ReaderId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Book.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BorrowDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DueDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReturnDate)
+                </td>
+           
             <td>
-                @Html.DisplayFor(modelItem => item.BookNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BorrowDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DueDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReturnDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Book.BookId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Reader.ReaderId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Staff.StaffId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Stat.StatId)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.BorrowReturnId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.BorrowReturnId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.BorrowReturnId">Delete</a>
+                    <a asp-action="EditBorrow" asp-route-id="@item.BorrowReturnId" class="btn btn-success mx-1">Edit</a> |
+                    <a asp-action="DetailsBorrow" asp-route-id="@item.BorrowReturnId" class="btn btn-info mx-1">Details</a> |
+                    <a asp-action="DeleteBorrow" asp-route-id="@item.BorrowReturnId" class="btn btn-danger mx-1">Delete</a>
             </td>
         </tr>
 }
