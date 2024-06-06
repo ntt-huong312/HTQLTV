@@ -54,17 +54,12 @@ namespace HTQLTV.Areas.Admin.Controllers
         [Route("CreateBook")]
         public IActionResult CreateBook()
         {
-            //ModelState["CategoryId"].Value = new ValueProviderResult("", "CategoryId", CultureInfo.InvariantCulture);
-            //ModelState["CategoryId"].AttemptedValue = "CategoryId";
-            //ModelState["CategoryId"].RawValue = "CategoryId";
-
-            ViewBag.CategoryId = new SelectList(db.Readers.ToList(), "ReaderId", "FullName");
-
+            ViewBag.CategoryId = new SelectList(db.Categories.ToList(), "CategoryId", "CategoryName");
             return View();
         }
 
 
-        [Route("CreateNewBook")]
+        [Route("CreateBook")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult CreateBook(Book book)
@@ -74,8 +69,7 @@ namespace HTQLTV.Areas.Admin.Controllers
                 db.Books.Add(book);
                 db.SaveChanges();
                 return RedirectToAction("ListBook");
-            }
-            //ViewBag.CategoryId = new SelectList(db.Categories.ToList(), "CategoryId", "CategoryId");
+            } 
             return View(book);
         }
 
@@ -100,49 +94,33 @@ namespace HTQLTV.Areas.Admin.Controllers
         //    return View(book);
         //}
 
-        //[Route("DeleteBook")]
-        //[HttpGet]
-        //public IActionResult DeleteBook(int bookId)
-        //{
-        //    TempData["Message"] = "";
+        [Route("DeleteBook")]
+        [HttpGet]
+        public IActionResult DeleteBook(int bookId)
+        {
+            TempData["Message"] = "";
 
-        //    // Lấy các bản ghi Borrow liên quan đến BookID
-        //    var borrows = db.Borrows.Where(x => x.BookId == bookId).ToList();
+            // Lấy các bản ghi Borrow liên quan đến BookID
+            var borrows = db.BorrowReturns.Any(x => x.BookId == bookId);
 
-        //    if (borrows.Any())
-        //    {
-        //        // Lấy các bản ghi Returns liên quan đến BorrowId
-        //        var borrowIds = borrows.Select(b => b.BorrowId).ToList();
-        //        var returns = db.Returns.Where(r => borrowIds.Contains(r.BorrowId)).ToList();
+            if (borrows)
+            {
 
-        //        // Xóa các bản ghi Returns liên quan
-        //        if (returns.Any())
-        //        {
-        //            db.Returns.RemoveRange(returns);
-        //        }
+                TempData["Message"] = "Không thể xóa sách này vì có độc giả đang mượn";
+                return RedirectToAction("ListBook", "BookAdmin");
+            }
 
-        //        // Xóa các bản ghi Borrow
-        //        db.Borrows.RemoveRange(borrows);
-        //    }
+            var book = db.Books.Find(bookId);
+            if (book != null)
+            {
+                db.Books.Remove(book);
+                db.SaveChanges();
+                TempData["Message"] = "Xóa thành công";
+            }
 
-        //    // Xóa các bản ghi Statistic liên quan đến BookID
-        //    var statistics = db.Statistics.Where(s => s.BookId == bookId).ToList();
-        //    if (statistics.Any())
-        //    {
-        //        db.Statistics.RemoveRange(statistics);
-        //    }
+            return RedirectToAction("ListCategory", "admin");
+            }
 
-        //    // Xóa bản ghi Book
-        //    var book = db.Books.Find(bookId);
-        //    if (book != null)
-        //    {
-        //        db.Books.Remove(book);
-        //    }
-
-        //    db.SaveChanges();
-        //    TempData["Message"] = "Sách đã được xóa";
-        //    return RedirectToAction("BookAdmin", "admin");
-        //}
 
         [Route("BookDetail")]
         [HttpGet]
@@ -161,6 +139,7 @@ namespace HTQLTV.Areas.Admin.Controllers
             }
 
             ViewBag.CategoryName = category.CategoryName;
+            
             return View(book);
 
             }
@@ -209,6 +188,12 @@ namespace HTQLTV.Areas.Admin.Controllers
 
             //    return View(book);
             //}
+
+
+        
+
+        
+
 
         }
 }

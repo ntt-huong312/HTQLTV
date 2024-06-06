@@ -1,17 +1,17 @@
 ﻿@model HTQLTV.Models.Book
-
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     ViewData["Title"] = "CreateBook";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h1>CreateBook</h1>
+<h1>Thêm mới</h1>
 
-<h4>Book</h4>
+<h4>Sách</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form action="CreateBook" enctype="multipart/form-data" method="post">
+        <form asp-action="CreateBook" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Title" class="control-label">Tên sách</label>
@@ -19,7 +19,7 @@
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Author" class="control-label">Tên tác giả</label>
+                <label asp-for="Author" class="control-label">Tác giả</label>
                 <input asp-for="Author" class="form-control" />
                 <span asp-validation-for="Author" class="text-danger"></span>
             </div>
@@ -35,24 +35,22 @@
             </div>
             <div class="form-group">
                 <label asp-for="CategoryId" class="control-label">Thể loại</label>
-                <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
+                <select asp-for="CategoryId" class ="form-control" asp-items="ViewBag.CategoryId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="Quantity" class="control-label">Số lượng</label>
                 <input asp-for="Quantity" class="form-control" />
                 <span asp-validation-for="Quantity" class="text-danger"></span>
             </div>
-           @*  <div class="form-group">
-                <label asp-for="Available" class="control-label"></label>
+            <div class="form-group">
+                <label asp-for="Available" class="control-label">Có sẵn</label>
                 <input asp-for="Available" class="form-control" />
                 <span asp-validation-for="Available" class="text-danger"></span>
-            </div> *@
+            </div>
             <div class="form-group">
-                <label asp-for="BookImage" class="control-label"></label>
+                <label asp-for="BookImage" class="control-label">Hình ảnh</label>
                 <input asp-for="BookImage" class="form-control" />
-                @* <span asp-validation-for="BookImage" class="text-danger"></span>
-                <img src=@(Model.BookImage==null?null:Model.BookImage) /> *@
-                <input asp-for="file" type="file">
+                <span asp-validation-for="BookImage" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -62,6 +60,6 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="ListBook">Quay lại</a>
 </div>
 

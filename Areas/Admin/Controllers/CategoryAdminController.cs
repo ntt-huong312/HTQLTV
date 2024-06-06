@@ -31,8 +31,8 @@ namespace HTQLTV.Areas.Admin.Controllers
         [HttpGet]
         [Authentication]
         public IActionResult CreateCategory()
+
         {
-            
             return View();
         }
 
