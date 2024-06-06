@@ -91,20 +91,45 @@ namespace HTQLTV.Areas.Admin.Controllers
 
         }
 
+        
         [Route("DeleteReader")]
         [HttpGet]
         public IActionResult DeleteReader(int maDocGia)
+        {
+            var docGia = db.Readers.Find(maDocGia);
+            if (docGia == null)
+            {
+                return NotFound();
+            }
 
+            return View(docGia);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("DeleteReader")]
+        public IActionResult DeleteReaderConfirmed(int maDocGia)
         {
             TempData["Message"] = "";
-            var docgia = db.Readers.Find(maDocGia); // Tìm độc giả dựa trên ReaderID
-            if (docgia != null)
+
+            // Xóa các bản ghi Borrow liên quan đến độc giả
+            var borrow = db.BorrowReturns.Where(x => x.ReaderId == maDocGia).ToList();
+            if (borrow.Any())
             {
-                db.Readers.Remove(docgia); // Xóa độc giả khỏi DbSet
-                db.SaveChanges(); // Lưu các thay đổi vào cơ sở dữ liệu
+                db.BorrowReturns.RemoveRange(borrow);
+            }
+
+            // Xóa bản ghi độc giả
+            var docGia = db.Readers.Find(maDocGia);
+            if (docGia != null)
+            {
+                db.Readers.Remove(docGia);
+                db.SaveChanges();
                 TempData["Message"] = "Độc giả đã được xóa";
             }
+
             return RedirectToAction("ReaderAdmin", "admin");
         }
-    }
+
+}
 }

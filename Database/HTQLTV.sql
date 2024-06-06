@@ -88,23 +88,23 @@ VALUES
 (N'Hoàng Thị V', N'Thủ thư', '0898765431', 'v@example.com');
 
 -- Create Statistic Table
-CREATE TABLE Statistic (
-    StatID VARCHAR(50) NOT NULL PRIMARY KEY,
-    BookID INT NOT NULL,
-    TotalBorrowed INT NOT NULL,
-    TotalReturned INT NOT NULL,
-    CurrentBorrowed INT NOT NULL,
-    FOREIGN KEY (BookID) REFERENCES Books(BookID)
-);
+--CREATE TABLE Statistic (
+--    StatID VARCHAR(50) NOT NULL PRIMARY KEY,
+--    BookID INT NOT NULL,
+--    TotalBorrowed INT NOT NULL,
+--    TotalReturned INT NOT NULL,
+--    CurrentBorrowed INT NOT NULL,
+--    FOREIGN KEY (BookID) REFERENCES Books(BookID)
+--);
 
 -- Insert Statistic
-INSERT INTO Statistic (StatID, BookID, TotalBorrowed, TotalReturned, CurrentBorrowed)
-VALUES 
-('STAT1', 1, 1, 1, 0),
-('STAT2', 2, 1, 1, 0),
-('STAT3', 3, 2, 2, 0),
-('STAT4', 4, 2, 2, 0),
-('STAT5', 5, 3, 3, 0);
+--INSERT INTO Statistic (StatID, BookID, TotalBorrowed, TotalReturned, CurrentBorrowed)
+--VALUES 
+--('STAT1', 1, 1, 1, 0),
+--('STAT2', 2, 1, 1, 0),
+--('STAT3', 3, 2, 2, 0),
+--('STAT4', 4, 2, 2, 0),
+--('STAT5', 5, 3, 3, 0);
 
 -- Create Borrow_Return Table
 CREATE TABLE Borrow_Return (
@@ -120,17 +120,17 @@ CREATE TABLE Borrow_Return (
     FOREIGN KEY (ReaderID) REFERENCES Readers(ReaderID),
     FOREIGN KEY (BookID) REFERENCES Books(BookID),
     FOREIGN KEY (StaffID) REFERENCES Staff(StaffID),
-    FOREIGN KEY (StatID) REFERENCES Statistic(StatID)
+   -- FOREIGN KEY (StatID) REFERENCES Statistic(StatID)
 );
 
 -- Insert Borrow_Return
-INSERT INTO Borrow_Return (ReaderID, BookID, BookNumber, BorrowDate, DueDate, ReturnDate, StaffID, StatID)
+INSERT INTO Borrow_Return (ReaderID, BookID, BookNumber, BorrowDate, DueDate, ReturnDate, StaffID)
 VALUES 
-(1, 1, 1, '2023-01-01', '2023-02-01', '2023-01-31', 1, 'STAT1'),
-(2, 2, 1, '2023-03-01', '2023-04-01', '2023-03-30', 2, 'STAT2'),
-(3, 3, 2, '2023-05-01', '2023-06-01', '2023-05-31', 1, 'STAT3'),
-(4, 4, 2, '2023-07-01', '2023-08-01', '2023-07-30', 2, 'STAT4'),
-(5, 5, 3, '2023-09-01', '2023-10-01', '2023-09-30', 5, 'STAT5');
+(1, 1, 1, '2023-01-01', '2023-02-01', '2023-01-31', 1),
+(2, 2, 1, '2023-03-01', '2023-04-01', '2023-03-30', 2),
+(3, 3, 2, '2023-05-01', '2023-06-01', '2023-05-31', 1),
+(4, 4, 2, '2023-07-01', '2023-08-01', '2023-07-30', 2),
+(5, 5, 3, '2023-09-01', '2023-10-01', '2023-09-30', 5);
 
 -- Create Users Table
 CREATE TABLE Users (
@@ -148,42 +148,42 @@ VALUES
 ('staff', 'staff', 'staff1@example.com', 'Staff', 1),
 ('admin', 'admin', 'admin1@example.com', 'Admin', NULL);
 
--------------------------------PROCEDURE
--- Create the stored procedure for inserting into Statistic with auto-incremented StatID
-CREATE PROCEDURE InsertStatistic
-    @BookID INT,
-    @TotalBorrowed INT,
-    @TotalReturned INT,
-    @CurrentBorrowed INT
-AS
-BEGIN
-    -- Declare variable to hold the new StatID
-    DECLARE @NewStatID VARCHAR(50);
-    DECLARE @MaxStatID VARCHAR(50);
+---------------------------------PROCEDURE
+---- Create the stored procedure for inserting into Statistic with auto-incremented StatID
+--CREATE PROCEDURE InsertStatistic
+--    @BookID INT,
+--    @TotalBorrowed INT,
+--    @TotalReturned INT,
+--    @CurrentBorrowed INT
+--AS
+--BEGIN
+--    -- Declare variable to hold the new StatID
+--    DECLARE @NewStatID VARCHAR(50);
+--    DECLARE @MaxStatID VARCHAR(50);
 
-    -- Get the maximum existing StatID
-    SELECT @MaxStatID = MAX(StatID) FROM Statistic;
+--    -- Get the maximum existing StatID
+--    SELECT @MaxStatID = MAX(StatID) FROM Statistic;
 
-    -- If there are no records in the Statistic table, start with STAT1
-    IF @MaxStatID IS NULL
-    BEGIN
-        SET @NewStatID = 'STAT1';
-    END
-    ELSE
-    BEGIN
-        -- Extract the numeric part, increment it, and concatenate with 'STAT'
-        SET @NewStatID = 'STAT' + CAST(CAST(SUBSTRING(@MaxStatID, 5, LEN(@MaxStatID) - 4) AS INT) + 1 AS VARCHAR);
-    END
+--    -- If there are no records in the Statistic table, start with STAT1
+--    IF @MaxStatID IS NULL
+--    BEGIN
+--        SET @NewStatID = 'STAT1';
+--    END
+--    ELSE
+--    BEGIN
+--        -- Extract the numeric part, increment it, and concatenate with 'STAT'
+--        SET @NewStatID = 'STAT' + CAST(CAST(SUBSTRING(@MaxStatID, 5, LEN(@MaxStatID) - 4) AS INT) + 1 AS VARCHAR);
+--    END
 
-    -- Insert the new record into the Statistic table
-    INSERT INTO Statistic (StatID, BookID, TotalBorrowed, TotalReturned, CurrentBorrowed)
-    VALUES (@NewStatID, @BookID, @TotalBorrowed, @TotalReturned, @CurrentBorrowed);
-END;
-GO
+--    -- Insert the new record into the Statistic table
+--    INSERT INTO Statistic (StatID, BookID, TotalBorrowed, TotalReturned, CurrentBorrowed)
+--    VALUES (@NewStatID, @BookID, @TotalBorrowed, @TotalReturned, @CurrentBorrowed);
+--END;
+--GO
 
-EXEC InsertStatistic @BookID = 1, @TotalBorrowed = 10, @TotalReturned = 5, @CurrentBorrowed = 5;
+--EXEC InsertStatistic @BookID = 1, @TotalBorrowed = 10, @TotalReturned = 5, @CurrentBorrowed = 5;
 
-SELECT * FROM Statistic
+--SELECT * FROM Statistic
 
 DROP TABLE Users
 DROP TABLE Categories
