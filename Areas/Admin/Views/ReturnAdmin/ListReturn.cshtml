@@ -12,7 +12,7 @@
 <form id="searchForm" asp-action="ListReturn" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" method="get">
     <div class="input-group">
 
-        <input type="number" name="ReaderId" class="form-control bg-light border-2 small" placeholder="Search for readerID..."
+        <input type="number" name="ReaderId" class="form-control bg-light border-2 small" placeholder="Search for ReaderID..."
                aria-label="Search" aria-describedby="basic-addon2" value="@ViewData["CurrentFilter"]">
         <div class="input-group-append">
             <button class="btn btn-primary" type="submit">
@@ -24,38 +24,10 @@
 </form>
 
 
-
-<p>
-    <a asp-action="CreateReturn">Create New</a>
-</p>
 <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
     <thead>
         <tr>
-            @*     <th>
-            @Html.DisplayNameFor(model => model.BookNumber)
-            </th>
-            <th>
-            @Html.DisplayNameFor(model => model.BorrowDate)
-            </th>
-            <th>
-            @Html.DisplayNameFor(model => model.DueDate)
-            </th>
-            <th>
-            @Html.DisplayNameFor(model => model.ReturnDate)
-            </th>
-            <th>
-            @Html.DisplayNameFor(model => model.Book)
-            </th>
-            <th>
-            @Html.DisplayNameFor(model => model.Reader)
-            </th>
-            <th>
-            @Html.DisplayNameFor(model => model.Staff)
-            </th>
-            <th>
-            @Html.DisplayNameFor(model => model.Stat)
-            </th>
-            <th></th> *@
+         
             <th>ID sách</th>
             <th>ID Staff</th>
             <th>ID Reader</th>
@@ -97,10 +69,7 @@
                 </td>
 
 
-
-                @*     <td>
-            @Html.DisplayFor(modelItem => item.Stat.StatId)
-            </td> *@
+             
                 <td>
                     <a asp-action="Return" asp-route-id="@item.BorrowReturnId" class="btn btn-success mx-1" >Return</a>
                 </td>

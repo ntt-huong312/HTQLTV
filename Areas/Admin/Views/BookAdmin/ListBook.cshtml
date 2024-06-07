@@ -56,10 +56,20 @@
                             <td>@Html.DisplayFor(modelItem => item.Title)</td>
                             <td>@Html.DisplayFor(modelItem => item.Author)</td>
                             <td>@Html.DisplayFor(modelItem => item.Publisher)</td>
-                            <td>@Html.DisplayFor(modelItem => item.CategoryId)</td>
+                            <td>@item.Category.CategoryName</td>
                            @*  <td>@Html.DisplayFor(modelItem => item.CategoryId)</td> *@
                             <td>@Html.DisplayFor(modelItem => item.Quantity)</td>
-                            <td>@Html.DisplayFor(modelItem => item.BookImage)</td>
+                           @*  <td>@Html.DisplayFor(modelItem => item.BookImage)</td> *@
+                            <td>
+                                @if (!string.IsNullOrEmpty(item.BookImage))
+                                {
+                                    <img src="" alt="@item.Title" style="max-width: 100px;" />
+                                }
+                                else
+                                {
+                                    <span>Không có hình ảnh</span>
+                                }
+                            </td>
                             <td>
                                 <div class="btn-group" role="group">
                                     <a asp-action="EditBook" asp-route-bookId="@item.BookId" class="btn btn-success mx-1" title="Edit"><i class="fas fa-check"></i></a>

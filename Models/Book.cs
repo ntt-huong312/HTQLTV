@@ -32,7 +32,7 @@ public partial class Book
     public string ?BookImage { get; set; }
 
     [NotMapped]
-    public IFormFile file { get; set; }
+    public IFormFile? file { get; set; }
     public virtual ICollection<BorrowReturn> BorrowReturns { get; set; } = new List<BorrowReturn>();
 
     public virtual Category Category { get; set; } = null!;

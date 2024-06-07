@@ -112,14 +112,20 @@ namespace HTQLTV.Areas.Admin.Controllers
         {
             TempData["Message"] = "";
 
-            // Xóa các bản ghi Borrow liên quan đến độc giả
-            var borrow = db.BorrowReturns.Where(x => x.ReaderId == maDocGia).ToList();
-            if (borrow.Any())
+            // Lấy các bản ghi Borrow liên quan đến ReaderId
+            var borrowRecords = db.BorrowReturns.Where(x => x.ReaderId == maDocGia).ToList();
+
+            // Kiểm tra xem có bản ghi nào có ReturnDate là null không
+            if (borrowRecords.Any(br => br.ReturnDate == null))
             {
-                db.BorrowReturns.RemoveRange(borrow);
+                TempData["ErrorMessage"] = "Không thể xóa độc giả này vì có sách chưa được trả.";
+                return RedirectToAction("DeleteReader", new { maDocGia = maDocGia });
             }
 
-            // Xóa bản ghi độc giả
+            // Xóa các bản ghi Borrow
+            db.BorrowReturns.RemoveRange(borrowRecords);
+
+            // Xóa bản ghi Reader
             var docGia = db.Readers.Find(maDocGia);
             if (docGia != null)
             {
@@ -129,7 +135,8 @@ namespace HTQLTV.Areas.Admin.Controllers
             }
 
             return RedirectToAction("ReaderAdmin", "admin");
+
         }
 
-}
+    }
 }

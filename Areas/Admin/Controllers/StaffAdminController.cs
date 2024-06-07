@@ -134,17 +134,19 @@ namespace HTQLTV.Areas.Admin.Controllers
         public IActionResult DeleteStaffConfirmed(int maNhanVien)
         {
             TempData["Message"] = "";
+
             // Lấy các bản ghi Borrow liên quan đến StaffId
-            var borrow = db.BorrowReturns.Where(x => x.StaffId == maNhanVien).ToList();
+            var borrowRecords = db.BorrowReturns.Where(x => x.StaffId == maNhanVien).ToList();
 
-            if (borrow.Any())
+            // Kiểm tra xem có bản ghi nào có ReturnDate là null không
+            if (borrowRecords.Any(br => br.ReturnDate == null))
             {
-
-                var borrowIds = borrow.Select(b => b.BorrowReturnId).ToList();
-
-                // Xóa các bản ghi Borrow
-                db.BorrowReturns.RemoveRange(borrow);
+                TempData["ErrorMessage"] = "Không thể xóa nhân viên này vì có sách chưa được trả.";
+                return RedirectToAction("DeleteStaff", new { maNhanVien = maNhanVien });
             }
+
+            // Xóa các bản ghi Borrow
+            db.BorrowReturns.RemoveRange(borrowRecords);
 
             // Xóa bản ghi Staff
             var staff = db.Staff.Find(maNhanVien);

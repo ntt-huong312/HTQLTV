@@ -41,11 +41,14 @@ namespace HTQLTV.Areas.Admin.Controllers
         {
             int pageSize = 4;
             int pageNumber = page == null || page < 0 ? 1 : page.Value;
-            var listbook = db.Books.AsNoTracking().OrderBy(x => x.Title);
+
+            var listbook = db.Books.Include(b => b.Category).AsNoTracking().OrderBy(x => x.Title);
+
             if (!string.IsNullOrEmpty(searchString))
             {
                 listbook = listbook.Where(s => s.Title.Contains(searchString)).OrderBy(x => x.Title);
             }
+
             PagedList<Book> lst = new PagedList<Book>(listbook, pageNumber, pageSize);
             return View(lst);
         }
@@ -64,67 +67,31 @@ namespace HTQLTV.Areas.Admin.Controllers
         }
 
 
-        //[Route("CreateBook")]
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult CreateBook(Book book)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.Books.Add(book);
-        //        db.SaveChanges();
-        //        return RedirectToAction("ListBook");
-        //    } 
-        //    return View(book);
-        //}
-
-
         [HttpPost]
         [Route("CreateBook")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateBook(Book book)
         {
-            if (ModelState.IsValid)
+            if (book == null)
             {
-                if (book.file != null && book.file.Length > 0)
-                {
-                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/books", book.file.FileName);
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await book.file.CopyToAsync(stream);
-                    }
-                    book.BookImage = "/img/books" + book.file.FileName;
-                }
-                db.Books.Add(book);
-                await db.SaveChangesAsync();
-                return RedirectToAction("ListBook");
+                return BadRequest("Book object is null.");
             }
-            return View(book);
 
+            if (book.file != null && book.file.Length > 0)
+            {
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/books", book.file.FileName);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await book.file.CopyToAsync(stream);
+                }
+                book.BookImage =  book.file.FileName; 
+            }
+
+            db.Books.Add(book);
+            await db.SaveChangesAsync();
+            return RedirectToAction("ListBook");
         }
 
-
-
-        //[Route("EditBook")]
-        //[HttpGet]
-        //public IActionResult EditBook(int bookId)
-        //{
-        //    var book = db.Books.Find(bookId);
-        //    return View(book);
-        //}
-        //[Route("EditBook")]
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult EditBook(Book book)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.Books.Update(book);
-        //        db.SaveChanges();
-        //        return RedirectToAction("ListBook");
-        //    }
-        //    return View(book);
-        //}
 
         [Route("DeleteBook")]
         [HttpGet]
@@ -150,7 +117,7 @@ namespace HTQLTV.Areas.Admin.Controllers
                 TempData["Message"] = "Xóa thành công";
             }
 
-            return RedirectToAction("ListCategory", "admin");
+            return RedirectToAction("ListBook", "admin");
         }
 
 
@@ -178,50 +145,7 @@ namespace HTQLTV.Areas.Admin.Controllers
 
 
 
-        //[HttpPost]
-        //[Route("CreateBook")]
-        //public async Task<IActionResult> CreateBook(Book book, IFormFile imageFile)
-        //{
-        //    //    if (book.file.Length > 0)
-        //    //{
-        //    //    var BookImage = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\img\books", book.file.FileName);
-        //    //    using (var stream = new FileStream(BookImage, FileMode.Create))
-        //    //    {
-        //    //        await book.file.CopyToAsync(stream);
-        //    //    }
-        //    //}
-        //    //if (ModelState.IsValid)
-        //    //{
-        //    //    db.Books.Add(book);
-        //    //    db.SaveChanges();
-        //    //    return RedirectToAction("ListBook");
-        //    //}
-        //    //return View(book);
-        //    //return RedirectToAction("ImageUpload", new { path = "/img/books/" + book.file.FileName });
-        //    if (ModelState.IsValid)
-        //    {
-        //        if (imageFile != null && imageFile.Length > 0)
-        //        {
-        //            var fileName = Path.GetFileName(imageFile.FileName);
-        //            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", fileName);
-
-        //            using (var stream = new FileStream(filePath, FileMode.Create))
-        //            {
-        //                imageFile.CopyTo(stream);
-        //            }
-
-        //            book.BookImage = "/images/" + fileName; // Lưu đường dẫn hình ảnh vào đối tượng Book
-        //        }
-
-        //        db.Books.Add(book);
-        //        db.SaveChanges();
-        //        return RedirectToAction("ListBook");
-        //    }
-
-        //    return View(book);
-        //}
-
-
+      
 
 
 
