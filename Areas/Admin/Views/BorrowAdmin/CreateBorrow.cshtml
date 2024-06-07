@@ -1,4 +1,6 @@
-﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+﻿
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @model HTQLTV.Models.BorrowReturn
 
 @{
@@ -14,13 +16,16 @@
     <div class="col-md-4">
         <form method="post" asp-action="CreateBorrow">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+   
             <div class="form-group">
                 <label asp-for="ReaderId" class="control-label"></label>
-                <select asp-for="ReaderId" class ="form-control" asp-items="ViewBag.ReaderId"></select>
+                <select asp-for="ReaderId" class="form-control" asp-items="ViewBag.ReaderId"></select>
+                <span asp-validation-for="ReaderId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="BookId" class="control-label"></label>
-                <select asp-for="BookId" class ="form-control" asp-items="ViewBag.BookId"></select>
+                <select asp-for="BookId" class="form-control" asp-items="ViewBag.BookId"></select>
+                <span asp-validation-for="BookId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="BookNumber" class="control-label"></label>
@@ -44,12 +49,10 @@
             </div>
             <div class="form-group">
                 <label asp-for="StaffId" class="control-label"></label>
-                <select asp-for="StaffId" class ="form-control" asp-items="ViewBag.StaffId"></select>
+                <select asp-for="StaffId" class="form-control" asp-items="ViewBag.StaffId"></select>
+                <span asp-validation-for="StaffId" class="text-danger"></span>
             </div>
-          @*   <div class="form-group">
-                <label asp-for="StatId" class="control-label"></label>
-                <select asp-for="StatId" class ="form-control" asp-items="ViewBag.StatId"></select>
-            </div> *@
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -60,4 +63,7 @@
 <div>
     <a asp-action="ListBorrow">Quay lại</a>
 </div>
+
+
+}
 

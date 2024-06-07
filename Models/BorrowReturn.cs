@@ -8,17 +8,18 @@ public partial class BorrowReturn
 {
     [Display(Name = "Mã mượn trả")]
     public int BorrowReturnId { get; set; }
-    [Required]    
-    
+    [Required(ErrorMessage = "Vui lòng chọn mã độc giả.")]
+
     [Display(Name = "Mã độc giả")]
     public int ReaderId { get; set; }
 
-    [Required]
+    [Required(ErrorMessage = "Vui lòng chọn mã sách.")]
     [Display(Name = "Mã sách")]
     public int BookId { get; set; }
 
    [Required]
     [Display(Name = "Số sách mượn")]
+    [Range(1, int.MaxValue, ErrorMessage = "Số sách mượn phải lớn hơn 0")]
     public int BookNumber { get; set; }
 
     [Required]
@@ -32,7 +33,7 @@ public partial class BorrowReturn
     [Display(Name = "Ngày trả")]
     public DateOnly? ReturnDate { get; set; }
 
-    [Required]
+    [Required(ErrorMessage = "Vui lòng chọn mã nhân viên.")]
     [Display(Name = "Mã nhân viên")]
     public int StaffId { get; set; }
 

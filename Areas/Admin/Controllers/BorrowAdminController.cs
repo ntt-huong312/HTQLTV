@@ -13,6 +13,7 @@ namespace HTQLTV.Areas.Admin.Controllers
     [Route("admin/BorrowAdmin")]
     public class BorrowAdminController : Controller
     {
+        private readonly ILogger<BorrowAdminController> _logger;
         HtqltvContext db = new HtqltvContext();
 
         // GET: Borrow w
@@ -55,31 +56,43 @@ namespace HTQLTV.Areas.Admin.Controllers
             return View();
         }
 
-        // POST: Borrow/Create
 
-        //  [ValidateAntiForgeryToken]
+
+        // POST: Borrow/Create
         [HttpPost]
         [Route("CreateBorrow")]
-
         [ValidateAntiForgeryToken]
         public IActionResult CreateBorrow(BorrowReturn borrowReturn)
         {
+            
+                // Truy vấn số lượng sách trong bảng Books
+                var book = db.Books.FirstOrDefault(b => b.BookId == borrowReturn.BookId);
+                if (book == null)
+                {
+                    TempData["ErrorMessage"] = "Sách không tồn tại.";
+                    return RedirectToAction("CreateBorrow");
+                }
 
-            //if (ModelState.IsValid)
-            //{
-            db.BorrowReturns.Add(borrowReturn);
-            db.SaveChanges();
-            return RedirectToAction("ListBorrow");
-            //   }
+                // Truy vấn số lượng sách đã mượn và chưa trả trong bảng BorrowReturns
+                var totalBorrowed = db.BorrowReturns
+                                      .Where(br => br.BookId == borrowReturn.BookId && br.ReturnDate == null)
+                                      .Sum(br => br.BookNumber);
 
-            ViewBag.ReaderId = new SelectList(db.Readers.ToList(), "ReaderId", "ReaderId");
-            ViewBag.BookId = new SelectList(db.Books.ToList(), "BookId", "BookId");
-            ViewBag.StaffId = new SelectList(db.Staff.ToList(), "StaffId", "StaffId");
+                // Kiểm tra nếu số lượng sách đủ để mượn
+                if (book.Quantity - totalBorrowed < borrowReturn.BookNumber)
+                {
+                    TempData["ErrorMessage"] = "Không đủ sách để mượn.";
+                    return RedirectToAction("CreateBorrow");
+                }
 
-
-            return View(borrowReturn);
-
+                // Nếu đủ sách, thêm bản ghi mượn sách mới
+                db.BorrowReturns.Add(borrowReturn);
+                db.SaveChanges();
+                TempData["Message"] = "Mượn sách thành công.";
+                return RedirectToAction("ListBorrow");
+          
         }
+
 
         // GET: ReturnAdmin/Return/{id}
         [HttpGet]
@@ -110,18 +123,10 @@ namespace HTQLTV.Areas.Admin.Controllers
         public IActionResult EditBorrow(BorrowReturn borrowReturn)
         {
 
-
-
             db.Entry(borrowReturn).State = EntityState.Modified;
             db.SaveChanges();
             return RedirectToAction("ListBorrow");
 
-
-            ViewBag.ReaderId = new SelectList(db.Readers, "ReaderId", "ReaderId", borrowReturn.ReaderId);
-            ViewBag.BookId = new SelectList(db.Books, "BookId", "BookId", borrowReturn.BookId);
-            ViewBag.StaffId = new SelectList(db.Staff, "StaffId", "StaffId", borrowReturn.StaffId);
-
-            return View(borrowReturn);
         }
 
 
@@ -165,6 +170,7 @@ namespace HTQLTV.Areas.Admin.Controllers
             return View(muonsach);
         }
 
+        
         [HttpPost]
         [Route("DeleteBorrow/{id}")]
         [ValidateAntiForgeryToken]
@@ -173,6 +179,12 @@ namespace HTQLTV.Areas.Admin.Controllers
             var muonsach = db.BorrowReturns.Find(id);
             if (muonsach != null)
             {
+                if (muonsach.ReturnDate == null)
+                {
+                    TempData["ErrorMessage"] = "Sách chưa được trả nên không thể xóa.";
+                    return RedirectToAction("DeleteBorrow", new { id = id });
+                }
+
                 db.BorrowReturns.Remove(muonsach);
                 db.SaveChanges();
                 TempData["Message"] = "Thông tin mượn sách của độc giả đã được xóa";
