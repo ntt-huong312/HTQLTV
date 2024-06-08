@@ -1,17 +1,18 @@
-﻿ @model HTQLTV.Models.Book
+﻿@model HTQLTV.Models.Book
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
 @{
-    ViewData["Title"] = "CreateBook";
+    ViewData["Title"] = "EditBook";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h1>Thêm mới</h1>
+<h1>EditBook</h1>
 
-<h4>Sách</h4>
+<h4>Book</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="CreateBook" enctype="multipart/form-data" method="post">
+        <form asp-action="EditBook" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Title" class="control-label">Tên sách</label>
@@ -19,7 +20,7 @@
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Author" class="control-label">Tác giả</label>
+                <label asp-for="Author" class="control-label">Tên tác giả</label>
                 <input asp-for="Author" class="form-control" />
                 <span asp-validation-for="Author" class="text-danger"></span>
             </div>
@@ -42,28 +43,24 @@
                 <input asp-for="Quantity" class="form-control" />
                 <span asp-validation-for="Quantity" class="text-danger"></span>
             </div>
-          @*   <div class="form-group">
+            <div class="form-group">
                 <label asp-for="Available" class="control-label">Có sẵn</label>
                 <input asp-for="Available" class="form-control" />
                 <span asp-validation-for="Available" class="text-danger"></span>
-            </div> *@
-          
-        <div class="form-group">
+            </div>
+            <div class="form-group">
                 <label asp-for="file" class="control-label"></label>
                 <input asp-for="file" type="file" class="form-control" />
                 <span asp-validation-for="file" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="ListBook">Quay lại</a>
+    <a asp-action="ListBook">Back to List</a>
 </div>
-
- 
-
 
