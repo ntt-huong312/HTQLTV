@@ -144,9 +144,9 @@ namespace HTQLTV.Areas.Admin.Controllers
 
         [HttpGet]
         [Route("EditBook")]
-        public IActionResult EditBook(int id)
+        public IActionResult EditBook(int bookId)
         {
-            var book = db.Books.Include(x => x.Category).FirstOrDefault(x => x.BookId == id);
+            var book = db.Books.Include(x => x.Category).FirstOrDefault(x => x.BookId == bookId);
             if (book == null)
             {
                 return NotFound();
