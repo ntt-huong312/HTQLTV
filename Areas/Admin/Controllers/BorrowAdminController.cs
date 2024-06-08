@@ -13,7 +13,7 @@ namespace HTQLTV.Areas.Admin.Controllers
     [Route("admin/BorrowAdmin")]
     public class BorrowAdminController : Controller
     {
-        private readonly ILogger<BorrowAdminController> _logger;
+       // private readonly ILogger<BorrowAdminController> _logger;
         HtqltvContext db = new HtqltvContext();
 
         // GET: Borrow w
@@ -64,7 +64,8 @@ namespace HTQLTV.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CreateBorrow(BorrowReturn borrowReturn)
         {
-            
+            if (ModelState.IsValid)
+            {
                 // Truy vấn số lượng sách trong bảng Books
                 var book = db.Books.FirstOrDefault(b => b.BookId == borrowReturn.BookId);
                 if (book == null)
@@ -88,13 +89,20 @@ namespace HTQLTV.Areas.Admin.Controllers
                 // Nếu đủ sách, thêm bản ghi mượn sách mới
                 db.BorrowReturns.Add(borrowReturn);
 
-            // Cập nhật trường Available
-            book.Available = book.Quantity - (totalBorrowed + borrowReturn.BookNumber);
+                // Cập nhật trường Available
+                book.Available = book.Quantity - (totalBorrowed + borrowReturn.BookNumber);
 
-            db.SaveChanges();
+
+                db.SaveChanges();
                 TempData["Message"] = "Mượn sách thành công.";
                 return RedirectToAction("ListBorrow");
-          
+            }
+            // Nếu ModelState không hợp lệ, trả về lại view với các thông báo lỗi
+            ViewBag.ReaderId = new SelectList(db.Readers.ToList(), "ReaderId", "ReaderId");
+            ViewBag.BookId = new SelectList(db.Books.ToList(), "BookId", "BookId");
+            ViewBag.StaffId = new SelectList(db.Staff.ToList(), "StaffId", "StaffId");
+
+            return View(borrowReturn);
         }
 
 
@@ -126,11 +134,17 @@ namespace HTQLTV.Areas.Admin.Controllers
         [Route("EditBorrow/{id}")]
         public IActionResult EditBorrow(BorrowReturn borrowReturn)
         {
+            if (ModelState.IsValid)
+            {
+                db.Entry(borrowReturn).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("ListBorrow");
+            }
 
-            db.Entry(borrowReturn).State = EntityState.Modified;
-            db.SaveChanges();
-            return RedirectToAction("ListBorrow");
-
+            ViewBag.ReaderId = new SelectList(db.Readers, "ReaderId", "ReaderId", borrowReturn.ReaderId);
+            ViewBag.BookId = new SelectList(db.Books, "BookId", "BookId", borrowReturn.BookId);
+            ViewBag.StaffId = new SelectList(db.Staff, "StaffId", "StaffId", borrowReturn.StaffId);
+            return View(borrowReturn);
         }
 
 

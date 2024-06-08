@@ -8,7 +8,6 @@ public partial class Category
 {
     public int CategoryId { get; set; }
 
-
     [Display(Name = "Thể loại")]
     [Required(ErrorMessage = "Nhà xuất bản bắt buộc phải nhập")]
     [StringLength(50, ErrorMessage = "Nhà xuất bản không vượt quá 50 ký tự")]
