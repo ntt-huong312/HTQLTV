@@ -39,12 +39,14 @@ public partial class Book
     [Range(0, int.MaxValue, ErrorMessage = "Số lượng sách phải là số dương")]
     public int Quantity { get; set; }
 
+    [Display(Name = "Có sẵn")]
     public int Available { get; set; }
 
+    [Display(Name = "Hình ảnh")]
     public string ?BookImage { get; set; }
 
     [NotMapped]
-    [FileExtensions(Extensions = "jpg,jpeg,png", ErrorMessage = "Chỉ tải lên file (jpg, jpeg, png).")]
+    //[FileExtensions(Extensions = "jpg,jpeg,png", ErrorMessage = "Chỉ tải lên file (jpg, jpeg, png).")]
     public IFormFile? file { get; set; }
     public virtual ICollection<BorrowReturn> BorrowReturns { get; set; } = new List<BorrowReturn>();
 

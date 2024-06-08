@@ -72,9 +72,15 @@ namespace HTQLTV.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateBook(Book book)
         {
+            ViewBag.CategoryId = new SelectList(db.Categories.ToList(), "CategoryId", "CategoryName");
             if (book == null)
             {
                 return BadRequest("Book object is null.");
+            }
+            if (!ModelState.IsValid)
+            {
+                // Nếu model không hợp lệ, trả về cùng với các lỗi xác thực
+                return View(book);
             }
 
             if (book.file != null && book.file.Length > 0)
@@ -86,7 +92,7 @@ namespace HTQLTV.Areas.Admin.Controllers
                 }
                 book.BookImage =  book.file.FileName; 
             }
-
+            
             db.Books.Add(book);
             await db.SaveChangesAsync();
             return RedirectToAction("ListBook");

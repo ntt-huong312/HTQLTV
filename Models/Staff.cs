@@ -9,19 +9,25 @@ public partial class Staff
     [Display(Name = "Mã nhân viên")]
     public int StaffId { get; set; }
 
-    [Required]
+    [Required(ErrorMessage = "Họ tên là bắt buộc")]
     [Display(Name = "Họ và tên")]
+    [StringLength(50, ErrorMessage = "Họ tên không vượt quá 50 ký tự")]
+    [MinLength(3, ErrorMessage = "Họ tên phải có ít nhất 3 ký tự")]
     public string FullName { get; set; } = null!;
 
-    [Required]
+    [Required(ErrorMessage = "Vị trí là bắt buộc")]
     [Display(Name = "Vị trí")]
+    [StringLength(20, ErrorMessage = "Vị trí không vượt quá 20 ký tự")]
+    [MinLength(3, ErrorMessage = "Vị trí phải có ít nhất 3 ký tự")]
     public string Position { get; set; } = null!;
 
-    [Required]
     [Display(Name = "Số điện thoại")]
+    [Required(ErrorMessage = "Số điện thoại là bắt buộc")]
+    [Phone(ErrorMessage = "Số điện thoại không hợp lệ")]
     public string PhoneNumber { get; set; } = null!;
 
-    [Required]
+    [Required(ErrorMessage = "Email là bắt buộc")]
+    [EmailAddress(ErrorMessage = "Email không hợp lệ")]
     [Display(Name = "Email")]
     public string Email { get; set; } = null!;
 
