@@ -87,7 +87,11 @@ namespace HTQLTV.Areas.Admin.Controllers
 
                 // Nếu đủ sách, thêm bản ghi mượn sách mới
                 db.BorrowReturns.Add(borrowReturn);
-                db.SaveChanges();
+
+            // Cập nhật trường Available
+            book.Available = book.Quantity - (totalBorrowed + borrowReturn.BookNumber);
+
+            db.SaveChanges();
                 TempData["Message"] = "Mượn sách thành công.";
                 return RedirectToAction("ListBorrow");
           

@@ -38,7 +38,7 @@ public partial class BorrowReturn
     public int StaffId { get; set; }
 
   
-    [Display(Name = "Số sách mượn")]
+    [Display(Name = "Số sách đã mượn")]
     public int? TotalBorrowed { get; set; }
 
    

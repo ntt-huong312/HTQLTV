@@ -45,6 +45,7 @@
                         <th>Nhà xuất bản</th>
                         <th>Thể loại</th>
                         <th>Số lượng</th>
+                        <th>Sách có sẵn</th>
                    @*      <th>Hình ảnh</th> *@
                         <th>Hành động</th>
                     </tr>
@@ -70,6 +71,7 @@
                                     <span>Không có hình ảnh</span>
                                 }
                             </td> *@
+                            <td>@Html.DisplayFor(modelItem => item.Available)</td>
                             <td>
                                 <div class="btn-group" role="group">
                                     <a asp-action="EditBook" asp-route-bookId="@item.BookId" class="btn btn-success mx-1" title="Edit"><i class="fas fa-check"></i></a>
