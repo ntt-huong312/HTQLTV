@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 
 namespace HTQLTV.Models;
 
@@ -22,20 +24,23 @@ public partial class BorrowReturn
     public int? BookId { get; set; }
 
 
-    [Required(ErrorMessage = "Vui lòng nhập số sách mượn.")]
+    
     [Display(Name = "Số sách mượn")]
+    [Required(ErrorMessage = "Vui lòng nhập số sách mượn.")]
     [Range(1, int.MaxValue, ErrorMessage = "Số sách mượn phải lớn hơn 0")]
     public int BookNumber { get; set; }
 
 
-    [Required(ErrorMessage = "Vui lòng chọn ngày mượn.")]
+    
     [Display(Name = "Ngày mượn")]
+    [Required(ErrorMessage = "Vui lòng chọn ngày mượn.")]
     [DataType(DataType.Date)]
     public DateOnly BorrowDate { get; set; }
 
 
-    [Required(ErrorMessage = "Vui lòng chọn hạn trả.")]
+    
     [DataType(DataType.Date)]
+    [Required(ErrorMessage = "Vui lòng chọn hạn trả.")]
     [Display(Name = "Hạn trả")]
     public DateOnly DueDate { get; set; }
 
@@ -45,8 +50,9 @@ public partial class BorrowReturn
     public DateOnly? ReturnDate { get; set; }
 
 
-    [Required(ErrorMessage = "Vui lòng chọn mã nhân viên")]
+    
     [Display(Name = "Mã nhân viên")]
+    [Required(ErrorMessage = "Vui lòng chọn mã nhân viên")]
     public int? StaffId { get; set; }
 
     public int? TotalBorrowed { get; set; }

@@ -2,6 +2,7 @@
 using HTQLTV.Models.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 using X.PagedList;
 
 namespace HTQLTV.Areas.Admin.Controllers
@@ -78,11 +79,24 @@ namespace HTQLTV.Areas.Admin.Controllers
             return View(category);
         }
 
-
-        [Route("DeleteCategory")]
+        [Route("DeleteCategory/{categoryId}")]
         [HttpGet]
         [Authentication]
         public IActionResult DeleteCategory(int categoryId)
+        {
+            var category = db.Categories.Include(x => x.Books).FirstOrDefault(x=> x.CategoryId == categoryId);
+            if(category == null)
+            {
+                return NotFound();
+            }
+            return View(category);
+        }
+
+
+        [Route("DeleteCategory/{categoryId}")]
+        [HttpPost]
+        [Authentication]
+        public IActionResult DeleteCategoryConfirm(int categoryId)
         {
             TempData["Message"] = "";
             // Kiểm tra xem có sách nào đang sử dụng thể loại này không
@@ -101,7 +115,7 @@ namespace HTQLTV.Areas.Admin.Controllers
                 TempData["Message"] = "Xóa thành công";
             }
 
-            return RedirectToAction("ListCategory", "admin");
+            return RedirectToAction("ListCategory", "CategoryAdmin");
         }
 
     }

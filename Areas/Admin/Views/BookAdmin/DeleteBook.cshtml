@@ -10,7 +10,6 @@
 
 <h3>Bạn có chắc chắn muốn xóa sách này không?</h3>
 <div>
-    <h4>Book</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -55,12 +54,12 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.BookImage)
         </dd>
-       @*  <dt class = "col-sm-2">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Category)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Category.CategoryName)
-        </dd> *@
+        </dd>
     </dl>
     
     <form asp-action="DeleteBookConfirmed" asp-route-bookId="@Model.BookId" method="post">

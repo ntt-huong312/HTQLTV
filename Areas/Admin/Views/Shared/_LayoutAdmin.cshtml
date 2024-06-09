@@ -17,6 +17,7 @@
     <link href="~/LayoutAdmin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,3...900,900i"
           rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- Custom styles for this template-->
     <link href="~/LayoutAdmin/css/sb-admin-2.min.css" rel="stylesheet">
@@ -64,7 +65,7 @@
                 <a class="nav-link" asp-area="admin"
                    asp-controller="StaffAdmin" asp-action="ListStaff"
                    aria-expanded="true">
-                    @* <i class="fas fa-fw fa-cog"></i> *@
+                    <i class="fa-solid fa-users"></i>
                     <span>Quản lý nhân viên</span>
                 </a>
             </li>
@@ -75,7 +76,7 @@
                 <a class="nav-link" asp-area="admin"
                    asp-controller="ReaderAdmin" asp-action="ListReader"
                    aria-expanded="true">
-                    @*  <i class="fas fa-fw fa-wrench"></i> *@
+                    <i class="fa-solid fa-book-open-reader"></i>
                     <span>Quản lý độc giả</span>
                 </a>
             </li>
@@ -94,14 +95,14 @@
             <li class="nav-item">
                 <a class="nav-link" data-toggle="collapse" data-target="#collapseBookManagement" aria-expanded="true"
                    aria-controls="collapseBookManagement">
-                    <i class="fas fa-fw fa-folder"></i>
+                    <i class="fa-solid fa-book"></i>
                     <span>Quản lý thông tin sách</span>
                 </a>
                 <div id="collapseBookManagement" class="collapse" aria-labelledby="headingBookManagement"
                      data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" asp-area="admin" asp-controller="BookAdmin" asp-action="ListBook">Quản lý sách</a>
-                        <a class="collapse-item" asp-area="admin" asp-controller="CategoryAdmin" asp-action="ListCategory">Quản lý thể loại</a>
+                        <a class="collapse-item" asp-area="admin" asp-controller="BookAdmin" asp-action="ListBook"><i class="fa-solid fa-pen"></i> Quản lý sách</a>
+                        <a class="collapse-item" asp-area="admin" asp-controller="CategoryAdmin" asp-action="ListCategory"><i class="fa-solid fa-pen"></i> Quản lý thể loại</a>
                     </div>
                 </div>
             </li>
@@ -116,8 +117,8 @@
                 <div id="collapseBorrowReturnManagement" class="collapse" aria-labelledby="headingBorrowReturnManagement"
                      data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" asp-area="admin" asp-controller="BorrowAdmin" asp-action="ListBorrow">Quản lý mượn sách</a>
-                        <a class="collapse-item" asp-area="admin" asp-controller="ReturnAdmin" asp-action="ListReturn">Quản lý trả sách</a>
+                        <a class="collapse-item" asp-area="admin" asp-controller="BorrowAdmin" asp-action="ListBorrow"><i class="fa-solid fa-book-open-reader"></i> Quản lý mượn sách</a>
+                        <a class="collapse-item" asp-area="admin" asp-controller="ReturnAdmin" asp-action="ListReturn"><i class="fa-solid fa-book-open"></i> Quản lý trả sách</a>
                     </div>
                 </div>
             </li>

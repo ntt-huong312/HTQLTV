@@ -11,14 +11,14 @@
     var message = TempData["Message"] as string;
 }
 
+
+<h1>Danh mục sách</h1>
 @if (!string.IsNullOrEmpty(message))
 {
     <div class="alert alert-danger">
         @message
     </div>
 }
-
-<h1>Danh mục sách</h1>
 <div class="d-flex justify-content-between mb-3">
     <a asp-action="CreateBook" class="btn btn-primary">Thêm mới</a>
 
@@ -43,14 +43,6 @@
             <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
                 <thead>
                     <tr>
-                        @* <th>@Html.DisplayNameFor(model => model[0].Title)</th>
-                        <th>@Html.DisplayNameFor(model => model[0].Author)</th>
-                        <th>@Html.DisplayNameFor(model => model[0].Publisher)</th>
-                        <th>@Html.DisplayNameFor(model => model[0].YearPublished)</th>
-                        <th>@Html.DisplayNameFor(model => model[0].CategoryId)</th>
-                        <th>@Html.DisplayNameFor(model => model[0].Quantity)</th>
-                        <th>@Html.DisplayNameFor(model => model[0].BookImage)</th>
-                        <th>Actions</th> *@ <!-- Added this to properly align the actions -->
                         <th>Tên sách</th>
                         <th>Tên tác giả</th>
                         <th>Nhà xuất bản</th>

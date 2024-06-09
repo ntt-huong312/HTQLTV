@@ -6,14 +6,19 @@
 }
 
 <h1>Danh sách thể loại</h1>
-
+@{
+    var message = TempData["Message"] as string;
+}
 <p>
-    <a asp-action="CreateCategory">Thêm mới</a>
+    <a asp-action="CreateCategory" class="btn btn-primary">Thêm mới</a>
 </p>
 <p>@TempData["Message"]</p>
-<table class="table">
-    <thead>
-        <tr>
+<div class="card-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                <thead>
+                    <tr>
             <th>
                 @Html.DisplayNameFor(model => model.CategoryName)
             </th>
@@ -34,3 +39,4 @@
 }
     </tbody>
 </table>
+</div>

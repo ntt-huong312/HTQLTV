@@ -128,6 +128,7 @@ namespace HTQLTV.Areas.Admin.Controllers
 
             return View(staff);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("DeleteStaff")]
