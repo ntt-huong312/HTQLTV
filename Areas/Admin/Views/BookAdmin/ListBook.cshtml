@@ -7,6 +7,17 @@
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
+@{
+    var message = TempData["Message"] as string;
+}
+
+@if (!string.IsNullOrEmpty(message))
+{
+    <div class="alert alert-danger">
+        @message
+    </div>
+}
+
 <h1>Danh mục sách</h1>
 <div class="d-flex justify-content-between mb-3">
     <a asp-action="CreateBook" class="btn btn-primary">Thêm mới</a>

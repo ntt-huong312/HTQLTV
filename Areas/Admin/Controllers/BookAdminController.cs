@@ -90,18 +90,32 @@ namespace HTQLTV.Areas.Admin.Controllers
             return RedirectToAction("ListBook");
         }
 
-
-        [Route("DeleteBook")]
+        [Route("DeleteBook/{bookId}")]
         [HttpGet]
         public IActionResult DeleteBook(int bookId)
         {
+            var book = db.Books.Find(bookId);
+            if (book == null)
+            {
+                return NotFound();
+            }
+
+            return View(book);
+        }
+
+
+        [Route("DeleteBook/{bookId}")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteBookConfirmed(int bookId)
+        {
             TempData["Message"] = "";
-            // Lấy các bản ghi Borrow liên quan đến BookID
+
+            // Kiểm tra xem có bất kỳ bản ghi nào trong Borrow_Return liên quan đến BookID và chưa trả sách không
             var borrows = db.BorrowReturns.Any(x => x.BookId == bookId && x.ReturnDate == null);
 
             if (borrows)
             {
-
                 TempData["Message"] = "Không thể xóa sách này vì có độc giả đang mượn";
                 return RedirectToAction("ListBook", "BookAdmin");
             }
@@ -110,13 +124,21 @@ namespace HTQLTV.Areas.Admin.Controllers
             if (book != null)
             {
                 db.Books.Remove(book);
-                db.SaveChanges();
-                TempData["Message"] = "Xóa thành công";
+                try
+                {
+                    db.SaveChanges();
+                    TempData["Message"] = "Xóa thành công";
+                }
+                catch (DbUpdateException ex)
+                {// Hiển thị chi tiết lỗi nội bộ
+                    var innerException = ex.InnerException?.Message ?? ex.Message;
+                    TempData["Message"] = "Đã xảy ra lỗi khi xóa sách: " + innerException;
+                    return RedirectToAction("ListBook", "BookAdmin");
+                }
             }
 
-            return RedirectToAction("ListBook", "admin");
+            return RedirectToAction("ListBook", "BookAdmin");
         }
-
 
         [Route("BookDetail")]
         [HttpGet]
