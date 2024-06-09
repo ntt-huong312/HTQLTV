@@ -5,6 +5,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddDistributedMemoryCache(); // C?u hình b? nh? ??m phân tán
+builder.Services.AddHttpContextAccessor();
 
 var connectionString = builder.Configuration.GetConnectionString("HtqltvContext");
 builder.Services.AddDbContext<HtqltvContext>(x=>x.UseSqlServer(connectionString));

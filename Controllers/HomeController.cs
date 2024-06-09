@@ -18,8 +18,6 @@ namespace HTQLTV.Controllers
             _logger = logger;
         }
 
-
-        
         public IActionResult Index(int? page, string searchQuery, string searchType)
         {
             int pageSize = 8;

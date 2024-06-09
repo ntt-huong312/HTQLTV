@@ -5,18 +5,22 @@ namespace HTQLTV.Controllers
 {
     public class AccessController : Controller
     {
-        HtqltvContext db = new HtqltvContext();
+        private readonly HtqltvContext db;
+        public AccessController(HtqltvContext context)
+        {
+            db = context;
+        }
 
         [HttpGet]
         public IActionResult Login()
         {
-            if(HttpContext.Session.GetString("UserName")==null)
+            if(HttpContext.Session.GetString("Username") ==null)
             {
                 return View();
             }
             else
             {
-                return RedirectToAction("Index", "admin");
+                return RedirectToAction("Index", "Admin");
             }
         }
 
@@ -25,21 +29,25 @@ namespace HTQLTV.Controllers
         {
             if(HttpContext.Session.GetString("Username")== null)
             {
-                var u=db.Users.Where(x=>x.Username.Equals(user.Username) && x.Password.Equals(user.Password)).FirstOrDefault();
+                var u = db.Users.FirstOrDefault(x => x.Username == user.Username && x.Password == user.Password);
                 if(u!=null)
                 {
-                    HttpContext.Session.SetString("Username", u.Username.ToString());
-                    return RedirectToAction("Index", "admin");
+                    HttpContext.Session.SetString("Username", u.Username);
+                    return RedirectToAction("Index", "Admin");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                 }
             }
-            return View();
+            return View(user);
         }
 
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
-            HttpContext.Session.Remove("Username");
-            return RedirectToAction("Login", "Access");
+            //HttpContext.Session.Remove("Username");
+            return RedirectToAction("Index", "Home");
         }
     }
 }
