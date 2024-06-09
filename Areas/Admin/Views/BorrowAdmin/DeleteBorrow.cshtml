@@ -15,7 +15,7 @@
     </div>
 }
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Bạn có chắc chắn muốn xóa thông tin trả sách không?</h3>
 <div>
     <h4>Thông tin mượn trả sách</h4>
     <hr />
@@ -73,6 +73,6 @@
     <form asp-action="DeleteBorrowConfirmed" asp-route-id="@Model.BorrowReturnId" method="post">
         <input type="hidden" asp-for="BorrowReturnId" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="ListBorrow">Back to List</a>
+        <a asp-action="ListBorrow">Quay lại</a>
     </form>
 </div>

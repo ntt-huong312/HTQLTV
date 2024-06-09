@@ -77,6 +77,8 @@ namespace HTQLTV.Areas.Admin.Controllers
             }
             return View(category);
         }
+
+
         [Route("DeleteCategory")]
         [HttpGet]
         [Authentication]

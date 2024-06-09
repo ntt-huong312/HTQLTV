@@ -26,14 +26,6 @@ namespace HTQLTV.Areas.Admin.Controllers
     public class BookAdminController : Controller
     {
         HtqltvContext db = new HtqltvContext();
-        
-        [Route("admin/BookAdmin")]
-        [Route("")]
-        [Route("index")]
-        //public IActionResult Index()
-        //{
-        //    return View(db.Books.ToList());
-        //}
 
         [Route("ListBook")]
         [Authentication]
@@ -103,14 +95,14 @@ namespace HTQLTV.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult DeleteBook(int bookId)
         {
-
+            TempData["Message"] = "";
             // Lấy các bản ghi Borrow liên quan đến BookID
-            var borrows = db.BorrowReturns.Any(x => x.BookId == bookId);
+            var borrows = db.BorrowReturns.Any(x => x.BookId == bookId && x.ReturnDate == null);
 
             if (borrows)
             {
 
-                TempData["ErrorMessage"] = "Không thể xóa sách này vì có độc giả đang mượn";
+                TempData["Message"] = "Không thể xóa sách này vì có độc giả đang mượn";
                 return RedirectToAction("ListBook", "BookAdmin");
             }
 
@@ -217,8 +209,5 @@ namespace HTQLTV.Areas.Admin.Controllers
             return RedirectToAction("ListBook");
         }
 
-
-    }
-
-    
+    }   
 }

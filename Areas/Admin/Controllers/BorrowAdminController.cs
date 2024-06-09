@@ -1,5 +1,4 @@
-﻿
-using HTQLTV.Models;
+﻿using HTQLTV.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using X.PagedList;
