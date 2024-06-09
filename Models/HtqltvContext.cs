@@ -35,7 +35,7 @@ public partial class HtqltvContext : DbContext
     {
         modelBuilder.Entity<Book>(entity =>
         {
-            entity.HasKey(e => e.BookId).HasName("PK__Books__3DE0C2273AFCC3F9");
+            entity.HasKey(e => e.BookId).HasName("PK__Books__3DE0C22774176491");
 
             entity.Property(e => e.BookId).HasColumnName("BookID");
             entity.Property(e => e.Author).HasMaxLength(255);
@@ -48,12 +48,13 @@ public partial class HtqltvContext : DbContext
 
             entity.HasOne(d => d.Category).WithMany(p => p.Books)
                 .HasForeignKey(d => d.CategoryId)
-                .HasConstraintName("FK__Books__CategoryI__15702A09");
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__Books__CategoryI__4F9CCB9E");
         });
 
         modelBuilder.Entity<BorrowReturn>(entity =>
         {
-            entity.HasKey(e => e.BorrowReturnId).HasName("PK__Borrow_R__73234511C484CDA4");
+            entity.HasKey(e => e.BorrowReturnId).HasName("PK__Borrow_R__73234511DB8932CF");
 
             entity.ToTable("Borrow_Return");
 
@@ -66,20 +67,23 @@ public partial class HtqltvContext : DbContext
 
             entity.HasOne(d => d.Book).WithMany(p => p.BorrowReturns)
                 .HasForeignKey(d => d.BookId)
-                .HasConstraintName("FK__Borrow_Re__BookI__1E05700A");
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__Borrow_Re__BookI__592635D8");
 
             entity.HasOne(d => d.Reader).WithMany(p => p.BorrowReturns)
                 .HasForeignKey(d => d.ReaderId)
-                .HasConstraintName("FK__Borrow_Re__Reade__1D114BD1");
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__Borrow_Re__Reade__5832119F");
 
             entity.HasOne(d => d.Staff).WithMany(p => p.BorrowReturns)
                 .HasForeignKey(d => d.StaffId)
-                .HasConstraintName("FK__Borrow_Re__Staff__1EF99443");
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__Borrow_Re__Staff__5A1A5A11");
         });
 
         modelBuilder.Entity<Category>(entity =>
         {
-            entity.HasKey(e => e.CategoryId).HasName("PK__Categori__19093A2B81617673");
+            entity.HasKey(e => e.CategoryId).HasName("PK__Categori__19093A2B6E999F37");
 
             entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
             entity.Property(e => e.CategoryName).HasMaxLength(100);
@@ -87,7 +91,7 @@ public partial class HtqltvContext : DbContext
 
         modelBuilder.Entity<Reader>(entity =>
         {
-            entity.HasKey(e => e.ReaderId).HasName("PK__Readers__8E67A581640C5378");
+            entity.HasKey(e => e.ReaderId).HasName("PK__Readers__8E67A5817DFE3FAD");
 
             entity.Property(e => e.ReaderId).HasColumnName("ReaderID");
             entity.Property(e => e.Email)
@@ -102,7 +106,7 @@ public partial class HtqltvContext : DbContext
 
         modelBuilder.Entity<Staff>(entity =>
         {
-            entity.HasKey(e => e.StaffId).HasName("PK__Staff__96D4AAF764C0D176");
+            entity.HasKey(e => e.StaffId).HasName("PK__Staff__96D4AAF7E72D57FB");
 
             entity.Property(e => e.StaffId).HasColumnName("StaffID");
             entity.Property(e => e.Email)
@@ -117,9 +121,9 @@ public partial class HtqltvContext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CCAC6F815185");
+            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CCAC10048F47");
 
-            entity.HasIndex(e => e.Username, "UQ__Users__536C85E4BE9C020D").IsUnique();
+            entity.HasIndex(e => e.Username, "UQ__Users__536C85E435187120").IsUnique();
 
             entity.Property(e => e.UserId).HasColumnName("UserID");
             entity.Property(e => e.AssociatedId).HasColumnName("AssociatedID");

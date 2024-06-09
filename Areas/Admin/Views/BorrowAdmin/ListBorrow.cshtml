@@ -41,7 +41,7 @@
             <th>Số sách mượn</th>
             <th>Ngày mượn</th>
             <th>Hạn trả</th>
-            <th>Ngày trả</th>
+            
             <th>Hành động</th>
         </tr>
     </thead>
@@ -70,9 +70,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.DueDate)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ReturnDate)
-                </td>
+                
                 <td>
                     <a asp-action="EditBorrow" asp-route-id="@item.BorrowReturnId" class="btn btn-success mx-1">Edit</a> |
                     <a asp-action="DetailsBorrow" asp-route-id="@item.BorrowReturnId" class="btn btn-info mx-1">Details</a> |
