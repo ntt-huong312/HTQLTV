@@ -1,4 +1,6 @@
-﻿﻿<!DOCTYPE html>
+﻿@model IEnumerable<Book>
+
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -40,6 +42,17 @@
                         <a class="dropdown-item" href="#">Separated link</a>
                         </div>
                         </li> *@
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Thể loại</a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" asp-controller="Home" asp-action="TheLoai" asp-route-maloai="1">Công nghệ thông tin</a>
+                                    <a class="dropdown-item" asp-controller="Home" asp-action="TheLoai" asp-route-maloai="2">Ngoại ngữ</a>
+                                    <a class="dropdown-item" asp-controller="Home" asp-action="TheLoai" asp-route-maloai="3">Truyện</a>
+                                    @* <div class="dropdown-divider"></div> *@
+                                    <a class="dropdown-item" asp-controller="Home" asp-action="TheLoai" asp-route-maloai="4">Văn học</a>
+                                    <a class="dropdown-item" asp-action="Index">Tất cả</a>
+                                </div
+                        </li>
                     </ul>
 
 
