@@ -25,7 +25,7 @@ namespace HTQLTV.Areas.Admin.Controllers
         public IActionResult Index()
         {
             var tongsosach = _db.Books
-                .Where(br => br.BookId != null && br.BookId != null)
+                .Where(br => br.BookId != null && br.Title != null)
                 .Select(g => g.Quantity == null ? 0 : g.Quantity).Sum();
             ViewBag.tongsosach = tongsosach;
 
@@ -45,8 +45,8 @@ namespace HTQLTV.Areas.Admin.Controllers
             ViewBag.tongmuonsach = tongmuonsach;
 
             var tongtrasach = _db.BorrowReturns
-            .Where(br => br.ReaderId != null)
-            .Select(g => g.TotalReturned == null ? 0 : g.TotalReturned) // Chuyển đổi giá trị null sang 0
+            .Where(br => br.ReaderId != null && br.ReturnDate != null)
+            .Select(g => g.BookNumber == null ? 0 : g.BookNumber) // Chuyển đổi giá trị null sang 0
             .Sum();
             ViewBag.tongtrasach = tongtrasach;
 
