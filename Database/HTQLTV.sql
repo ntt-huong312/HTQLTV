@@ -21,21 +21,87 @@ CREATE TABLE Books (
     Author NVARCHAR(255) NOT NULL,
     Publisher NVARCHAR(255) NOT NULL,
     YearPublished INT NOT NULL,
-    CategoryID INT NOT NULL,
+    CategoryID INT,
     Quantity INT NOT NULL,
     Available INT NOT NULL,
-    BookImage VARCHAR(255) NOT NULL,
-    FOREIGN KEY (CategoryID) REFERENCES Categories(CategoryID) ON DELETE CASCADE
+    BookImage VARCHAR(255),
+    FOREIGN KEY (CategoryID) REFERENCES Categories(CategoryID)
 );
+
+-- Create Readers Table
+CREATE TABLE Readers (
+    ReaderID INT IDENTITY(1,1) PRIMARY KEY,
+    FullName NVARCHAR(255) NOT NULL,
+    ReaderAddress NVARCHAR(255) NOT NULL,
+    PhoneNumber VARCHAR(15) NOT NULL,
+    Email VARCHAR(255) NOT NULL,
+    DateOfBirth DATE NOT NULL
+);
+
+-- Create Staff Table
+CREATE TABLE Staff (
+    StaffID INT IDENTITY(1,1) PRIMARY KEY,
+    FullName NVARCHAR(255) NOT NULL,
+    Position NVARCHAR(100) NOT NULL,
+    PhoneNumber VARCHAR(15) NOT NULL,
+    Email VARCHAR(255) NOT NULL
+);
+
+
+
+-- Create Borrow_Return Table
+CREATE TABLE Borrow_Return (
+    BorrowReturnID INT IDENTITY(1,1) PRIMARY KEY,
+    ReaderID INT,
+    BookID INT,
+    BookNumber INT NOT NULL,
+    BorrowDate DATE NOT NULL,
+    DueDate DATE NOT NULL,
+    ReturnDate DATE,
+    StaffID INT,
+	TotalBorrowed INT DEFAULT 0,
+	TotalReturned INT DEFAULT 0,
+    FOREIGN KEY (ReaderID) REFERENCES Readers(ReaderID),
+    FOREIGN KEY (BookID) REFERENCES Books(BookID),
+    FOREIGN KEY (StaffID) REFERENCES Staff(StaffID),
+   
+);
+
+
+
+-- Create Users Table
+CREATE TABLE Users (
+    UserID INT IDENTITY(1,1) PRIMARY KEY,
+    Username VARCHAR(50) UNIQUE NOT NULL,
+    Password VARCHAR(255) NOT NULL,
+    Email VARCHAR(255) NOT NULL,
+    Role NVARCHAR(50) NOT NULL,
+    AssociatedID INT
+);
+
+--Ràng buộc ngày mượn phải lớn hơn hoặc bằng ngày hiện tại
+ALTER TABLE Borrow_Return
+ADD CONSTRAINT CHK_BorrowDate CHECK (BorrowDate >= CAST(GETDATE() AS DATE));
+
+--Ràng buộc hạn trả phải lớn hơn ngày mượn
+ALTER TABLE Borrow_Return
+ADD CONSTRAINT CHK_DueDate CHECK (DueDate > BorrowDate);
+
+--Ràng buộc ngày trả phải lớn hơn hoặc bằng hạn trả
+ALTER TABLE Borrow_Return
+ADD CONSTRAINT CHK_ReturnDate CHECK (ReturnDate IS NULL OR ReturnDate >= DueDate);
+
+ALTER TABLE Borrow_Return
+DROP CONSTRAINT CHK_DueDate_OneWeek;
 
 -- Insert Books
 INSERT INTO Books (Title, Author, Publisher, YearPublished, CategoryID, Quantity, Available, BookImage)
 VALUES 
-(N'Liệu IT đã hết thời', N'Nicholas G.Carr', N'Nhà xuất bản Trẻ', 2013, 1, 10, 10, N'book1.jpg'),
-(N'Tiếng Nhật công nghệ thông tin trong ngành phần mềm', N'Nhóm tác giả', N'Nhà xuất bản Thế giới', 2018, 1, 10, 10, N'book2.jpg'),
-(N'Data Structures and Algorithms: An Easy Introduction', N'Rudolph Russell', N'Nhà xuất bản Trẻ', 2018, 1, 10, 10, N'book3.jpg'),
-(N'Kiến trúc máy tính', N'NGUYỄN ĐÌNH VIỆT', N'Đại học quốc gia Hà Nội', 2018, 1, 10, 10, N'book4.jpeg'),
-(N'Code Dạo Kí Sự - Lập Trình Viên Đâu Phải Chỉ Biết Code', N'Phạm Huy Hoàng', N'Nhà xuất bản Thanh niên', 2017, 1, 10, 10, N'book5.jpg'),
+(N'Liệu IT đã hết thời', N'Nicholas G.Carr', N'Nhà xuất bản Trẻ', 2013, 1, 10, 8, N'book1.jpg'),
+(N'Tiếng Nhật công nghệ thông tin trong ngành phần mềm', N'Nhóm tác giả', N'Nhà xuất bản Thế giới', 2018, 1, 10, 6, N'book2.jpg'),
+(N'Data Structures and Algorithms: An Easy Introduction', N'Rudolph Russell', N'Nhà xuất bản Trẻ', 2018, 1, 10, 8, N'book3.jpg'),
+(N'Kiến trúc máy tính', N'NGUYỄN ĐÌNH VIỆT', N'Đại học quốc gia Hà Nội', 2018, 1, 10, 8, N'book4.jpeg'),
+(N'Code Dạo Kí Sự - Lập Trình Viên Đâu Phải Chỉ Biết Code', N'Phạm Huy Hoàng', N'Nhà xuất bản Thanh niên', 2017, 1, 10, 7, N'book5.jpg'),
 (N'Tự Học Lập Trình C# Bằng Hình Ảnh', N'Phạm Quang Hiển', N'Nhà xuất bản Thanh niên', 2017, 1, 10, 10, N'book6.jpg'),
 (N'Giáo trình lập trình Android', N'Lê Hoàng Sơn, Nguyễn Thọ Thông', N'Nhà xuất bản Xây dựng', 2017, 1, 10, 10, N'book7.jpg'),
 (N'Nền Tảng Toán Học Trong Công Nghệ Thông Tin', N'Nhóm tác giả', N'Nhà xuất bản ĐHQG HCM', 2018, 1, 10, 10, N'book8.jpg'),
@@ -49,16 +115,7 @@ VALUES
 (N'Khói trời lộng lẫy', N'Nguyễn Ngọc Tư', N'Nhà Xuất Bản Trẻ', 2021, 4, 10, 10, N'book16.jpg'),
 (N'Ngồi khóc trên cây', N'Nguyễn Nhật Ánh', N'Nhà Xuất Bản Trẻ', 2021, 4, 10, 10, N'book17.jpg');
 
-select * from Categories
--- Create Readers Table
-CREATE TABLE Readers (
-    ReaderID INT IDENTITY(1,1) PRIMARY KEY,
-    FullName NVARCHAR(255) NOT NULL,
-    ReaderAddress NVARCHAR(255) NOT NULL,
-    PhoneNumber VARCHAR(15) NOT NULL,
-    Email VARCHAR(255) NOT NULL,
-    DateOfBirth DATE NOT NULL
-);
+select *from Books
 
 -- Insert Readers
 INSERT INTO Readers (FullName, ReaderAddress, PhoneNumber, Email, DateOfBirth)
@@ -69,14 +126,7 @@ VALUES
 (N'Lê Thị D', N'Quy Nhơn', '0901234567', 'd@example.com', '2003-04-04'),
 (N'Hoàng Văn E', N'Quy Nhơn', '0898765432', 'e@example.com', '2005-05-05');
 
--- Create Staff Table
-CREATE TABLE Staff (
-    StaffID INT IDENTITY(1,1) PRIMARY KEY,
-    FullName NVARCHAR(255) NOT NULL,
-    Position NVARCHAR(100) NOT NULL,
-    PhoneNumber VARCHAR(15) NOT NULL,
-    Email VARCHAR(255) NOT NULL
-);
+
 
 -- Insert Staff
 INSERT INTO Staff (FullName, Position, PhoneNumber, Email)
@@ -87,60 +137,43 @@ VALUES
 (N'Lê Văn W', N'Quản lý', '0901234566', 'w@example.com'),
 (N'Hoàng Thị V', N'Thủ thư', '0898765431', 'v@example.com');
 
--- Create Statistic Table
---CREATE TABLE Statistic (
---    StatID VARCHAR(50) NOT NULL PRIMARY KEY,
---    BookID INT NOT NULL,
---    TotalBorrowed INT NOT NULL,
---    TotalReturned INT NOT NULL,
---    CurrentBorrowed INT NOT NULL,
---    FOREIGN KEY (BookID) REFERENCES Books(BookID)
---);
+select *from Staff
 
--- Insert Statistic
---INSERT INTO Statistic (StatID, BookID, TotalBorrowed, TotalReturned, CurrentBorrowed)
---VALUES 
---('STAT1', 1, 1, 1, 0),
---('STAT2', 2, 1, 1, 0),
---('STAT3', 3, 2, 2, 0),
---('STAT4', 4, 2, 2, 0),
---('STAT5', 5, 3, 3, 0);
 
--- Create Borrow_Return Table
-CREATE TABLE Borrow_Return (
-    BorrowReturnID INT IDENTITY(1,1) PRIMARY KEY,
-    ReaderID INT NOT NULL,
-    BookID INT NOT NULL,
-    BookNumber INT NOT NULL,
-    BorrowDate DATE NOT NULL,
-    DueDate DATE NOT NULL,
-    ReturnDate DATE,
-    StaffID INT NOT NULL,
-    StatID VARCHAR(50) NOT NULL,
-    FOREIGN KEY (ReaderID) REFERENCES Readers(ReaderID),
-    FOREIGN KEY (BookID) REFERENCES Books(BookID),
-    FOREIGN KEY (StaffID) REFERENCES Staff(StaffID),
-   -- FOREIGN KEY (StatID) REFERENCES Statistic(StatID)
-);
 
 -- Insert Borrow_Return
 INSERT INTO Borrow_Return (ReaderID, BookID, BookNumber, BorrowDate, DueDate, ReturnDate, StaffID)
-VALUES 
-(1, 1, 1, '2023-01-01', '2023-02-01', '2023-01-31', 1),
-(2, 2, 1, '2023-03-01', '2023-04-01', '2023-03-30', 2),
-(3, 3, 2, '2023-05-01', '2023-06-01', '2023-05-31', 1),
-(4, 4, 2, '2023-07-01', '2023-08-01', '2023-07-30', 2),
-(5, 5, 3, '2023-09-01', '2023-10-01', '2023-09-30', 5);
+VALUES (1, 1, 1, '2024-06-10', '2024-06-17', '2024-06-17', 1);
 
--- Create Users Table
-CREATE TABLE Users (
-    UserID INT IDENTITY(1,1) PRIMARY KEY,
-    Username VARCHAR(50) UNIQUE NOT NULL,
-    Password VARCHAR(255) NOT NULL,
-    Email VARCHAR(255) NOT NULL,
-    Role NVARCHAR(50) NOT NULL,
-    AssociatedID INT
-);
+INSERT INTO Borrow_Return (ReaderID, BookID, BookNumber, BorrowDate, DueDate, ReturnDate, StaffID)
+VALUES (2, 2, 1, '2024-06-10', '2024-06-17', '2024-06-17', 2);
+
+INSERT INTO Borrow_Return (ReaderID, BookID, BookNumber, BorrowDate, DueDate, ReturnDate, StaffID)
+VALUES (3, 3, 2, '2024-06-10', '2024-06-17', '2024-06-17', 1);
+
+INSERT INTO Borrow_Return (ReaderID, BookID, BookNumber, BorrowDate, DueDate, ReturnDate, StaffID)
+VALUES (4, 4, 2, '2024-06-10', '2024-06-17', '2024-06-17', 2);
+
+INSERT INTO Borrow_Return (ReaderID, BookID, BookNumber, BorrowDate, DueDate, ReturnDate, StaffID)
+VALUES (5, 5, 3, '2024-06-10', '2024-06-17', '2024-06-17', 5);
+
+INSERT INTO Borrow_Return (ReaderID, BookID, BookNumber, BorrowDate, DueDate, ReturnDate, StaffID)
+VALUES (1, 2, 3, '2024-06-10', '2024-06-17', NULL, 1);
+
+-----------
+-- Cập nhật trường TotalBorrowed và TotalReturned dựa trên ngày trả
+UPDATE Borrow_Return
+SET TotalBorrowed = BookNumber
+WHERE ReturnDate IS NULL;
+
+UPDATE Borrow_Return
+SET TotalReturned = BookNumber
+WHERE ReturnDate IS NOT NULL;
+
+
+--------
+select * FROM Borrow_Return
+
 
 -- Insert Users
 INSERT INTO Users (Username, Password, Email, Role, AssociatedID) 
@@ -148,47 +181,12 @@ VALUES
 ('staff', 'staff', 'staff1@example.com', 'Staff', 1),
 ('admin', 'admin', 'admin1@example.com', 'Admin', NULL);
 
----------------------------------PROCEDURE
----- Create the stored procedure for inserting into Statistic with auto-incremented StatID
---CREATE PROCEDURE InsertStatistic
---    @BookID INT,
---    @TotalBorrowed INT,
---    @TotalReturned INT,
---    @CurrentBorrowed INT
---AS
---BEGIN
---    -- Declare variable to hold the new StatID
---    DECLARE @NewStatID VARCHAR(50);
---    DECLARE @MaxStatID VARCHAR(50);
+select *from Borrow_Return
 
---    -- Get the maximum existing StatID
---    SELECT @MaxStatID = MAX(StatID) FROM Statistic;
-
---    -- If there are no records in the Statistic table, start with STAT1
---    IF @MaxStatID IS NULL
---    BEGIN
---        SET @NewStatID = 'STAT1';
---    END
---    ELSE
---    BEGIN
---        -- Extract the numeric part, increment it, and concatenate with 'STAT'
---        SET @NewStatID = 'STAT' + CAST(CAST(SUBSTRING(@MaxStatID, 5, LEN(@MaxStatID) - 4) AS INT) + 1 AS VARCHAR);
---    END
-
---    -- Insert the new record into the Statistic table
---    INSERT INTO Statistic (StatID, BookID, TotalBorrowed, TotalReturned, CurrentBorrowed)
---    VALUES (@NewStatID, @BookID, @TotalBorrowed, @TotalReturned, @CurrentBorrowed);
---END;
---GO
-
---EXEC InsertStatistic @BookID = 1, @TotalBorrowed = 10, @TotalReturned = 5, @CurrentBorrowed = 5;
-
---SELECT * FROM Statistic
-
-DROP TABLE Users
-DROP TABLE Categories
-DROP TABLE Readers
-DROP TABLE Staff
-DROP TABLE Statistic
-DROP TABLE Books
-DROP TABLE Borrow_Return
+Use htqltv
+drop table Users
+drop table Borrow_Return
+drop table Staff
+drop table Books
+drop table Readers
+drop table Categories

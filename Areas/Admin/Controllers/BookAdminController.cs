@@ -67,6 +67,7 @@ namespace HTQLTV.Areas.Admin.Controllers
             ViewBag.CategoryId = new SelectList(db.Categories.ToList(), "CategoryId", "CategoryName");
             if (book == null)
             {
+                TempData["ErrorMessage"] = "Sách đã tồn tại.";
                 return BadRequest("Book object is null.");
             }
             if (!ModelState.IsValid)
@@ -87,6 +88,7 @@ namespace HTQLTV.Areas.Admin.Controllers
             
             db.Books.Add(book);
             await db.SaveChangesAsync();
+            TempData["Message"] = "Thêm thành công";
             return RedirectToAction("ListBook");
         }
 
@@ -109,8 +111,6 @@ namespace HTQLTV.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteBookConfirmed(int bookId)
         {
-            TempData["Message"] = "";
-
             // Kiểm tra xem có bất kỳ bản ghi nào trong Borrow_Return liên quan đến BookID và chưa trả sách không
             var borrows = db.BorrowReturns.Any(x => x.BookId == bookId && x.ReturnDate == null);
 
@@ -199,7 +199,7 @@ namespace HTQLTV.Areas.Admin.Controllers
             existingBook.YearPublished = book.YearPublished;
             existingBook.CategoryId = book.CategoryId;
             existingBook.Quantity = book.Quantity;
-           // existingBook.Available = book.Available;
+            existingBook.Available = book.Available;
             // Update other properties as needed
 
             // Handle file upload if a new file is provided
@@ -227,6 +227,7 @@ namespace HTQLTV.Areas.Admin.Controllers
             // Save changes to the database
             db.Books.Update(existingBook);
             await db.SaveChangesAsync();
+            TempData["Message"] = "Sửa thành công";
 
             return RedirectToAction("ListBook");
         }

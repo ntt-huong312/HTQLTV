@@ -65,11 +65,30 @@ namespace HTQLTV.Areas.Admin.Controllers
         [Route("return/{id}")]
         public IActionResult Return(int id, BorrowReturn borrowReturn)
         {
-          
+
+            if (ModelState.IsValid)
+            {
+                if (borrowReturn.ReturnDate < borrowReturn.DueDate)
+                {
+                    TempData["ErrorMessage"] = "Ngày trả phải lớn hơn hoặc bằng hạn trả.";
+                    ViewBag.ReaderId = new SelectList(db.Readers, "ReaderId", "ReaderId", borrowReturn.ReaderId);
+                    ViewBag.BookId = new SelectList(db.Books, "BookId", "BookId", borrowReturn.BookId);
+                    ViewBag.StaffId = new SelectList(db.Staff, "StaffId", "StaffId", borrowReturn.StaffId);
+                    return View(borrowReturn);
+                }
+
                 var existingBorrowReturn = db.BorrowReturns.Find(id);
                 if (existingBorrowReturn != null)
                 {
                     existingBorrowReturn.ReturnDate = borrowReturn.ReturnDate;
+
+                    //Cập nhật trường Available sau khi trả sách
+                    var book = db.Books.FirstOrDefault(x=>x.BookId == existingBorrowReturn.BookId);
+                    if (book != null)
+                    {
+                        book.Available = book.Available + existingBorrowReturn.BookNumber;
+                    }
+
                     db.SaveChanges();
                     return RedirectToAction("ListReturn");
                 }
@@ -77,13 +96,12 @@ namespace HTQLTV.Areas.Admin.Controllers
                 {
                     ModelState.AddModelError("", "Không tìm thấy bản ghi mượn trả.");
                 }
-           
+            }
 
+            // Nếu ModelState không hợp lệ hoặc có lỗi, trả về lại view với các thông báo lỗi
             ViewBag.ReaderId = new SelectList(db.Readers, "ReaderId", "ReaderId", borrowReturn.ReaderId);
             ViewBag.BookId = new SelectList(db.Books, "BookId", "BookId", borrowReturn.BookId);
             ViewBag.StaffId = new SelectList(db.Staff, "StaffId", "StaffId", borrowReturn.StaffId);
-         
-
             return View(borrowReturn);
         }
     }

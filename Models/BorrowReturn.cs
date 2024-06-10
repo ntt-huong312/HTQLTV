@@ -31,16 +31,16 @@ public partial class BorrowReturn
     public int BookNumber { get; set; }
 
 
-    
-    [Display(Name = "Ngày mượn")]
+
     [Required(ErrorMessage = "Vui lòng chọn ngày mượn.")]
     [DataType(DataType.Date)]
+    [Display(Name = "Ngày mượn")]
     public DateOnly BorrowDate { get; set; }
 
 
-    
-    [DataType(DataType.Date)]
+
     [Required(ErrorMessage = "Vui lòng chọn hạn trả.")]
+    [DataType(DataType.Date)]
     [Display(Name = "Hạn trả")]
     public DateOnly DueDate { get; set; }
 
