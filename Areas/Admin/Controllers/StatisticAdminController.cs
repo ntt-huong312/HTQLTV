@@ -24,9 +24,9 @@ namespace HTQLTV.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
-            var tongsosach = _db.BorrowReturns
-                .Where(br => br.ReaderId != null && br.BookId != null)
-                .Select(g => g.BookNumber == null ? 0 : g.BookNumber).Sum();
+            var tongsosach = _db.Books
+                .Where(br => br.BookId != null && br.BookId != null)
+                .Select(g => g.Quantity == null ? 0 : g.Quantity).Sum();
             ViewBag.tongsosach = tongsosach;
 
             var tongdocgia = _db.Readers
