@@ -64,6 +64,19 @@
 </div>
 
 <div>
+  @*   <ul class="pagination pagination-sm">
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, searchQuery = ViewBag.CurrentFilter, searchType = ViewBag.CurrentSearchType }), new PagedListRenderOptions
+   {
+       LiElementClasses = new[] { "page-item" },
+       PageClasses = new[] { "page-link" },
+       UlElementClasses = new[] { "pagination", "pagination-sm" },
+       ContainerDivClasses = new[] { "pagination-container" },
+       DisplayLinkToNextPage = PagedListDisplayMode.IfNeeded,
+       DisplayLinkToPreviousPage = PagedListDisplayMode.IfNeeded,
+       DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+       DisplayLinkToLastPage = PagedListDisplayMode.Always,
+   })
+    </ul> *@
     <ul class="pagination pagination-sm">
         @Html.PagedListPager(Model, page => Url.Action("Index", new { page, searchQuery = ViewBag.CurrentFilter, searchType = ViewBag.CurrentSearchType }), new PagedListRenderOptions
    {
@@ -77,4 +90,6 @@
        DisplayLinkToLastPage = PagedListDisplayMode.Always,
    })
     </ul>
+
+
 </div>
