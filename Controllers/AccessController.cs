@@ -20,7 +20,7 @@ namespace HTQLTV.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "Admin");
+                return RedirectToAction("StatisticAdmin", "Admin");
             }
         }
 
@@ -33,7 +33,7 @@ namespace HTQLTV.Controllers
                 if(u!=null)
                 {
                     HttpContext.Session.SetString("Username", u.Username);
-                    return RedirectToAction("Index", "Admin");
+                    return RedirectToAction("StatisticAdmin", "Admin");
                 }
                 else
                 {

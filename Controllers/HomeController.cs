@@ -62,10 +62,14 @@ namespace HTQLTV.Controllers
             return View(book);
         }
 
-        public IActionResult Theloai( int maloai)
+        public IActionResult TheLoai(int? page, int maloai)
         {
-            List<Book> sachtheoloai = db.Books.Where(x => x.CategoryId == maloai).OrderBy(x=>x.Title).ToList();
-            return View(sachtheoloai);
+            int pageSize = 8;
+            int pageNumber = page == null || page < 1 ? 1 : page.Value;
+            var theloai = db.Books.AsNoTracking().OrderBy(x => x.Title);
+            theloai = theloai.Where(x => x.CategoryId == maloai).OrderBy(x => x.Title);
+            PagedList<Book> tl = new PagedList<Book>(theloai, pageNumber, pageSize);
+            return View(tl);
         }
 
         public IActionResult ReaderDetail(int readerId)

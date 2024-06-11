@@ -1,9 +1,9 @@
-﻿@{
+﻿@using X.PagedList.Mvc.Core
+@model X.PagedList.IPagedList<Book>
+@{
     ViewData["Title"] = "Home Page";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-
 
 <style>
     .fixed-card {
@@ -41,7 +41,6 @@
 
 </style>
 <div class="row">
-   @model List<Book>
     @foreach (var item in Model)
     {
         <div class="col-lg-3 col-md-6 col-sm-12 mb-3 d-flex align-items-stretch">
@@ -51,26 +50,23 @@
                 </div>
                 <div class="card-body d-flex flex-column">
                     <h6 class="card-title">
-                        <a asp-controller="Home" asp-action="BookDetail" asp-route-bookId="@item.BookId">@item</a>
+                        <a asp-controller="Home" asp-action="BookDetail" asp-route-bookId="@item.BookId">@item.Title</a>
                     </h6>
                 </div>
             </div>
         </div>
     }
 </div>
-
-@* <div>
-    <ul class="pagination pagination-sm">
-        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, searchQuery = ViewBag.CurrentFilter, searchType = ViewBag.CurrentSearchType }), new PagedListRenderOptions
-   {
-       LiElementClasses = new[] { "page-item" },
-       PageClasses = new[] { "page-link" },
-       UlElementClasses = new[] { "pagination", "pagination-sm" },
-       ContainerDivClasses = new[] { "pagination-container" },
-       DisplayLinkToNextPage = PagedListDisplayMode.IfNeeded,
-       DisplayLinkToPreviousPage = PagedListDisplayMode.IfNeeded,
-       DisplayLinkToFirstPage = PagedListDisplayMode.Always,
-       DisplayLinkToLastPage = PagedListDisplayMode.Always,
-   })
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, searchQuery = ViewBag.CurrentFilter, searchType = ViewBag.CurrentSearchType }), new PagedListRenderOptions
+{
+    LiElementClasses = new[] { "page-item" },
+    PageClasses = new[] { "page-link" },
+    UlElementClasses = new[] { "pagination", "pagination-sm" },
+    ContainerDivClasses = new[] { "pagination-container" },
+    DisplayLinkToNextPage = PagedListDisplayMode.IfNeeded,
+    DisplayLinkToPreviousPage = PagedListDisplayMode.IfNeeded,
+    DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+    DisplayLinkToLastPage = PagedListDisplayMode.Always,
+})
     </ul>
-</div> *@
+</div>
