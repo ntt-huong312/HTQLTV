@@ -62,6 +62,12 @@ namespace HTQLTV.Controllers
             return View(book);
         }
 
+        public IActionResult Theloai( int maloai)
+        {
+            List<Book> sachtheoloai = db.Books.Where(x => x.CategoryId == maloai).OrderBy(x=>x.Title).ToList();
+            return View(sachtheoloai);
+        }
+
         public IActionResult ReaderDetail(int readerId)
         {
             var reader = db.Readers.SingleOrDefault(x => x.ReaderId == readerId);
