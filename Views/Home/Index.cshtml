@@ -2,10 +2,9 @@
 @model X.PagedList.IPagedList<Book>
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "LMS";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 
 
 <style>
@@ -44,7 +43,8 @@
   
 </style>
 
-
+<h1>Sách</h1>
+<hr />
 <div class="row">
     @foreach (var item in Model)
     {
