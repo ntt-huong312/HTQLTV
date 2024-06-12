@@ -28,10 +28,10 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Thể loại</a>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" asp-controller="Home" asp-action="TheLoai" asp-route-maloai="1">Công nghệ thông tin</a>
-                                    <a class="dropdown-item" asp-controller="Home" asp-action="TheLoai" asp-route-maloai="2">Ngoại ngữ</a>
-                                    <a class="dropdown-item" asp-controller="Home" asp-action="TheLoai" asp-route-maloai="3">Truyện</a>                       
-                                    <a class="dropdown-item" asp-controller="Home" asp-action="TheLoai" asp-route-maloai="4">Văn học</a>
+                                    <a class="dropdown-item" asp-controller="Home" asp-action="TheLoai" asp-route-maloai="1" value="@ViewBag.CurrentMaloai">Công nghệ thông tin</a>
+                                    <a class="dropdown-item" asp-controller="Home" asp-action="TheLoai" asp-route-maloai="2" value="@ViewBag.CurrentMaloai">Ngoại ngữ</a>
+                                    <a class="dropdown-item" asp-controller="Home" asp-action="TheLoai" asp-route-maloai="3" value="@ViewBag.CurrentMaloai">Truyện</a>                       
+                                    <a class="dropdown-item" asp-controller="Home" asp-action="TheLoai" asp-route-maloai="4" value="@ViewBag.CurrentMaloai">Văn học</a>
                                     <a class="dropdown-item" asp-action="Index">Tất cả</a>
                                 </div
                         </li>

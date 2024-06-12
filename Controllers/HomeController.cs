@@ -68,6 +68,7 @@ namespace HTQLTV.Controllers
             int pageNumber = page == null || page < 1 ? 1 : page.Value;
             var theloai = db.Books.AsNoTracking().OrderBy(x => x.Title);
             theloai = theloai.Where(x => x.CategoryId == maloai).OrderBy(x => x.Title);
+            ViewBag.CurrentMaLoai = maloai;
             PagedList<Book> tl = new PagedList<Book>(theloai, pageNumber, pageSize);
             return View(tl);
         }
