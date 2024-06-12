@@ -64,6 +64,7 @@
 </div>
 
 <div>
+
     <ul class="pagination pagination-sm">
         @Html.PagedListPager(Model, page => Url.Action("Index", new { page, searchQuery = ViewBag.CurrentFilter, searchType = ViewBag.CurrentSearchType }), new PagedListRenderOptions
    {
@@ -77,4 +78,6 @@
        DisplayLinkToLastPage = PagedListDisplayMode.Always,
    })
     </ul>
+
+
 </div>

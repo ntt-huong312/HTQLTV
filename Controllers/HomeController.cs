@@ -18,6 +18,7 @@ namespace HTQLTV.Controllers
             _logger = logger;
         }
 
+       
         public IActionResult Index(int? page, string searchQuery, string searchType)
         {
             int pageSize = 8;
@@ -30,16 +31,23 @@ namespace HTQLTV.Controllers
                 {
                     lstBook = lstBook.Where(s => s.Author.Contains(searchQuery)).OrderBy(x => x.Title);
                 }
+                else if (searchType == "category")
+                {
+                    lstBook = lstBook.Where(s => s.Category.CategoryName.Contains(searchQuery)).OrderBy(x => x.Title);
+                }
                 else // searchType == "title"
                 {
                     lstBook = lstBook.Where(s => s.Title.Contains(searchQuery)).OrderBy(x => x.Title);
                 }
-                ViewBag.CurrentFilter = searchQuery; //L?u giá tr? tìm ki?m trong ViewBag
+                ViewBag.CurrentFilter = searchQuery;
+                ViewBag.CurrentSearchType = searchType;
             }
 
+            ViewBag.Categories = db.Categories.ToList();
             PagedList<Book> lst = new PagedList<Book>(lstBook, pageNumber, pageSize);
             return View(lst);
         }
+
 
         public IActionResult BookDetail(int bookId)
         {
