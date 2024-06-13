@@ -152,38 +152,91 @@ namespace HTQLTV.Areas.Admin.Controllers
             return View(borrowReturn);
         }
 
-        // POST: ReturnAdmin/Return/{id}
+
         [HttpPost]
-        [ValidateAntiForgeryToken]
         [Route("EditBorrow/{id}")]
-        public IActionResult EditBorrow(BorrowReturn borrowReturn)
+        public IActionResult EditBorrow(int id, BorrowReturn updatedBorrowReturn)
         {
             if (ModelState.IsValid)
             {
-                // Kiểm tra nếu ngày mượn không phải hôm nay hoặc lớn hơn hôm nay
-                if (borrowReturn.BorrowDate < DateOnly.FromDateTime(DateTime.Now))
+                var existingBorrowReturn = db.BorrowReturns
+                    .Include(br => br.Book)
+                    .FirstOrDefault(br => br.BorrowReturnId == id);
+
+                if (existingBorrowReturn == null)
                 {
-                    TempData["ErrorMessage"] = "Ngày mượn phải là ngày hiện tại hoặc lớn hơn.";
-                    return RedirectToAction("EditBorrow");
+                    return NotFound();
                 }
 
                 // Kiểm tra nếu hạn trả không lớn hơn ngày mượn
-                if (borrowReturn.DueDate <= borrowReturn.BorrowDate)
+                if (updatedBorrowReturn.DueDate <= updatedBorrowReturn.BorrowDate)
                 {
                     TempData["ErrorMessage"] = "Hạn trả phải lớn hơn ngày mượn.";
-                    return RedirectToAction("EditBorrow");
+                    return RedirectToAction("EditBorrow", new { id = id });
                 }
-                db.Entry(borrowReturn).State = EntityState.Modified;
+
+                // Truy vấn số lượng sách trong bảng Books
+                var book = db.Books.FirstOrDefault(b => b.BookId == updatedBorrowReturn.BookId);
+                if (book == null)
+                {
+                    TempData["ErrorMessage"] = "Sách không tồn tại.";
+                    return RedirectToAction("EditBorrow", new { id = id });
+                }
+
+                // Kiểm tra tổng số lượng sách độc giả đang mượn
+                var totalBooksBorrowedByReader = db.BorrowReturns
+                    .Where(br => br.ReaderId == updatedBorrowReturn.ReaderId && br.ReturnDate == null)
+                    .Sum(br => br.BookNumber);
+
+                // Trừ số sách mượn hiện tại của bản ghi đang chỉnh sửa
+                totalBooksBorrowedByReader -= existingBorrowReturn.BookNumber;
+
+                // Nếu tổng số lượng sách mượn cộng thêm số lượng sách mới vượt quá 3, trả về lỗi
+                if (totalBooksBorrowedByReader + updatedBorrowReturn.BookNumber > 3)
+                {
+                    TempData["ErrorMessage"] = "Mỗi độc giả chỉ được mượn tối đa 3 cuốn sách.";
+                    return RedirectToAction("EditBorrow", new { id = id });
+                }
+
+                // Truy vấn tổng số sách đã mượn và chưa trả trong bảng BorrowReturns
+                var totalBorrowed = db.BorrowReturns
+                                      .Where(br => br.BookId == updatedBorrowReturn.BookId && br.ReturnDate == null)
+                                      .Sum(br => br.BookNumber);
+
+                // Trừ số sách mượn hiện tại của bản ghi đang chỉnh sửa
+                totalBorrowed -= existingBorrowReturn.BookNumber;
+
+                // Kiểm tra nếu số lượng sách đủ để mượn
+                if (book.Quantity - totalBorrowed < updatedBorrowReturn.BookNumber)
+                {
+                    TempData["ErrorMessage"] = "Không đủ sách để mượn.";
+                    return RedirectToAction("EditBorrow", new { id = id });
+                }
+
+                // Cập nhật thông tin mượn sách
+                existingBorrowReturn.BorrowDate = updatedBorrowReturn.BorrowDate;
+                existingBorrowReturn.DueDate = updatedBorrowReturn.DueDate;
+                existingBorrowReturn.BookNumber = updatedBorrowReturn.BookNumber;
+
+                // Tính toán lại số sách có sẵn
+                var newTotalBorrowed = totalBorrowed + updatedBorrowReturn.BookNumber;
+                book.Available = book.Quantity - newTotalBorrowed;
+
                 db.SaveChanges();
+                TempData["Message"] = "Cập nhật mượn sách thành công.";
                 return RedirectToAction("ListBorrow");
             }
 
-            ViewBag.ReaderId = new SelectList(db.Readers, "ReaderId", "ReaderId", borrowReturn.ReaderId);
-            ViewBag.BookId = new SelectList(db.Books, "BookId", "BookId", borrowReturn.BookId);
-            ViewBag.StaffId = new SelectList(db.Staff, "StaffId", "StaffId", borrowReturn.StaffId);
-            return View(borrowReturn);
-            
+            // Nếu ModelState không hợp lệ, trả về lại view với các thông báo lỗi
+            ViewBag.ReaderId = new SelectList(db.Readers.ToList(), "ReaderId", "ReaderId");
+            ViewBag.BookId = new SelectList(db.Books.ToList(), "BookId", "BookId");
+            ViewBag.StaffId = new SelectList(db.Staff.ToList(), "StaffId", "StaffId");
+
+            return View(updatedBorrowReturn);
         }
+
+
+
 
 
 

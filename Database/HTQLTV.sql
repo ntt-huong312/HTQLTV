@@ -97,11 +97,11 @@ DROP CONSTRAINT CHK_DueDate_OneWeek;
 -- Insert Books
 INSERT INTO Books (Title, Author, Publisher, YearPublished, CategoryID, Quantity, Available, BookImage)
 VALUES 
-(N'Liệu IT đã hết thời', N'Nicholas G.Carr', N'Nhà xuất bản Trẻ', 2013, 1, 10, 8, N'book1.jpg'),
-(N'Tiếng Nhật công nghệ thông tin trong ngành phần mềm', N'Nhóm tác giả', N'Nhà xuất bản Thế giới', 2018, 1, 10, 6, N'book2.jpg'),
-(N'Data Structures and Algorithms: An Easy Introduction', N'Rudolph Russell', N'Nhà xuất bản Trẻ', 2018, 1, 10, 8, N'book3.jpg'),
+(N'Liệu IT đã hết thời', N'Nicholas G.Carr', N'Nhà xuất bản Trẻ', 2013, 1, 10, 10, N'book1.jpg'),
+(N'Tiếng Nhật công nghệ thông tin trong ngành phần mềm', N'Nhóm tác giả', N'Nhà xuất bản Thế giới', 2018, 1, 10, 10, N'book2.jpg'),
+(N'Data Structures and Algorithms: An Easy Introduction', N'Rudolph Russell', N'Nhà xuất bản Trẻ', 2018, 1, 10, 10, N'book3.jpg'),
 (N'Kiến trúc máy tính', N'NGUYỄN ĐÌNH VIỆT', N'Đại học quốc gia Hà Nội', 2018, 1, 10, 8, N'book4.jpeg'),
-(N'Code Dạo Kí Sự - Lập Trình Viên Đâu Phải Chỉ Biết Code', N'Phạm Huy Hoàng', N'Nhà xuất bản Thanh niên', 2017, 1, 10, 7, N'book5.jpg'),
+(N'Code Dạo Kí Sự - Lập Trình Viên Đâu Phải Chỉ Biết Code', N'Phạm Huy Hoàng', N'Nhà xuất bản Thanh niên', 2017, 1, 10, 10, N'book5.jpg'),
 (N'Tự Học Lập Trình C# Bằng Hình Ảnh', N'Phạm Quang Hiển', N'Nhà xuất bản Thanh niên', 2017, 1, 10, 10, N'book6.jpg'),
 (N'Giáo trình lập trình Android', N'Lê Hoàng Sơn, Nguyễn Thọ Thông', N'Nhà xuất bản Xây dựng', 2017, 1, 10, 10, N'book7.jpg'),
 (N'Nền Tảng Toán Học Trong Công Nghệ Thông Tin', N'Nhóm tác giả', N'Nhà xuất bản ĐHQG HCM', 2018, 1, 10, 10, N'book8.jpg'),
