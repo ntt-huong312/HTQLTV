@@ -1,5 +1,6 @@
 ﻿using HTQLTV.Models;
 using HTQLTV.Models.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
@@ -10,6 +11,7 @@ namespace HTQLTV.Areas.Admin.Controllers
 
     [Area("admin")]
     [Route("admin/CategoryAdmin")]
+    //[Authorize(Policy = "AdminPolicy")]
     public class CategoryAdminController : Controller
     {
         HtqltvContext db = new HtqltvContext();

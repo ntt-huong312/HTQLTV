@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Hosting;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace HTQLTV.Areas.Admin.Controllers
@@ -23,6 +24,7 @@ namespace HTQLTV.Areas.Admin.Controllers
 
     [Area("admin")]
     [Route("admin/BookAdmin")]
+    //[Authorize(Roles = "Admin,Staff")]
     public class BookAdminController : Controller
     {
         HtqltvContext db = new HtqltvContext();

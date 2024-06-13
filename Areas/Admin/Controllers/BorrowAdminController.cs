@@ -160,7 +160,7 @@ namespace HTQLTV.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Kiểm tra nếu ngày mượn không phải hôm nay hoặc lớn hơn hôm nay
+                //Kiểm tra nếu ngày mượn không phải hôm nay hoặc lớn hơn hôm nay
                 if (borrowReturn.BorrowDate < DateOnly.FromDateTime(DateTime.Now))
                 {
                     TempData["ErrorMessage"] = "Ngày mượn phải là ngày hiện tại hoặc lớn hơn.";

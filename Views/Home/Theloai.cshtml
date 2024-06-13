@@ -57,7 +57,7 @@
         </div>
     }
 </div>
-@Html.PagedListPager(Model, page => Url.Action("Index", new { page, searchQuery = ViewBag.CurrentFilter, searchType = ViewBag.CurrentSearchType }), new PagedListRenderOptions
+@Html.PagedListPager(Model, page => Url.Action("TheLoai", new { page, maloai= ViewBag.CurrentMaLoai}), new PagedListRenderOptions
 {
     LiElementClasses = new[] { "page-item" },
     PageClasses = new[] { "page-link" },
