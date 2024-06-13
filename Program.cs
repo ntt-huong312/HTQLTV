@@ -1,11 +1,14 @@
 using HTQLTV.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddDistributedMemoryCache(); // C?u hình b? nh? ??m phân tán
+builder.Services.AddDistributedMemoryCache(); 
 builder.Services.AddHttpContextAccessor();
 
 var connectionString = builder.Configuration.GetConnectionString("HtqltvContext");
@@ -20,7 +23,40 @@ builder.Services.AddSession(options =>
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-}); 
+});
+
+//Thêm d?ch v? xác th?c và ?y quy?n
+//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+//    .AddJwtBearer(options =>
+//    {
+//        options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+//        {
+//            ValidateIssuer = true,
+//            ValidateAudience = true,
+//            ValidateLifetime = true,
+//            ValidateIssuerSigningKey = true,
+//            ValidIssuer = "abc",
+//            ValidAudience = "abcd",
+//            IssuerSigningKey=new SymmetricSecurityKey(Encoding.UTF8.GetBytes("secret"))
+//        };
+//    });
+//builder.Services.AddAuthorization(options =>
+//{
+//    options.AddPolicy("AdminPolicy", policy =>
+//    {
+//        policy.RequireRole("Admin");
+//    });
+
+//    options.AddPolicy("StaffPolicy", policy =>
+//    {
+//        policy.RequireRole("Staff");
+//    });
+
+//    options.AddPolicy("CanView", policy =>
+//    {
+//        policy.RequireClaim(" AssociatedID", "1");
+//    });
+//});
 
 var app = builder.Build();
 
@@ -38,7 +74,10 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+
 app.UseAuthorization();
+app.UseAuthentication();
+
 app.UseSession();
 
 app.MapControllerRoute(

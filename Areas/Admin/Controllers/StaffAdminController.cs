@@ -1,5 +1,6 @@
 ﻿using HTQLTV.Models;
 using HTQLTV.Models.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using X.PagedList;
@@ -9,6 +10,7 @@ namespace HTQLTV.Areas.Admin.Controllers
     [Area("admin")]
     [Route("admin/StaffAdmin")]
     [Route("StaffAdmin")]
+    //[Authorize(Policy = "AdminPolicy")]
     public class StaffAdminController : Controller
     {
         HtqltvContext db = new HtqltvContext();

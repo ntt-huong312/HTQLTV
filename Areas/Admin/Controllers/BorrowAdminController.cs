@@ -159,11 +159,8 @@ namespace HTQLTV.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var existingBorrowReturn = db.BorrowReturns
-                    .Include(br => br.Book)
-                    .FirstOrDefault(br => br.BorrowReturnId == id);
-
-                if (existingBorrowReturn == null)
+                //Kiểm tra nếu ngày mượn không phải hôm nay hoặc lớn hơn hôm nay
+                if (borrowReturn.BorrowDate < DateOnly.FromDateTime(DateTime.Now))
                 {
                     return NotFound();
                 }
