@@ -44,7 +44,6 @@ public partial class Book
     public string? BookImage { get; set; }
 
     [NotMapped]
-    //[FileExtensions(Extensions = "jpg,jpeg,png", ErrorMessage = "Chỉ tải lên file (jpg, jpeg, png).")]
     public IFormFile? file { get; set; }
     public virtual ICollection<BorrowReturn> BorrowReturns { get; set; } = new List<BorrowReturn>();
 

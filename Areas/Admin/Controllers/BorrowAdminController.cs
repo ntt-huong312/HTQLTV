@@ -160,7 +160,7 @@ namespace HTQLTV.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 //Kiểm tra nếu ngày mượn không phải hôm nay hoặc lớn hơn hôm nay
-                if (borrowReturn.BorrowDate < DateOnly.FromDateTime(DateTime.Now))
+                if (updatedBorrowReturn.BorrowDate < DateOnly.FromDateTime(DateTime.Now))
                 {
                     return NotFound();
                 }
@@ -186,7 +186,7 @@ namespace HTQLTV.Areas.Admin.Controllers
                     .Sum(br => br.BookNumber);
 
                 // Trừ số sách mượn hiện tại của bản ghi đang chỉnh sửa
-                totalBooksBorrowedByReader -= existingBorrowReturn.BookNumber;
+                //totalBooksBorrowedByReader -= existingBorrowReturn.BookNumber;
 
                 // Nếu tổng số lượng sách mượn cộng thêm số lượng sách mới vượt quá 3, trả về lỗi
                 if (totalBooksBorrowedByReader + updatedBorrowReturn.BookNumber > 3)
@@ -201,7 +201,7 @@ namespace HTQLTV.Areas.Admin.Controllers
                                       .Sum(br => br.BookNumber);
 
                 // Trừ số sách mượn hiện tại của bản ghi đang chỉnh sửa
-                totalBorrowed -= existingBorrowReturn.BookNumber;
+               // totalBorrowed -= existingBorrowReturn.BookNumber;
 
                 // Kiểm tra nếu số lượng sách đủ để mượn
                 if (book.Quantity - totalBorrowed < updatedBorrowReturn.BookNumber)
@@ -211,9 +211,9 @@ namespace HTQLTV.Areas.Admin.Controllers
                 }
 
                 // Cập nhật thông tin mượn sách
-                existingBorrowReturn.BorrowDate = updatedBorrowReturn.BorrowDate;
-                existingBorrowReturn.DueDate = updatedBorrowReturn.DueDate;
-                existingBorrowReturn.BookNumber = updatedBorrowReturn.BookNumber;
+                //existingBorrowReturn.BorrowDate = updatedBorrowReturn.BorrowDate;
+                //existingBorrowReturn.DueDate = updatedBorrowReturn.DueDate;
+                //existingBorrowReturn.BookNumber = updatedBorrowReturn.BookNumber;
 
                 // Tính toán lại số sách có sẵn
                 var newTotalBorrowed = totalBorrowed + updatedBorrowReturn.BookNumber;
