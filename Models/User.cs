@@ -13,7 +13,7 @@ public partial class User
 
     public string Email { get; set; } = null!;
 
-    public string Role { get; set; } = null!;
+    public int RoleID { get; set; }
 
-    public int? AssociatedId { get; set; }
+    //public int AssociatedId { get; set; }
 }

@@ -126,14 +126,14 @@ public partial class HtqltvContext : DbContext
             entity.HasIndex(e => e.Username, "UQ__Users__536C85E435187120").IsUnique();
 
             entity.Property(e => e.UserId).HasColumnName("UserID");
-            entity.Property(e => e.AssociatedId).HasColumnName("AssociatedID");
+            //entity.Property(e => e.AssociatedId).HasColumnName("AssociatedID");
             entity.Property(e => e.Email)
                 .HasMaxLength(255)
                 .IsUnicode(false);
             entity.Property(e => e.Password)
                 .HasMaxLength(255)
                 .IsUnicode(false);
-            entity.Property(e => e.Role).HasMaxLength(50);
+            entity.Property(e => e.RoleID).HasColumnName("RoleID");
             entity.Property(e => e.Username)
                 .HasMaxLength(50)
                 .IsUnicode(false);

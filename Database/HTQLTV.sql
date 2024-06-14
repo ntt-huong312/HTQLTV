@@ -75,8 +75,7 @@ CREATE TABLE Users (
     Username VARCHAR(50) UNIQUE NOT NULL,
     Password VARCHAR(255) NOT NULL,
     Email VARCHAR(255) NOT NULL,
-    Role NVARCHAR(50) NOT NULL,
-    AssociatedID INT
+    RoleID INT NOT NULL,
 );
 
 --Ràng buộc ngày mượn phải lớn hơn hoặc bằng ngày hiện tại
@@ -176,12 +175,12 @@ select * FROM Borrow_Return
 
 
 -- Insert Users
-INSERT INTO Users (Username, Password, Email, Role, AssociatedID) 
+INSERT INTO Users (Username, Password, Email, RoleID) 
 VALUES 
-('staff', 'staff', 'staff1@example.com', 'Staff', 1),
-('admin', 'admin', 'admin1@example.com', 'Admin', NULL);
+('staff', 'staff', 'staff1@example.com',  0),
+('admin', 'admin', 'admin1@example.com', 1);
 
-select *from Borrow_Return
+select *from Users
 
 Use htqltv
 drop table Users
