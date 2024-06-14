@@ -9,7 +9,8 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 <h1>Danh sách trả sách</h1>
 
-<form id="searchForm" asp-action="ListReturn" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" method="get">
+<div class="d-flex justify-content-between mb-3">
+<form id="searchForm" asp-action="ListReturn" class="d-flex" method="get">
     <div class="input-group">
 
         <input type="number" name="ReaderId" class="form-control bg-light border-2 small" placeholder="Search for ReaderID..."
@@ -22,8 +23,7 @@
     </div>
     <input type="hidden" name="page" value="1" />
 </form>
-
-
+</div>
 <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
     <thead>
         <tr>
@@ -71,7 +71,7 @@
 
              
                 <td>
-                    <a asp-action="Return" asp-route-id="@item.BorrowReturnId" class="btn btn-success mx-1" >Return</a>
+                    <a asp-action="Return" asp-route-id="@item.BorrowReturnId" class="btn btn-success mx-1" >Trả sách</a>
                 </td>
             </tr>
         }

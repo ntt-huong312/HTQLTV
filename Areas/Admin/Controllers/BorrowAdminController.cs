@@ -160,16 +160,22 @@ namespace HTQLTV.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 //Kiểm tra nếu ngày mượn không phải hôm nay hoặc lớn hơn hôm nay
-                if (updatedBorrowReturn.BorrowDate < DateOnly.FromDateTime(DateTime.Now))
-                {
-                    return NotFound();
-                }
+                //if (updatedBorrowReturn.BorrowDate < DateOnly.FromDateTime(DateTime.Now))
+                //{
+                //    return NotFound();
+                //}
 
                 // Kiểm tra nếu hạn trả không lớn hơn ngày mượn
                 if (updatedBorrowReturn.DueDate <= updatedBorrowReturn.BorrowDate)
                 {
                     TempData["ErrorMessage"] = "Hạn trả phải lớn hơn ngày mượn.";
                     return RedirectToAction("EditBorrow", new { id = id });
+                }
+                // Truy vấn phiếu mượn sách cần chỉnh sửa
+                var existingBorrowReturn = db.BorrowReturns.Find(id);
+                if (existingBorrowReturn == null)
+                {
+                    return NotFound();
                 }
 
                 // Truy vấn số lượng sách trong bảng Books
@@ -181,15 +187,11 @@ namespace HTQLTV.Areas.Admin.Controllers
                 }
 
                 // Kiểm tra tổng số lượng sách độc giả đang mượn
-                var totalBooksBorrowedByReader = db.BorrowReturns
-                    .Where(br => br.ReaderId == updatedBorrowReturn.ReaderId && br.ReturnDate == null)
-                    .Sum(br => br.BookNumber);
-
-                // Trừ số sách mượn hiện tại của bản ghi đang chỉnh sửa
-                //totalBooksBorrowedByReader -= existingBorrowReturn.BookNumber;
+                //var totalBooksBorrowedByReader = db.BorrowReturns
+                //    .Where(br => br.ReaderId == updatedBorrowReturn.ReaderId && br.Ret
 
                 // Nếu tổng số lượng sách mượn cộng thêm số lượng sách mới vượt quá 3, trả về lỗi
-                if (totalBooksBorrowedByReader + updatedBorrowReturn.BookNumber > 3)
+                if (updatedBorrowReturn.TotalBorrowed + updatedBorrowReturn.BookNumber > 3)
                 {
                     TempData["ErrorMessage"] = "Mỗi độc giả chỉ được mượn tối đa 3 cuốn sách.";
                     return RedirectToAction("EditBorrow", new { id = id });
@@ -200,9 +202,6 @@ namespace HTQLTV.Areas.Admin.Controllers
                                       .Where(br => br.BookId == updatedBorrowReturn.BookId && br.ReturnDate == null)
                                       .Sum(br => br.BookNumber);
 
-                // Trừ số sách mượn hiện tại của bản ghi đang chỉnh sửa
-               // totalBorrowed -= existingBorrowReturn.BookNumber;
-
                 // Kiểm tra nếu số lượng sách đủ để mượn
                 if (book.Quantity - totalBorrowed < updatedBorrowReturn.BookNumber)
                 {
@@ -211,14 +210,15 @@ namespace HTQLTV.Areas.Admin.Controllers
                 }
 
                 // Cập nhật thông tin mượn sách
-                //existingBorrowReturn.BorrowDate = updatedBorrowReturn.BorrowDate;
-                //existingBorrowReturn.DueDate = updatedBorrowReturn.DueDate;
-                //existingBorrowReturn.BookNumber = updatedBorrowReturn.BookNumber;
+                existingBorrowReturn.BorrowDate = updatedBorrowReturn.BorrowDate;
+                existingBorrowReturn.DueDate = updatedBorrowReturn.DueDate;
+                existingBorrowReturn.BookNumber = updatedBorrowReturn.BookNumber;
 
                 // Tính toán lại số sách có sẵn
                 var newTotalBorrowed = totalBorrowed + updatedBorrowReturn.BookNumber;
                 book.Available = book.Quantity - newTotalBorrowed;
 
+             
                 db.SaveChanges();
                 TempData["Message"] = "Cập nhật mượn sách thành công.";
                 return RedirectToAction("ListBorrow");
@@ -231,10 +231,6 @@ namespace HTQLTV.Areas.Admin.Controllers
 
             return View(updatedBorrowReturn);
         }
-
-
-
-
 
 
 
