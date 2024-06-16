@@ -25,38 +25,7 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
 });
 
-//Thêm d?ch v? xác th?c và ?y quy?n
-//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-//    .AddJwtBearer(options =>
-//    {
-//        options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
-//        {
-//            ValidateIssuer = true,
-//            ValidateAudience = true,
-//            ValidateLifetime = true,
-//            ValidateIssuerSigningKey = true,
-//            ValidIssuer = "abc",
-//            ValidAudience = "abcd",
-//            IssuerSigningKey=new SymmetricSecurityKey(Encoding.UTF8.GetBytes("secret"))
-//        };
-//    });
-//builder.Services.AddAuthorization(options =>
-//{
-//    options.AddPolicy("AdminPolicy", policy =>
-//    {
-//        policy.RequireRole("Admin");
-//    });
 
-//    options.AddPolicy("StaffPolicy", policy =>
-//    {
-//        policy.RequireRole("Staff");
-//    });
-
-//    options.AddPolicy("CanView", policy =>
-//    {
-//        policy.RequireClaim(" AssociatedID", "1");
-//    });
-//});
 
 var app = builder.Build();
 

@@ -65,6 +65,6 @@
     <form asp-action="DeleteBookConfirmed" asp-route-bookId="@Model.BookId" method="post">
         <input type="hidden" asp-for="BookId" />
         <input type="submit" value="Xóa" class="btn btn-danger" /> |
-        <a asp-action="ListBook">Quay lại</a>
+        <a asp-action="ListBook" class="btn btn-secondary">Quay lại</a>
     </form>
 </div>

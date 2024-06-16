@@ -24,6 +24,6 @@
     <form asp-action="DeleteCategoryConfirm" asp-route-categoryId="@Model.CategoryId" method="post">
         <input type="hidden" asp-for="CategoryId" />
         <input type="submit" value="Xóa" class="btn btn-danger" /> |
-        <a asp-action="ListCategory">Quay lại</a>
+        <a asp-action="ListCategory" class="btn btn-secondary">Quay lại</a>
     </form>
 </div>

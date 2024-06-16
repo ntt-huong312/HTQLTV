@@ -54,7 +54,7 @@ namespace HTQLTV.Controllers
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
-            //HttpContext.Session.Remove("Username");
+            HttpContext.Session.Remove("Username");
             return RedirectToAction("Index", "Home");
         }
     }

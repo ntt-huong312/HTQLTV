@@ -238,10 +238,6 @@ namespace HTQLTV.Areas.Admin.Controllers
         }
 
 
-
-
-
-
         [Route("DetailsBorrow")]
         [HttpGet]
         [Authentication]
