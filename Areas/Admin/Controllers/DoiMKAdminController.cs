@@ -13,11 +13,6 @@ using System.Linq;
 namespace HTQLTV.Areas.Admin.Controllers
 {
     
-
-    
-
-
-    
     
     public class DoiMKAdminController : Controller
     {
@@ -39,26 +34,28 @@ namespace HTQLTV.Areas.Admin.Controllers
         public IActionResult DoiMK(ChangePasswordViewModel model)
         {
             var user =db.Users.FirstOrDefault(c=> c.Email == model.Email);
-            if(user != null && user.Password == model.CurrentPassword)
+            if (user != null && model.CurrentPassword != null && model.NewPassword != null && model.ConfirmPassword != null )
             {
-                if(model.NewPassword != model.ConfirmPassword)
+                if (user != null && user.Password == model.CurrentPassword)
                 {
-                    TempData["ErrorMessage"] = "Mật khẩu mới không đúng";
-                    return View(model);
-                }
-                
-                
-                user.Password = model.NewPassword;
-                db.SaveChanges();
+                    if (model.NewPassword != model.ConfirmPassword)
+                    {
+                        TempData["ErrorMessage"] = "Mật khẩu mới không đúng";
+                        return View(model);
+                    }
 
-                return RedirectToAction("Index", "HomeAdmin");
+                    user.Password = model.NewPassword;
+                    db.SaveChanges();
+
+                    return RedirectToAction("Index", "StatisticAdmin");
+                }
             }
             else
             {
-                TempData["ErrorMessage"] = "Mật khẩu cũ hoặc email không đúng";
-                /*ModelState.AddModelError("", "Invalid current password or email");*/
+                TempData["ErrorMessage"] = "Vui lòng nhập đầy đủ thông tin";
                 return View();
             }
+            return View(model);
         }
 
       
