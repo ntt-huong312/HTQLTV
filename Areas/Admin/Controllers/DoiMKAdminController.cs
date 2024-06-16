@@ -23,6 +23,13 @@ namespace HTQLTV.Areas.Admin.Controllers
             var user =db.Users.FirstOrDefault(c=> c.Email == model.Email);
             if(user != null && user.Password == model.CurrentPassword)
             {
+                if(model.NewPassword != model.ConfirmPassword)
+                {
+                    TempData["ErrorMessage"] = "Mật khẩu mới không đúng";
+                    return View(model);
+                }
+                
+                
                 user.Password = model.NewPassword;
                 db.SaveChanges();
 
@@ -30,8 +37,9 @@ namespace HTQLTV.Areas.Admin.Controllers
             }
             else
             {
-                ModelState.AddModelError("", "Invalid current password or email");
-                return View(model);
+                TempData["ErrorMessage"] = "Mật khẩu cũ hoặc email không đúng";
+                /*ModelState.AddModelError("", "Invalid current password or email");*/
+                return View();
             }
         }
 
