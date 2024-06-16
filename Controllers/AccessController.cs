@@ -43,6 +43,27 @@ namespace HTQLTV.Controllers
             return View(user);
         }
 
+
+        [Route("SignUp")]
+        [HttpGet]
+        public IActionResult SignUp()
+        {
+            return View();
+        }
+
+        [Route("SignUp")]
+        [HttpPost]
+        public IActionResult SignUp(User user)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Users.Add(user);
+                db.SaveChanges();
+                return RedirectToAction("Login", "Access");
+            }
+            return View(user);
+        }
+
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
