@@ -6,6 +6,20 @@
     ViewData["Title"] = "DoiMK";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Message"]
+    </div>
+}
+
 @using (Html.BeginForm("DoiMK", "DoiMKAdmin", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
@@ -13,25 +27,29 @@
     <div class="form-group">
         @Html.LabelFor(model=> model.Email)
         @Html.TextBoxFor(model => model.Email, new {@class = "form-control"})
-        @Html.ValidationMessageFor(model=>model.Email)
+       @*  @Html.ValidationMessageFor(model=>model.Email) *@
+       @*  <span asp-validation-for="Email" class="text-danger"></span> *@
     </div>
 
     <div class="form-group">
         @Html.LabelFor(model => model.CurrentPassword)
         @Html.TextBoxFor(model => model.CurrentPassword, new { @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.CurrentPassword)
+       @*  @Html.ValidationMessageFor(model => model.CurrentPassword) *@
+        @* <span asp-validation-for="CurrentPassword" class="text-danger"></span> *@
     </div>
 
     <div class="form-group">
         @Html.LabelFor(model => model.NewPassword)
         @Html.TextBoxFor(model => model.NewPassword, new { @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.NewPassword)
+       @*  @Html.ValidationMessageFor(model => model.NewPassword) *@
+        @* <span asp-validation-for="NewPassword" class="text-danger"></span> *@
     </div>
 
     <div class="form-group">
         @Html.LabelFor(model => model.ConfirmPassword)
         @Html.TextBoxFor(model => model.ConfirmPassword, new { @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.ConfirmPassword)
+       @*  @Html.ValidationMessageFor(model => model.ConfirmPassword) *@
+       @*  <span asp-validation-for="ConfirmPassword" class="text-danger"></span> *@
     </div>
     <button type="submit" class="btn btn-primary">Đổi mật khẩu</button>
     
