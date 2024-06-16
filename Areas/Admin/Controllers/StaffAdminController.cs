@@ -10,7 +10,7 @@ namespace HTQLTV.Areas.Admin.Controllers
     [Area("admin")]
     [Route("admin/StaffAdmin")]
     [Route("StaffAdmin")]
-    //[Authorize(Policy = "AdminPolicy")]
+    
     public class StaffAdminController : Controller
     {
         HtqltvContext db = new HtqltvContext();
@@ -88,7 +88,7 @@ namespace HTQLTV.Areas.Admin.Controllers
         public IActionResult DeleteStaff(int maNhanVien)
         {
             var staff = db.Staff
-                          .Include(s => s.BorrowReturns) // Include related BorrowReturns
+                          .Include(s => s.BorrowReturns) 
                           .FirstOrDefault(s => s.StaffId == maNhanVien);
 
             if (staff == null)

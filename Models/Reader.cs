@@ -17,7 +17,7 @@ public partial class Reader
     [Required]
     [Display(Name = "Địa chỉ")]
     [StringLength(150, ErrorMessage = "Địa chỉ không vượt quá 150 ký tự")]
-    [MinLength(10, ErrorMessage = "Địa chỉ có ít nhất 10 ký tự")]
+    [MinLength(3, ErrorMessage = "Địa chỉ có ít nhất 3 ký tự")]
     public string ReaderAddress { get; set; } = null!;
 
     [Required]
@@ -31,7 +31,7 @@ public partial class Reader
     public string Email { get; set; } = null!;
 
     [Display(Name = "Ngày sinh")]
-    [Required(ErrorMessage = "Vui lòng chọn hạn trả.")]
+    [Required(ErrorMessage = "Vui lòng chọn ngày sinh.")]
     [DataType(DataType.Date)]
     public DateOnly DateOfBirth { get; set; }
 

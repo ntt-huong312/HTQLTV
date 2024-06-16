@@ -12,7 +12,7 @@ namespace HTQLTV.Areas.Admin.Controllers
     [Route("admin/BorrowAdmin")]
     public class BorrowAdminController : Controller
     {
-       // private readonly ILogger<BorrowAdminController> _logger;
+       
         HtqltvContext db = new HtqltvContext();
 
         // GET: Borrow w
