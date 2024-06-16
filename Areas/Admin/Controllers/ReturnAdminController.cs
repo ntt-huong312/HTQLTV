@@ -68,15 +68,7 @@ namespace HTQLTV.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                //if (borrowReturn.ReturnDate < borrowReturn.DueDate)
-                //{
-                //    TempData["ErrorMessage"] = "Ngày trả phải lớn hơn hoặc bằng hạn trả.";
-                //    ViewBag.ReaderId = new SelectList(db.Readers, "ReaderId", "ReaderId", borrowReturn.ReaderId);
-                //    ViewBag.BookId = new SelectList(db.Books, "BookId", "BookId", borrowReturn.BookId);
-                //    ViewBag.StaffId = new SelectList(db.Staff, "StaffId", "StaffId", borrowReturn.StaffId);
-                //    return View(borrowReturn);
-                //}
-
+               
                 var existingBorrowReturn = db.BorrowReturns.Find(id);
                 if (existingBorrowReturn != null)
                 {
