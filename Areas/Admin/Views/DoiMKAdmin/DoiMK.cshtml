@@ -1,0 +1,83 @@
+﻿@model HTQLTV.Models.ChangePasswordViewModel
+@* @model HTQLTV.Models.User
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers *@
+
+
+@{
+    ViewData["Title"] = "DoiMK";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+@using (Html.BeginForm("DoiMK", "DoiMKAdmin", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        @Html.LabelFor(model=> model.Email)
+        @Html.TextBoxFor(model => model.Email, new {@class = "form-control"})
+        @Html.ValidationMessageFor(model=>model.Email)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.CurrentPassword)
+        @Html.TextBoxFor(model => model.CurrentPassword, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.CurrentPassword)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.NewPassword)
+        @Html.TextBoxFor(model => model.NewPassword, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.NewPassword)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ConfirmPassword)
+        @Html.TextBoxFor(model => model.ConfirmPassword, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.ConfirmPassword)
+    </div>
+    <button type="submit" class="btn btn-primary">Đổi</button>
+    
+    
+}
+<div>
+    <a asp-action="Statistic" asp-controller="StatisticAdmin">Quay lại</a>
+</div>
+
+
+        @*< div class="row">
+    <div class="col-md-4">
+        <form method="post" asp-action="DoiMK">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="UserId" class="control-label"></label>
+                <input asp-for="UserId" class="form-control" />
+                <span asp-validation-for="UserId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Username" class="control-label"></label>
+                <input asp-for="Username" class="form-control" />
+                <span asp-validation-for="Username" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div> *@
+            @* <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div> *@
+            @* <div class="form-group">
+                <label asp-for="Role" class="control-label"></label>
+                <input asp-for="Role" class="form-control" />
+                <span asp-validation-for="Role" class="text-danger"></span>
+            </div> *@
+            @* <div class="form-group">
+                <label asp-for="AssociatedId" class="control-label"></label>
+                <input asp-for="AssociatedId" class="form-control" />
+                <span asp-validation-for="AssociatedId" class="text-danger"></span>
+            </div> *@
+            
+        </form>
+    </div>
+</div>
