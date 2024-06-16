@@ -12,12 +12,30 @@ using System.Linq;
 
 namespace HTQLTV.Areas.Admin.Controllers
 {
-    [Area("admin")]
-    [Route("admin/DoiMKAdmin")]
+    
+
+    
+
+
+    
+    
     public class DoiMKAdminController : Controller
     {
         HtqltvContext db = new HtqltvContext();
 
+        [Area("admin")]
+        [HttpGet]
+        [Route("admin/DoiMKAdmin")]
+        public IActionResult DoiMK()
+        {
+            return View();
+        }
+
+
+
+        [Area("admin")]
+        [HttpPost]
+        [Route("admin/DoiMKAdmin")]
         public IActionResult DoiMK(ChangePasswordViewModel model)
         {
             var user =db.Users.FirstOrDefault(c=> c.Email == model.Email);
