@@ -82,38 +82,6 @@ namespace HTQLTV.Areas.Admin.Controllers
         }
 
 
-
-        //[Route("DeleteStaff")]
-        //[HttpGet]
-        //[Authentication]
-        //public IActionResult DeleteStaff(int maNhanVien)
-
-        //{
-        //    TempData["Message"] = "";
-        //    // Lấy các bản ghi Borrow liên quan đến StaffId
-        //    var borrow = db.BorrowReturns.Where(x => x.StaffId == maNhanVien).ToList();
-
-        //    if (borrow.Any())
-        //    {
-
-        //        var borrowIds = borrow.Select(b => b.BorrowReturnId).ToList();
-
-        //        // Xóa các bản ghi Borrow
-        //        db.BorrowReturns.RemoveRange(borrow);
-        //    }
-
-        //    // Xóa bản ghi Staff
-        //    var staff = db.Staff.Find(maNhanVien);
-        //    if (staff != null)
-        //    {
-        //        db.Staff.Remove(staff);
-        //    }
-
-        //    db.SaveChanges();
-        //    TempData["Message"] = "Nhân viên đã được xóa";
-        //    return RedirectToAction("StaffAdmin", "admin");
-        //}
-
         [HttpGet]
         [Route("DeleteStaff")]
         // [Authentication]

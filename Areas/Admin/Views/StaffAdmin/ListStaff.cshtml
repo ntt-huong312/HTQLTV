@@ -32,41 +32,20 @@
 <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
     <thead>
         <tr >
-            @*  <th>
-            @Html.DisplayNameFor(model => model.FullName)
-            </th>
-            <th>
-            @Html.DisplayNameFor(model => model.Position)
-            </th>
-            <th>
-            @Html.DisplayNameFor(model => model.PhoneNumber)
-            </th>
-            <th>
-            @Html.DisplayNameFor(model => model.Email)
-            </th> *@
+          
             <th>Họ và tên</th>
             <th>Vị trí</th>
             <th>Số điện thoại</th>
             <th>Email</th>
             <th>Hành động</th>
-            @* <th></th> *@
+            
         </tr>
     </thead>
     <tbody>
-        @*     @{
-        int i = 0;
-        string @cls = "table-success";
-        } *@
+        
         @foreach (var item in Model)
         {
-            @*  i = i + 1;
-        cls = "table-success";
-        if(i%2 == 0)
-        {
-        cls= "table-primary";
-        }
-
-        <tr class="@cls"> *@
+        
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.FullName)
