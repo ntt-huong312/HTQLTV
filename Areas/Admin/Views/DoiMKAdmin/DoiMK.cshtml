@@ -1,6 +1,5 @@
 ﻿@model HTQLTV.Models.ChangePasswordViewModel
-@* @model HTQLTV.Models.User
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers *@
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 
 @{
@@ -34,12 +33,12 @@
         @Html.TextBoxFor(model => model.ConfirmPassword, new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.ConfirmPassword)
     </div>
-    <button type="submit" class="btn btn-primary">Đổi</button>
+    <button type="submit" class="btn btn-primary">Đổi mật khẩu</button>
     
     
 }
 <div>
-    <a asp-action="Statistic" asp-controller="StatisticAdmin">Quay lại</a>
+    <a asp-action="Index" asp-controller="StatisticAdmin">Quay lại</a>
 </div>
 
 
