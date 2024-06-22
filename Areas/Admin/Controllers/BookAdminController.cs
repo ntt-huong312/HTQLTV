@@ -47,11 +47,7 @@ namespace HTQLTV.Areas.Admin.Controllers
             return View(lst);
         }
 
-        //public IActionResult ImageUpload(string? path)
-        //{
-        //    Book model = new Book { BookImage = path };
-        //    return View(model);
-        //}
+      
         [HttpGet]
         [Route("CreateBook")]
         public IActionResult CreateBook()

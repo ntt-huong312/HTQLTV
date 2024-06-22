@@ -33,29 +33,41 @@ namespace HTQLTV.Areas.Admin.Controllers
         [Route("admin/DoiMKAdmin")]
         public IActionResult DoiMK(ChangePasswordViewModel model)
         {
-            var user =db.Users.FirstOrDefault(c=> c.Email == model.Email);
-            if (user != null && model.CurrentPassword != null && model.NewPassword != null && model.ConfirmPassword != null )
+            // Kiểm tra tính hợp lệ của model
+            if (!ModelState.IsValid)
             {
-                if (user != null && user.Password == model.CurrentPassword)
-                {
-                    if (model.NewPassword != model.ConfirmPassword)
-                    {
-                        TempData["ErrorMessage"] = "Mật khẩu mới không đúng";
-                        return View(model);
-                    }
-
-                    user.Password = model.NewPassword;
-                    db.SaveChanges();
-
-                    return RedirectToAction("Index", "StatisticAdmin");
-                }
+                TempData["ErrorMessage"] = "Vui lòng nhập đầy đủ thông tin.";
+                return View(model);
             }
-            else
+
+            // Tìm người dùng theo email
+            var user = db.Users.FirstOrDefault(c => c.Email == model.Email);
+            if (user == null)
             {
-                TempData["ErrorMessage"] = "Vui lòng nhập đầy đủ thông tin";
-                return View();
+                TempData["ErrorMessage"] = "Không tìm thấy người dùng với email này.";
+                return View(model);
             }
-            return View(model);
+
+            // Kiểm tra mật khẩu hiện tại
+            if (user.Password != model.CurrentPassword)
+            {
+                TempData["ErrorMessage"] = "Mật khẩu hiện tại không chính xác.";
+                return View(model);
+            }
+
+            // Kiểm tra mật khẩu mới và xác nhận mật khẩu có khớp không
+            if (model.NewPassword != model.ConfirmPassword)
+            {
+                TempData["ErrorMessage"] = "Mật khẩu mới không khớp.";
+                return View(model);
+            }
+
+            // Cập nhật mật khẩu mới
+            user.Password = model.NewPassword;
+            db.SaveChanges();
+
+            TempData["SuccessMessage"] = "Đổi mật khẩu thành công.";
+            return RedirectToAction("Index", "StatisticAdmin");
         }
 
       
